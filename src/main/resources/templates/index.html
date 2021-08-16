@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Welcome!</title>
+    <th:block th:include="partials/head :: head-links"></th:block>
+</head>
+<body>
+<h1>Welcome to Account-A-Buggy!</h1>
+<h3>A personal organizing tool for your every day tasks. Create tasks, reminders, and organize them however you desire.</h3>
+<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Architecto aspernatur eaque illum iure nam perspiciatis, sapiente ut? Atque cumque distinctio eaque eos expedita magni, odio officiis, provident reprehenderit sunt vel?</p>
+<div id="chart"></div>
+<br>
+<a th:href="@{/register}" class="btn btn-success">Create Account</a>
+<a th:href="@{/login}" class="btn btn-primary">Log In</a>
+
+<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+<script>
+    var options = {
+        chart: {
+            height: 350,
+            type: 'radialBar',
+        },
+        series: [70],
+        labels: ['Progress'],
+    }
+
+    var chart = new ApexCharts(document.querySelector("#chart"), options);
+
+    chart.render();
+</script>
+</body>
+</html>
