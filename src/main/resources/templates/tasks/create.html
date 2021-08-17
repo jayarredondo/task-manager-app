@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title></title>
+</head>
+<body>
+<form action="/tasks/create" th:action="@{/tasks/create}" method="post" th:object="${task}">
+    <div>
+        <div>
+            <input id="title" name="title" type="text" class="validate" th:field="*{title}" required/>
+            <label for="title">Title</label>
+        </div>
+    </div>
+    <div>
+        <div>
+            <textarea id="body" name="description" th:field="*{description}" required></textarea>
+            <label for="body">Body</label>
+        </div>
+    </div>
+    <div>
+        <div>
+            <input type="datetime-local" name="startDate" id="startDate"/>
+            <label for="startDate">Start</label>
+        </div>
+    </div>
+    <div>
+        <div>
+            <input type="datetime-local" name="endDate" id="endDate"/>
+            <label for="endDate">Finish</label>
+        </div>
+    </div>
+    <button type="submit" value="submit">Submit</button>
+</form>
+</body>
+</html>

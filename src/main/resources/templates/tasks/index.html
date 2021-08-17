@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title></title>
+</head>
+<body>
+<h1>Here are all of your tasks:</h1>
+<div th:each="task : ${tasks}">
+    <ul>
+        <li><b>Title:</b><span th:text="${task.title}"></span></li>
+        <li><b>Description:</b><span th:text="${task.description}"></span></li>
+        <li><b>Date Created:</b><span th:text="${task.createdAt}"></span></li>
+    </ul>
+</div>
+</body>
+</html>

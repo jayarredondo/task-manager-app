@@ -21,6 +21,8 @@ public class User {
     private String password;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     private List<Task> taskList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    private List<Reminder> reminders;
 
     public User() {
     }
@@ -89,5 +91,13 @@ public class User {
 
     public void setTaskList(List<Task> taskList) {
         this.taskList = taskList;
+    }
+
+    public List<Reminder> getReminders() {
+        return reminders;
+    }
+
+    public void setReminders(List<Reminder> reminders) {
+        this.reminders = reminders;
     }
 }

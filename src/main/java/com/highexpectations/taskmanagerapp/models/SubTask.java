@@ -2,11 +2,10 @@ package com.highexpectations.taskmanagerapp.models;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Entity
-@Table(name = "tasks")
-public class Task {
+@Table(name = "sub_tasks")
+public class SubTask {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
@@ -23,18 +22,20 @@ public class Task {
     @Column(nullable = false)
     private boolean isComplete = false;
     @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
-    @ManyToOne
-    @JoinColumn(name = "category_id")
-    private Category category;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "task")
-    private List<SubTask> subTaskList;
+    @JoinColumn(name = "task_id")
+    private Task task;
 
-    public Task() {
+    public SubTask() {
     }
 
-
+    public SubTask(long id, String title, String description, LocalDateTime createdAt, LocalDateTime startDateTime, LocalDateTime endDateTime, Task task) {
+        this.title = title;
+        this.description = description;
+        this.createdAt = createdAt;
+        this.startDateTime = startDateTime;
+        this.endDateTime = endDateTime;
+        this.task = task;
+    }
 
     public long getId() {
         return id;
@@ -84,20 +85,12 @@ public class Task {
         this.endDateTime = endDateTime;
     }
 
-    public User getUser() {
-        return user;
+    public Task getTask() {
+        return task;
     }
 
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public Category getCategory() {
-        return category;
-    }
-
-    public void setCategory(Category category) {
-        this.category = category;
+    public void setTask(Task task) {
+        this.task = task;
     }
 
     public boolean isComplete() {
@@ -107,14 +100,4 @@ public class Task {
     public void setComplete(boolean complete) {
         isComplete = complete;
     }
-
-    public List<SubTask> getSubTaskList() {
-        return subTaskList;
-    }
-
-    public void setSubTaskList(List<SubTask> subTaskList) {
-        this.subTaskList = subTaskList;
-    }
-
-
 }
