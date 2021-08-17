@@ -14,11 +14,11 @@ public class Task {
     private String title;
     @Column(columnDefinition = "text", nullable = false)
     private String description;
-    @Column(columnDefinition = "datetime", nullable = false)
+    @Column(columnDefinition = "timestamp", nullable = false)
     private LocalDateTime createdAt;
-    @Column(columnDefinition = "datetime")
+    @Column(columnDefinition = "timestamp")
     private LocalDateTime startDateTime;
-    @Column(columnDefinition = "datetime")
+    @Column(columnDefinition = "timestamp")
     private LocalDateTime endDateTime;
     @Column(nullable = false)
     private boolean isComplete = false;
