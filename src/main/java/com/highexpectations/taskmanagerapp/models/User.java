@@ -15,7 +15,7 @@ public class User {
     private String lastName;
     @Column(length = 110, nullable = false)
     private String email;
-    @Column(nullable = false)
+    @Column(length = 110, nullable = false)
     private String username;
     @Column(length = 250, nullable = false)
     private String password;
@@ -27,12 +27,21 @@ public class User {
     public User() {
     }
 
-    public User(long id, String firstName, String lastName, String email, String username, String password, List<Task> taskList) {
+    public User(User copy) {
+        id = copy.id; // This line is SUPER important! Many things won't work if it's absent
+        firstName = copy.firstName;
+        lastName = copy.lastName;
+        email = copy.email;
+        username = copy.username;
+        password = copy.password;
+    }
+
+    public User(long id, String firstName, String lastName, String email, String password, List<Task> taskList) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
-        this.username = username;
+        this.username = email;
         this.password = password;
         this.taskList = taskList;
     }
@@ -69,14 +78,6 @@ public class User {
         this.email = email;
     }
 
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
     public String getPassword() {
         return password;
     }
@@ -99,5 +100,13 @@ public class User {
 
     public void setReminders(List<Reminder> reminders) {
         this.reminders = reminders;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 }
