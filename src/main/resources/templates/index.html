@@ -11,23 +11,7 @@
 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Architecto aspernatur eaque illum iure nam perspiciatis, sapiente ut? Atque cumque distinctio eaque eos expedita magni, odio officiis, provident reprehenderit sunt vel?</p>
 <div id="chart"></div>
 <br>
-<a th:href="@{/register}" class="btn btn-success">Create Account</a>
+<a th:href="@{/sign-up}" class="btn btn-success">Create Account</a>
 <a th:href="@{/login}" class="btn btn-primary">Log In</a>
-
-<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
-<script>
-    var options = {
-        chart: {
-            height: 350,
-            type: 'radialBar',
-        },
-        series: [70],
-        labels: ['Progress'],
-    }
-
-    var chart = new ApexCharts(document.querySelector("#chart"), options);
-
-    chart.render();
-</script>
 </body>
 </html>

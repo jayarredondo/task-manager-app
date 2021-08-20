@@ -3,14 +3,30 @@
 <head>
     <meta charset="UTF-8"/>
     <title>Dashboard</title>
+    <th:block th:include="partials/head :: head-links"></th:block>
 </head>
 <body>
-<h1>This is the dashboard.</h1>
-<ul>
-    <li><a th:href="@{/tasks}">My Tasks</a></li>
-    <li><a th:href="@{/posts}">Notes</a></li>
-    <li><a th:href="@{/profile}">View My Profile</a></li>
-    <li><a th:href="@{/create/tasklist}">Start a BrainDump</a></li>
-</ul>
+<nav th:replace="partials/topnav :: topnav"></nav>
+<div th:replace="partials/sidenav :: sidenav"></div>
+<main class="main">
+    <h1>Progress Report: </h1>
+    <div id="chart"></div>
+</main>
+<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+<script>
+    var options = {
+        chart: {
+            height: 350,
+            type: 'radialBar',
+        },
+        series: [70],
+        labels: ['Progress'],
+    }
+
+    var chart = new ApexCharts(document.querySelector("#chart"), options);
+
+    chart.render();
+</script>
+<th:block th:include="partials/scripts :: scripts"></th:block>
 </body>
 </html>

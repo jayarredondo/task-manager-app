@@ -17,16 +17,17 @@
         </div>
         <form th:action="@{/login}" method="post">
             <div class="form-group">
-                <label for="username">Username</label>
+                <label for="username">E-mail: </label>
                 <input id="username" name="username" type="text" class="form-control" autofocus required/>
             </div>
             <div class="form-group">
-                <label for="password">Password</label>
+                <label for="password">Password: </label>
                 <input id="password" name="password" type="password" class="form-control" autofocus required/>
             </div>
             <button type="submit" class="btn btn-block btn-problem btn-primary">Log In</button>
         </form>
     </div>
 </div>
+<th:block th:include="partials/scripts :: scripts"></th:block>
 </body>
 </html>

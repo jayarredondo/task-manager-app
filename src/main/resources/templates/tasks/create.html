@@ -2,9 +2,12 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8"/>
-    <title></title>
+    <title>BrainDump</title>
+    <th:block th:include="partials/head :: head-links"></th:block>
 </head>
 <body>
+<nav th:replace="partials/topnav :: topnav"></nav>
+<h1 style="text-align: center">What do you need to do?</h1>
 <form action="/tasks/create" th:action="@{/tasks/create}" method="post" th:object="${task}">
     <div>
         <div>
@@ -47,5 +50,6 @@
     </div>
     <button type="submit" value="submit">Submit</button>
 </form>
+<th:block th:include="partials/scripts :: scripts"></th:block>
 </body>
 </html>

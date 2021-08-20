@@ -1,5 +1,7 @@
 package com.highexpectations.taskmanagerapp.models;
 
+import org.springframework.security.core.context.SecurityContextHolder;
+
 import javax.persistence.*;
 import java.util.List;
 
