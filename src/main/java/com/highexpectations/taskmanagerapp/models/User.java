@@ -36,12 +36,12 @@ public class User {
         password = copy.password;
     }
 
-    public User(long id, String firstName, String lastName, String email, String password, List<Task> taskList) {
+    public User(long id, String firstName, String lastName, String email, String username, String password, List<Task> taskList) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
-        this.username = email;
+        this.username = username;
         this.password = password;
         this.taskList = taskList;
     }

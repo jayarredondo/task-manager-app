@@ -13,21 +13,26 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     private UserDetailsLoader usersLoader;
-    public SecurityConfiguration(UserDetailsLoader usersLoader){this.usersLoader = usersLoader;}
+
+    public SecurityConfiguration(UserDetailsLoader usersLoader) {
+        this.usersLoader = usersLoader;
+    }
 
     @Bean
-    public PasswordEncoder passwordEncoder() { return new BCryptPasswordEncoder(12); }
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
 
     @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception{
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth
-                .userDetailsService(usersLoader)
-                .passwordEncoder(passwordEncoder())
+                .userDetailsService(usersLoader) // How to find users by their username
+                .passwordEncoder(passwordEncoder()) // How to encode and verify passwords
         ;
     }
 
     @Override
-    protected void configure(HttpSecurity http)throws Exception{
+    protected void configure(HttpSecurity http) throws Exception {
         http
                 .formLogin()
                 .loginPage("/login")
@@ -36,15 +41,21 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .and()
                 .logout()
                 .logoutSuccessUrl("/login?logout")
-                .and()
-                .authorizeRequests()
-                .antMatchers("/")
                 .permitAll()
                 .and()
                 .authorizeRequests()
                 .antMatchers(
-                        "/dashboard"
-                )
-                .authenticated();
+                        "/dashboard")
+                .authenticated()
+                .and()
+                .authorizeRequests()
+                .antMatchers(
+                        "/**",
+                        "/sign-up",
+                        "/js/**", // had to add this to not restrict scripts
+                        "/css/**", // had to add this to not restrict stylesheets
+                        "/img/**") // had to add this to not restrict images
+                .permitAll()
+                .anyRequest().authenticated();
     }
 }
