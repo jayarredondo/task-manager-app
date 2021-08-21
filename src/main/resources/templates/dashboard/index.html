@@ -8,9 +8,13 @@
 <body>
 <nav th:replace="partials/topnav :: topnav"></nav>
 <div th:replace="partials/sidenav :: sidenav"></div>
-<main class="main">
+<main class="main container">
+    <form th:action="@{/logout}" method="POST">
+        <input type="submit" value="Logout">
+    </form>
     <h1>Progress Report: </h1>
-    <div id="chart"></div>
+    <div id="radialBarChart"></div>
+    <div id="donutChart"></div>
 </main>
 <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 <script>
@@ -23,8 +27,21 @@
         labels: ['Progress'],
     }
 
-    var chart = new ApexCharts(document.querySelector("#chart"), options);
+    var chart = new ApexCharts(document.querySelector("#radialBarChart"), options);
 
+    chart.render();
+</script>
+<script>
+    var options = {
+        chart: {
+            height: 350,
+            type: 'donut'
+        },
+        series: [25, 25, 25, 25],
+        labels: ['Apple', 'Mango', 'Orange', 'Watermelon'],
+    }
+
+    var chart = new ApexCharts(document.querySelector("#donutChart"), options);
     chart.render();
 </script>
 <th:block th:include="partials/scripts :: scripts"></th:block>

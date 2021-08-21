@@ -6,19 +6,20 @@
     <th:block th:include="partials/head :: head-links"></th:block>
 </head>
 <body>
-<h1>BrainDump</h1>
-<div th:each="task : ${tasks}" class="card" style="width: 18rem;">
-    <div class="card-body">
-        <h5 th:text="${task.title}" class="card-title"></h5>
-        <h6 th:text="${task.createdAt}" class="card-subtitle mb-2 text-muted"></h6>
-        <p th:text="${task.description}" class="card-text"></p>
-        <form th:action="@{/tasks/{id}/edit(id = ${task.id})}">
-            <!--Two forms, one to delete, other to open a modal to edit the task-->
-            <button>Edit</button>
+<nav th:replace="partials/topnav :: topnav"></nav>
+<div th:replace="partials/sidenav :: sidenav"></div>
+<main class="main container">
+    <h1>BrainDump</h1>
+    <div th:each="task : ${tasks}" class="card" style="width: 18rem;">
+        <div class="card-body">
+            <h5 th:text="${task.title}" class="card-title"></h5>
+            <h6 th:text="${task.createdAt}" class="card-subtitle mb-2 text-muted"></h6>
+            <p th:text="${task.description}" class="card-text"></p>
+            <button type="button"><a th:href="@{/tasks/{id}/edit(id = ${task.id})}">Edit</a></button>
             <button>Delete</button>
-        </form>
+        </div>
     </div>
-</div>
+</main>
 <th:block th:include="partials/scripts :: scripts"></th:block>
 </body>
 </html>

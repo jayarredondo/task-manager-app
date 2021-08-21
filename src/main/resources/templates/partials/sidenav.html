@@ -1,11 +1,11 @@
-<div th:fragment="sidenav" id="mySidenav" class="sidenav container-fluid">
+<div th:fragment="sidenav" id="mySidenav" class="sidenav container-fluid p-0">
     <div class="row justify-content-center">
-        <img style="height: 150px; width:150px" th:src="@{/img/app-logo.png}">
-        <ul class="col">
+        <a th:href="@{/dashboard}"><img style="height: 150px; width:150px" th:src="@{/img/app-logo.png}"></a>
+        <ul>
             <li><a class="sidenav-link" th:href="@{/tasks}">My Tasks</a></li>
             <li><a class="sidenav-link" th:href="@{/posts}">Notes</a></li>
             <li><a class="sidenav-link" th:href="@{/profile}">View My Profile</a></li>
-            <li><a class="sidenav-link" th:href="@{/create/tasklist}">Start a BrainDump</a></li>
+            <li><a class="sidenav-link" th:href="@{/tasks/create}">Start a BrainDump</a></li>
         </ul>
     </div>
 </div>

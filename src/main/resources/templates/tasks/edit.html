@@ -2,17 +2,17 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8"/>
-    <title>BrainDump</title>
+    <title>Edit Task</title>
     <th:block th:include="partials/head :: head-links"></th:block>
 </head>
 <body>
 <nav th:replace="partials/topnav :: topnav"></nav>
 <div th:replace="partials/sidenav :: sidenav"></div><h1 style="text-align: center">What do you need to do?</h1>
 <div class="main container">
-    <form action="/tasks/create" th:action="@{/tasks/create}" method="post" th:object="${task}">
+    <form action="/tasks/{id}/edit" th:action="@{/tasks/{id}/edit(id = ${task.id})}" method="post" th:object="${task}">
         <div>
             <div>
-                <input id="title" name="title" type="text" class="validate" th:field="*{title}" th:value="*{title}" required/>
+                <input id="title" name="title" type="text"  th:field="*{title}" th:value="*{title}" required/>
                 <label for="title">Title</label>
             </div>
         </div>

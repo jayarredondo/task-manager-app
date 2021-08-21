@@ -12,7 +12,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Configuration
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-    private UserDetailsLoader usersLoader;
+    private final UserDetailsLoader usersLoader;
 
     public SecurityConfiguration(UserDetailsLoader usersLoader) {
         this.usersLoader = usersLoader;
@@ -45,12 +45,16 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 .antMatchers(
-                        "/dashboard")
+                        "/dashboard",
+                        "/tasks",
+                        "/tasks/{id}/edit",
+                        "/tasks/{id}",
+                        "/tasks/create")
                 .authenticated()
                 .and()
                 .authorizeRequests()
                 .antMatchers(
-                        "/**",
+                        "/",
                         "/sign-up",
                         "/js/**", // had to add this to not restrict scripts
                         "/css/**", // had to add this to not restrict stylesheets

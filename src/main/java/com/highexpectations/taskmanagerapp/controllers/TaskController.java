@@ -6,12 +6,10 @@ import com.highexpectations.taskmanagerapp.repositories.CategoryRepository;
 import com.highexpectations.taskmanagerapp.repositories.TaskRepository;
 import com.highexpectations.taskmanagerapp.repositories.UserRepository;
 import org.apache.tomcat.jni.Local;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -33,12 +31,20 @@ public class TaskController {
 
     @GetMapping("/tasks")
     public String viewTasks(Model model) {
-        model.addAttribute("tasks", tasksDao.findAll());
+        User validUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if(validUser == null) {
+            return "redirect:/login";
+        }
+        model.addAttribute("tasks", tasksDao.findAllByUserId(validUser.getId()));
         return "tasks/index";
     }
 
     @GetMapping("/tasks/create")
     public String showCreateTasks(Model model) {
+        User validUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if(validUser == null) {
+            return "redirect:/login";
+        }
         model.addAttribute("task", new Task());
         return "tasks/create";
     }
@@ -46,8 +52,8 @@ public class TaskController {
     @PostMapping("/tasks/create")
     public String createTasks(@ModelAttribute Task task, @RequestParam(name = "startDate") String startDate, @RequestParam(name = "endDate", required = false) String endDate,
                               @RequestParam(name = "category", required = false) long cat_id) {
-        User user = usersDao.getById(1L);
-        task.setUser(user);
+        User currentUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        task.setUser(currentUser);
         task.setCreatedAt(LocalDateTime.now());
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
@@ -64,6 +70,28 @@ public class TaskController {
         task.setCategory(catDao.getById(cat_id));
 
         tasksDao.save(task);
+        return "redirect:/tasks";
+    }
+
+    @GetMapping("/tasks/{id}/edit")
+    public String showEditForm(@PathVariable long id, Model model) {
+        User validUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if(validUser == null) {
+            return "redirect:/login";
+        }
+        model.addAttribute("task", tasksDao.getById(id));
+        return "tasks/edit";
+    }
+
+    @PostMapping("/tasks/{id}/edit")
+    public String editTask(@PathVariable long id, @ModelAttribute Task task) {
+        User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Task taskFromDB = tasksDao.getById(id);
+        if(loggedInUser.getId() == taskFromDB.getUser().getId()) {
+            task.setCreatedAt(LocalDateTime.now());
+            task.setUser(loggedInUser);
+            tasksDao.save(task);
+        }
         return "redirect:/tasks";
     }
 }
