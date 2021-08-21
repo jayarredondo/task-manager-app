@@ -8,7 +8,7 @@
 <body>
 <nav th:replace="partials/topnav :: topnav"></nav>
 <div th:replace="partials/sidenav :: sidenav"></div><h1 style="text-align: center">What do you need to do?</h1>
-<div class="main container">
+<main class="main container">
     <form action="/tasks/{id}/edit" th:action="@{/tasks/{id}/edit(id = ${task.id})}" method="post" th:object="${task}">
         <div>
             <div>
@@ -51,7 +51,7 @@
         </div>
         <button type="submit" value="submit">Submit</button>
     </form>
-</div>
+</main>
 <th:block th:include="partials/scripts :: scripts"></th:block>
 </body>
 </html>

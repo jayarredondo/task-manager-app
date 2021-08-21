@@ -10,13 +10,25 @@
 <div th:replace="partials/sidenav :: sidenav"></div>
 <main class="main container">
     <h1>BrainDump</h1>
-    <div th:each="task : ${tasks}" class="card" style="width: 18rem;">
-        <div class="card-body">
+    <div th:each="task : ${tasks}" class="card" style="width: 30rem;">
+        <div th:if="${task.isComplete}" class="card-body completed-task text-muted">
+            <h5 th:text="${task.title}" class="card-title"></h5>
+            <h6 th:text="${task.createdAt}" class="card-subtitle mb-2"></h6>
+            <p th:text="${task.description}" class="card-text"></p>
+            <button type="button" class="btn btn-primary" disabled><a th:href="@{/tasks/{id}/edit(id = ${task.id})}">Edit</a></button>
+            <form th:action="@{/tasks/{id}/complete(id = ${task.id})}" method="POST">
+                <button type="submit" class="btn btn-success" disabled>Mark as Complete</button>
+            </form>
+            <p class="text-center">COMPLETED</p>
+        </div>
+        <div th:if="${!task.isComplete}" class="card-body">
             <h5 th:text="${task.title}" class="card-title"></h5>
             <h6 th:text="${task.createdAt}" class="card-subtitle mb-2 text-muted"></h6>
             <p th:text="${task.description}" class="card-text"></p>
-            <button type="button"><a th:href="@{/tasks/{id}/edit(id = ${task.id})}">Edit</a></button>
-            <button>Delete</button>
+            <button type="button" class="btn btn-primary"><a th:href="@{/tasks/{id}/edit(id = ${task.id})}">Edit</a></button>
+            <form th:action="@{/tasks/{id}/complete(id = ${task.id})}" method="POST">
+                <button type="submit" class="btn btn-success">Mark as Complete</button>
+            </form>
         </div>
     </div>
 </main>

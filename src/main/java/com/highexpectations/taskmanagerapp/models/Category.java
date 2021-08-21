@@ -15,13 +15,17 @@ public class Category {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "category")
     private List<Task> taskList;
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "category")
+    private List<Note> notes;
+
     public Category() {
     }
 
-    public Category(long id, String name, List<Task> taskList) {
+    public Category(long id, String name, List<Task> taskList, List<Note> notes) {
         this.id = id;
         this.name = name;
         this.taskList = taskList;
+        this.notes = notes;
     }
 
     public long getId() {
@@ -46,5 +50,13 @@ public class Category {
 
     public void setTaskList(List<Task> taskList) {
         this.taskList = taskList;
+    }
+
+    public List<Note> getNotes() {
+        return notes;
+    }
+
+    public void setNotes(List<Note> notes) {
+        this.notes = notes;
     }
 }

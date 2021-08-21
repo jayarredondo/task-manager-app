@@ -25,6 +25,8 @@ public class User {
     private List<Task> taskList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     private List<Reminder> reminders;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    private List<Note> notes;
 
     public User() {
     }
@@ -38,7 +40,7 @@ public class User {
         password = copy.password;
     }
 
-    public User(long id, String firstName, String lastName, String email, String username, String password, List<Task> taskList) {
+    public User(long id, String firstName, String lastName, String email, String username, String password, List<Task> taskList, List <Note> notes) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -46,6 +48,7 @@ public class User {
         this.username = username;
         this.password = password;
         this.taskList = taskList;
+        this.notes = notes;
     }
 
     public long getId() {
@@ -110,5 +113,13 @@ public class User {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public List<Note> getNotes() {
+        return notes;
+    }
+
+    public void setNotes(List<Note> notes) {
+        this.notes = notes;
     }
 }

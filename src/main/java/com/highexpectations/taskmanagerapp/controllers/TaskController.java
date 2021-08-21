@@ -36,6 +36,7 @@ public class TaskController {
             return "redirect:/login";
         }
         model.addAttribute("tasks", tasksDao.findAllByUserId(validUser.getId()));
+        System.out.println(validUser.getTaskList());
         return "tasks/index";
     }
 
@@ -92,6 +93,24 @@ public class TaskController {
             task.setUser(loggedInUser);
             tasksDao.save(task);
         }
+        return "redirect:/tasks";
+    }
+
+
+    @PostMapping("/tasks/{id}/complete")
+    public String markTaskComplete(@PathVariable long id) {
+        User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (loggedInUser == null) {
+            return "redirect:/login";
+        }
+        Task taskToUpdate = tasksDao.getById(id);
+        if(loggedInUser.getId() == taskToUpdate.getUser().getId()) {
+            taskToUpdate.setCreatedAt(LocalDateTime.now());
+            taskToUpdate.setUser(loggedInUser);
+            taskToUpdate.setComplete(true);
+            tasksDao.save(taskToUpdate);
+        }
+
         return "redirect:/tasks";
     }
 }

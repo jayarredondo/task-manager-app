@@ -1,45 +1,49 @@
 package com.highexpectations.taskmanagerapp.models;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "posts")
-public class Post {
+@Table(name = "notes")
+public class Note {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     @Column(nullable = false)
     private String title;
-    @Column(nullable = false)
+    @Column(columnDefinition = "text", nullable = false)
     private String body;
+    @Column(nullable = false)
+    private LocalDateTime createdAt;
     @ManyToOne
     @JoinColumn(name = "user_id")
-    private User parentUser;
+    private User user;
     @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;
 
 
-    public Post() {}
+    public Note() {}
 
-    public Post(String title, String body) {
+    public Note(String title, String body) {
         this.title = title;
         this.body = body;
     }
 
-    public Post(long id, String title, String body, Category category) {
-        this.id = id;
+
+    public Note(long id, String title, String body, LocalDateTime createdAt, User user, Category category) {
         this.title = title;
         this.body = body;
+        this.createdAt = createdAt;
         this.category = category;
     }
 
-    public User getParentUser() {
-        return parentUser;
+    public User getUser() {
+        return user;
     }
 
-    public void setParentUser(User parentUser) {
-        this.parentUser = parentUser;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public long getId() {
@@ -72,5 +76,13 @@ public class Post {
 
     public void setCategory(Category category) {
         this.category = category;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
     }
 }
