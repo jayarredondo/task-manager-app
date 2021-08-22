@@ -41,7 +41,7 @@
                     <h5 th:text="${task.title}" class="card-title"></h5>
                     <h6 th:text="${task.createdAt}" class="card-subtitle mb-2 text-muted date"></h6>
                     <p th:text="${task.description}" class="card-text"></p>
-                    <p class="card-text">Scheduled for: <small class="date" th:text="${task.startDateTime}"></small></p>
+                    <small class="card-text">Scheduled for: <span class="date" th:text="${task.startDateTime}"></span></small>
                     <small class="card-text">Category: <span th:text="${task.category.getName()}"></span></small>
                     <div class="d-flex justify-content-between mt-2" role="group">
                         <a class="btn btn-primary" th:href="@{/tasks/{id}/edit(id = ${task.id})}">Edit</a>
