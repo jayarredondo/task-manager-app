@@ -5,15 +5,13 @@ import com.highexpectations.taskmanagerapp.models.User;
 import com.highexpectations.taskmanagerapp.repositories.CategoryRepository;
 import com.highexpectations.taskmanagerapp.repositories.TaskRepository;
 import com.highexpectations.taskmanagerapp.repositories.UserRepository;
-import org.apache.tomcat.jni.Local;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -31,19 +29,35 @@ public class TaskController {
 
     @GetMapping("/tasks")
     public String viewTasks(Model model) {
-        User validUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if(validUser == null) {
+        User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if(loggedInUser == null) {
             return "redirect:/login";
         }
-        model.addAttribute("tasks", tasksDao.findAllByUserId(validUser.getId()));
-        System.out.println(validUser.getTaskList());
+        List<Task> allTasks = tasksDao.findAllByUserId(loggedInUser.getId());
+        if(!allTasks.isEmpty()) {
+            List<Task> unscheduledTasks = new ArrayList<>();
+            List<Task> scheduledTasks = new ArrayList<>();
+            List<Task> completedTasks = new ArrayList<>();
+            for(Task task : allTasks){
+                if(task.isComplete()) {
+                    completedTasks.add(task);
+                } else if (task.getStartDateTime() != null && !task.isComplete()){
+                    scheduledTasks.add(task);
+                } else if (!task.isComplete()){
+                    unscheduledTasks.add(task);
+                }
+            }
+            model.addAttribute("unscheduledTasks", unscheduledTasks);
+            model.addAttribute("scheduledTasks", scheduledTasks);
+            model.addAttribute("completedTasks", completedTasks);
+        }
         return "tasks/index";
     }
 
     @GetMapping("/tasks/create")
     public String showCreateTasks(Model model) {
-        User validUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if(validUser == null) {
+        User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if(loggedInUser == null) {
             return "redirect:/login";
         }
         model.addAttribute("task", new Task());
@@ -53,8 +67,8 @@ public class TaskController {
     @PostMapping("/tasks/create")
     public String createTasks(@ModelAttribute Task task, @RequestParam(name = "startDate") String startDate, @RequestParam(name = "endDate", required = false) String endDate,
                               @RequestParam(name = "category", required = false) long cat_id) {
-        User currentUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        task.setUser(currentUser);
+        User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        task.setUser(loggedInUser);
         task.setCreatedAt(LocalDateTime.now());
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
@@ -76,8 +90,8 @@ public class TaskController {
 
     @GetMapping("/tasks/{id}/edit")
     public String showEditForm(@PathVariable long id, Model model) {
-        User validUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if(validUser == null) {
+        User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if(loggedInUser == null) {
             return "redirect:/login";
         }
         model.addAttribute("task", tasksDao.getById(id));
@@ -91,6 +105,7 @@ public class TaskController {
         if(loggedInUser.getId() == taskFromDB.getUser().getId()) {
             task.setCreatedAt(LocalDateTime.now());
             task.setUser(loggedInUser);
+
             tasksDao.save(task);
         }
         return "redirect:/tasks";
@@ -114,12 +129,34 @@ public class TaskController {
         return "redirect:/tasks";
     }
 
-    @PostMapping("tasks/{id}/delete")
+    @PostMapping("/tasks/{id}/delete")
     public String deleteTask(@PathVariable long id) {
         User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if(loggedInUser.getId() == tasksDao.getById(id).getUser().getId()) {
             tasksDao.delete(tasksDao.getById(id));
         }
         return "redirect:/tasks";
+    }
+
+    // SORTING TASKS
+
+    @GetMapping("/tasks/today")
+    public String showTasksForToday(Model model) {
+        User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        List<Task> allTasks = tasksDao.findAllByUserId(loggedInUser.getId());
+
+        if(allTasks != null) {
+            LocalDateTime currentDate = LocalDateTime.now();
+            List<Task> todaysTasks = new ArrayList<>();
+            for (Task task : allTasks) {
+                if(task.getStartDateTime() != null) {
+                    if (task.getStartDateTime().getDayOfYear() == currentDate.getDayOfYear()) {
+                        todaysTasks.add(task);
+                    }
+                }
+            }
+            model.addAttribute("todaysTasks", todaysTasks);
+        }
+        return "tasks/today";
     }
 }

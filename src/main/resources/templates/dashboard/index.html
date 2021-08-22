@@ -50,17 +50,17 @@
     var chart = new ApexCharts(document.querySelector("#donutChart"), options);
     chart.render();
 </script>
-<script>
-    var requestOptions = {
-        method: 'GET',
-        redirect: 'follow'
-    };
+<!--<script>-->
+<!--    var requestOptions = {-->
+<!--        method: 'GET',-->
+<!--        redirect: 'follow'-->
+<!--    };-->
 
-    fetch("https://quotes.rest/qod", requestOptions)
-        .then(response => response.json())
-        .then(result => console.log(result.contents.quotes[0].quote))
-        .catch(error => console.log('error', error));
-</script>
+<!--    fetch("https://quotes.rest/qod", requestOptions)-->
+<!--        .then(response => response.json())-->
+<!--        .then(result => console.log(result.contents.quotes[0].quote))-->
+<!--        .catch(error => console.log('error', error));-->
+<!--</script>-->
 <th:block th:include="partials/scripts :: scripts"></th:block>
 </body>
 </html>

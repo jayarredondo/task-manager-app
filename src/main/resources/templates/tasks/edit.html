@@ -24,28 +24,28 @@
         </div>
         <div>
             <div>
-                <input type="datetime-local" name="startDate" id="startDate"/>
+                <input type="datetime-local" name="startDate" id="startDate" th:field="*{startDateTime}" th:value="*{startDateTime}"/>
                 <label for="startDate">Start</label>
             </div>
         </div>
         <div>
             <div>
-                <input type="datetime-local" name="endDate" id="endDate"/>
+                <input type="datetime-local" name="endDate" id="endDate" th:field="*{endDateTime}" th:value="*{endDateTime}"/>
                 <label for="endDate">Finish</label>
             </div>
         </div>
         <div>
             <div>
                 <label for="category">Category</label>
-                <select name="category" id="category" th:value="*{category}">
-                    <option value="1">Finance</option>
-                    <option value="2">Health</option>
-                    <option value="3">Family</option>
-                    <option value="4">Social</option>
-                    <option value="5">Work</option>
-                    <option value="6">Academic</option>
-                    <option value="7">Hobbies</option>
-                    <option value="8" selected>Misc.</option>
+                <select name="category" id="category">
+                    <option th:selected="*{category.getId() == 1}" value="1">Finance</option>
+                    <option th:selected="*{category.getId() == 2}" value="2">Health</option>
+                    <option th:selected="*{category.getId() == 3}" value="3">Family</option>
+                    <option th:selected="*{category.getId() == 4}" value="4">Social</option>
+                    <option th:selected="*{category.getId() == 5}" value="5">Work</option>
+                    <option th:selected="*{category.getId() == 6}" value="6">Academic</option>
+                    <option th:selected="*{category.getId() == 7}" value="7">Hobbies</option>
+                    <option th:selected="*{category.getId() == 8}" value="8" selected>Misc.</option>
                 </select>
             </div>
         </div>

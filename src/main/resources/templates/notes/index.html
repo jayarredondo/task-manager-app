@@ -24,20 +24,4 @@
 </div>
 <th:block th:include="partials/scripts :: scripts"></th:block>
 </body>
-<script>
-    const dateStrings = document.getElementsByClassName("date");
-    const formatDate = (dateString) => {
-        console.log(dateString);
-        let s =  new Date(dateString).toLocaleString();
-        let datetime = s.split(",");
-        let date = new Date(datetime[0]).toDateString();
-        let time = datetime[1];
-        console.log(date);
-        console.log(time);
-        return date + `<span class='float-right'>` + time + `</span>`;
-    }
-    for (let i = 0; i <= dateStrings.length; i++) {
-        console.log(dateStrings[i].innerHTML = formatDate(dateStrings[i].innerHTML));
-    }
-</script>
 </html>

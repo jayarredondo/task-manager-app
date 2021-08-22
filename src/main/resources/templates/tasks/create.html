@@ -24,13 +24,13 @@
         </div>
         <div>
             <div>
-                <input type="datetime-local" name="startDate" id="startDate"/>
+                <input type="datetime-local" name="startDate" id="startDate" th:field="*{startDateTime}" th:value="*{startDateTime}"/>
                 <label for="startDate">Start</label>
             </div>
         </div>
         <div>
             <div>
-                <input type="datetime-local" name="endDate" id="endDate"/>
+                <input type="datetime-local" name="endDate" id="endDate" th:field="*{endDateTime}" th:value="*{endDateTime}"/>
                 <label for="endDate">Finish</label>
             </div>
         </div>

@@ -27,6 +27,10 @@ public class NotesController {
     @GetMapping("/notes")
     public String showNotes(Model model) {
         User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Note note = notesDao.findAllByUserId(loggedInUser.getId()).get(0);
+        LocalDateTime dt = note.getCreatedAt();
+        System.out.println(dt.getDayOfWeek());
+
         model.addAttribute("notes", notesDao.findAllByUserId(loggedInUser.getId()));
         return "notes/index";
     }

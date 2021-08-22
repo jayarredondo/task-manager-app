@@ -2,7 +2,20 @@
     <div class="row justify-content-center">
         <a th:href="@{/dashboard}"><img style="height: 150px; width:150px" th:src="@{/img/app-logo.png}"></a>
         <ul>
-            <li><a class="sidenav-link" th:href="@{/tasks}">My Tasks</a></li>
+            <li>
+                <div class="dropdown">
+                    <a class="sidenav-link dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        My Tasks
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                        <a class="dropdown-item" th:href="@{/tasks}">All</a>
+                        <a class="dropdown-item" th:href="@{/tasks/today}">Today</a>
+                        <a class="dropdown-item" href="#">This Week</a>
+                        <a class="dropdown-item" href="#">This Month</a>
+                        </form>
+                    </div>
+                </div>
+            </li>
             <li><a class="sidenav-link" th:href="@{/notes}">Notes</a></li>
             <li><a class="sidenav-link" th:href="@{/profile}">View My Profile</a></li>
             <li><a class="sidenav-link" th:href="@{/tasks/create}">Start a BrainDump</a></li>
