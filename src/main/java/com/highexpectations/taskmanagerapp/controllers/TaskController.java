@@ -113,4 +113,13 @@ public class TaskController {
 
         return "redirect:/tasks";
     }
+
+    @PostMapping("tasks/{id}/delete")
+    public String deleteTask(@PathVariable long id) {
+        User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if(loggedInUser.getId() == tasksDao.getById(id).getUser().getId()) {
+            tasksDao.delete(tasksDao.getById(id));
+        }
+        return "redirect:/tasks";
+    }
 }
