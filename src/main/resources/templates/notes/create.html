@@ -6,40 +6,72 @@
     <th:block th:include="partials/head :: head-links"></th:block>
 </head>
 <body>
-<nav th:replace="partials/topnav :: topnav"></nav>
+<nav th:replace="partials/topnav :: topnav (topNavTitle = 'Add Entry')"></nav>
 <div th:replace="partials/sidenav :: sidenav"></div>
-<main class="main container">
-    <form action="/tasks/create" th:action="@{/notes/create}" method="post" th:object="${note}">
-        <div>
+<main class="main">
+    <div class="container-fluid">
+        <form th:if="${isCreate}" th:action="@{/notes/create}" method="post" th:object="${note}">
             <div>
-                <input id="title" name="title" type="text" th:field="*{title}" th:value="*{title}" required/>
-                <label for="title">Title</label>
+                <div>
+                    <input id="title" name="title" type="text" th:field="*{title}" th:value="*{title}" required/>
+                    <label for="title">Title</label>
+                </div>
             </div>
-        </div>
-        <div>
             <div>
-                <textarea id="body" name="body" th:field="*{body}" th:value="*{body}" required></textarea>
-                <label for="body">Body</label>
+                <div>
+                    <textarea id="body" name="body" th:field="*{body}" th:value="*{body}" required></textarea>
+                    <label for="body">Body</label>
+                </div>
             </div>
-        </div>
-        <div>
-        <div>
             <div>
-                <label for="category">Category</label>
-                <select name="category" id="category" th:value="*{category}">
-                    <option value="1">Finance</option>
-                    <option value="2">Health</option>
-                    <option value="3">Family</option>
-                    <option value="4">Social</option>
-                    <option value="5">Work</option>
-                    <option value="6">Academic</option>
-                    <option value="7">Hobbies</option>
-                    <option value="8" selected>Misc.</option>
-                </select>
+                <div>
+                    <label for="category">Category</label>
+                    <select name="category" id="category" th:field="*{category}" th:value="*{category}">
+                        <option th:selected="*{category.getId() == 1}" value="1">Finance</option>
+                        <option th:selected="*{category.getId() == 2}" value="2">Health</option>
+                        <option th:selected="*{category.getId() == 3}" value="3">Family</option>
+                        <option th:selected="*{category.getId() == 4}" value="4">Social</option>
+                        <option th:selected="*{category.getId() == 5}" value="5">Work</option>
+                        <option th:selected="*{category.getId() == 6}" value="6">Academic</option>
+                        <option th:selected="*{category.getId() == 7}" value="7">Hobbies</option>
+                        <option th:selected="*{category.getId() == 8}" value="8" selected>Misc.</option>
+                    </select>
+                </div>
             </div>
-        </div>
-        <button type="submit" value="submit">Submit</button>
-    </form>
+            <button type="submit" value="submit">Submit</button>
+        </form>
+
+        <form th:if="${!isCreate}" th:action="@{/notes/{id}/edit(id = ${note.id})}" method="post" th:object="${note}">
+            <div>
+                <div>
+                    <input id="title" name="title" type="text" th:field="*{title}" th:value="*{title}" required/>
+                    <label for="title">Title</label>
+                </div>
+            </div>
+            <div>
+                <div>
+                    <textarea id="body" name="body" th:field="*{body}" th:value="*{body}" required></textarea>
+                    <label for="body">Body</label>
+                </div>
+            </div>
+            <div>
+                <div>
+                    <label for="category">Category</label>
+                    <select name="category" id="category" th:field="*{category}" th:value="*{category}">
+                        <option th:selected="*{category.getId() == 1}" value="1">Finance</option>
+                        <option th:selected="*{category.getId() == 2}" value="2">Health</option>
+                        <option th:selected="*{category.getId() == 3}" value="3">Family</option>
+                        <option th:selected="*{category.getId() == 4}" value="4">Social</option>
+                        <option th:selected="*{category.getId() == 5}" value="5">Work</option>
+                        <option th:selected="*{category.getId() == 6}" value="6">Academic</option>
+                        <option th:selected="*{category.getId() == 7}" value="7">Hobbies</option>
+                        <option th:selected="*{category.getId() == 8}" value="8" selected>Misc.</option>
+                    </select>
+                </div>
+            </div>
+            <button type="submit" value="submit">Submit</button>
+        </form>
+    </div>
 </main>
 <th:block th:include="partials/scripts :: scripts"></th:block>
 </body>

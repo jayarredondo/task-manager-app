@@ -5,14 +5,14 @@ import com.highexpectations.taskmanagerapp.models.User;
 import com.highexpectations.taskmanagerapp.repositories.CategoryRepository;
 import com.highexpectations.taskmanagerapp.repositories.TaskRepository;
 import com.highexpectations.taskmanagerapp.repositories.UserRepository;
+import org.apache.tomcat.jni.Local;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
+import java.time.temporal.WeekFields;
+import java.util.*;
 
 @Controller
 public class TaskController {
@@ -20,6 +20,16 @@ public class TaskController {
     private final TaskRepository tasksDao;
     private final UserRepository usersDao;
     private final CategoryRepository catDao;
+
+//    public List<Task> sortByMostRecent(List<Task> unsortedTasks) {
+//        List<Task> sortedTasks = new ArrayList<>();
+//        for(Task task : unsortedTasks) {
+//            int day = task.getCreatedAt().getDayOfYear();
+//            int year = task.getCreatedAt().getYear();
+//            if()
+//        }
+//        return sortedTasks;
+//    }
 
     public TaskController(TaskRepository tasksDao, UserRepository usersDao, CategoryRepository catDao) {
         this.tasksDao = tasksDao;
@@ -32,8 +42,19 @@ public class TaskController {
         User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if(loggedInUser == null) {
             return "redirect:/login";
+
         }
         List<Task> allTasks = tasksDao.findAllByUserId(loggedInUser.getId());
+
+        // sorting classes by to show most recent first
+        Collections.sort(allTasks, new Comparator<Task>() {
+            public int compare(Task o1, Task o2) {
+                if (o1.getCreatedAt() == null || o2.getCreatedAt() == null)
+                    return 0;
+                return o1.getCreatedAt().compareTo(o2.getCreatedAt());
+            }
+        });
+
         if(!allTasks.isEmpty()) {
             List<Task> unscheduledTasks = new ArrayList<>();
             List<Task> scheduledTasks = new ArrayList<>();
@@ -47,6 +68,7 @@ public class TaskController {
                     unscheduledTasks.add(task);
                 }
             }
+            model.addAttribute("task", new Task());
             model.addAttribute("unscheduledTasks", unscheduledTasks);
             model.addAttribute("scheduledTasks", scheduledTasks);
             model.addAttribute("completedTasks", completedTasks);
@@ -56,33 +78,16 @@ public class TaskController {
 
     @GetMapping("/tasks/create")
     public String showCreateTasks(Model model) {
-        User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if(loggedInUser == null) {
-            return "redirect:/login";
-        }
         model.addAttribute("task", new Task());
+        model.addAttribute("isCreate", true);
         return "tasks/create";
     }
 
     @PostMapping("/tasks/create")
-    public String createTasks(@ModelAttribute Task task, @RequestParam(name = "startDate") String startDate, @RequestParam(name = "endDate", required = false) String endDate,
-                              @RequestParam(name = "category", required = false) long cat_id) {
+    public String createTasks(@ModelAttribute Task task) {
         User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         task.setUser(loggedInUser);
         task.setCreatedAt(LocalDateTime.now());
-
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
-
-        if(!startDate.isEmpty()) {
-            LocalDateTime start = LocalDateTime.parse(startDate,formatter);
-            task.setStartDateTime(start);
-
-        }
-        if(!endDate.isEmpty()) {
-            LocalDateTime end = LocalDateTime.parse(endDate,formatter);
-            task.setEndDateTime(end);
-        }
-        task.setCategory(catDao.getById(cat_id));
 
         tasksDao.save(task);
         return "redirect:/tasks";
@@ -90,12 +95,9 @@ public class TaskController {
 
     @GetMapping("/tasks/{id}/edit")
     public String showEditForm(@PathVariable long id, Model model) {
-        User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if(loggedInUser == null) {
-            return "redirect:/login";
-        }
         model.addAttribute("task", tasksDao.getById(id));
-        return "tasks/edit";
+        model.addAttribute("isCreate", false);
+        return "tasks/create";
     }
 
     @PostMapping("/tasks/{id}/edit")
@@ -115,9 +117,6 @@ public class TaskController {
     @PostMapping("/tasks/{id}/complete")
     public String markTaskComplete(@PathVariable long id) {
         User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if (loggedInUser == null) {
-            return "redirect:/login";
-        }
         Task taskToUpdate = tasksDao.getById(id);
         if(loggedInUser.getId() == taskToUpdate.getUser().getId()) {
             taskToUpdate.setCreatedAt(LocalDateTime.now());
@@ -155,8 +154,59 @@ public class TaskController {
                     }
                 }
             }
+            // sorting tasks to show most recent
+            Collections.sort(todaysTasks, new Comparator<Task>() {
+                public int compare(Task o1, Task o2) {
+                    if (o1.getCreatedAt() == null || o2.getCreatedAt() == null)
+                        return 0;
+                    return o1.getCreatedAt().compareTo(o2.getCreatedAt());
+                }
+            });
             model.addAttribute("todaysTasks", todaysTasks);
         }
         return "tasks/today";
+    }
+
+    @GetMapping("/tasks/this-week")
+    public String showTasksForWeek(Model model) {
+        User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        List<Task> allTasks = tasksDao.findAllByUserId(loggedInUser.getId());
+        WeekFields weekFields = WeekFields.of(Locale.getDefault());
+        if(allTasks != null) {
+            LocalDateTime currentDate = LocalDateTime.now();
+            int thisWeek = currentDate.get(weekFields.weekOfWeekBasedYear());
+            List<Task> weeklyTasks = new ArrayList<>();
+            for (Task task : allTasks) {
+                if(task.getStartDateTime() != null) {
+                    if (task.getStartDateTime().getDayOfYear() == currentDate.getDayOfYear() && task.getStartDateTime().get(weekFields.weekOfWeekBasedYear()) == thisWeek)
+                    {
+                        weeklyTasks.add(task);
+                    }
+                }
+            }
+
+            // sorting tasks to show most recent
+            Collections.sort(allTasks, new Comparator<Task>() {
+                public int compare(Task o1, Task o2) {
+                    if (o1.getCreatedAt() == null || o2.getCreatedAt() == null)
+                        return 0;
+                    return o1.getCreatedAt().compareTo(o2.getCreatedAt());
+                }
+            });
+            // sorting tasks to show most recent
+            Collections.sort(weeklyTasks, new Comparator<Task>() {
+                public int compare(Task o1, Task o2) {
+                    if (o1.getCreatedAt() == null || o2.getCreatedAt() == null)
+                        return 0;
+                    return o1.getCreatedAt().compareTo(o2.getCreatedAt());
+                }
+            });
+            model.addAttribute("weeklyTasks", weeklyTasks);
+        }
+
+
+        System.out.println();
+
+        return "tasks/weekly";
     }
 }

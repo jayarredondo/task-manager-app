@@ -18,6 +18,7 @@ public class DashboardController {
             return "redirect:/login";
         }
         model.addAttribute("currentDate", LocalDateTime.now());
+        model.addAttribute("currentUser", loggedInUser);
         return "dashboard/index";
     }
 }

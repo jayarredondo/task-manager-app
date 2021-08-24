@@ -6,21 +6,23 @@
     <th:block th:include="partials/head :: head-links"></th:block>
 </head>
 <body>
-<nav th:replace="partials/topnav :: topnav"></nav>
+<nav th:replace="partials/topnav :: topnav (topNavTitle = 'Welcome, ' + ${currentUser.getFirstName()} + ' ' + ${currentUser.getLastName()} + '!')"></nav>
 <div th:replace="partials/sidenav :: sidenav"></div>
-<main class="main container">
-    <form th:action="@{/logout}" method="POST">
-        <input type="submit" value="Logout">
-    </form>
-    <div class="w-50">
-        <h4>Quote of the Day</h4>
-        <span id="quote"></span>
-        <br>
-        <span id="author"></span>
+<main class="main">
+    <div class="container-fluid">
+        <form th:action="@{/logout}" method="POST">
+            <input type="submit" value="Logout">
+        </form>
+        <div class="w-50">
+            <h4>Quote of the Day</h4>
+            <span id="quote"></span>
+            <br>
+            <span id="author"></span>
+        </div>
+        <h1>Progress Report: </h1>
+        <div id="radialBarChart"></div>
+        <div id="donutChart"></div>
     </div>
-    <h1>Progress Report: </h1>
-    <div id="radialBarChart"></div>
-    <div id="donutChart"></div>
 </main>
 <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 <script>

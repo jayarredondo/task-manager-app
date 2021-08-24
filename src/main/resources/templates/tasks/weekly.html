@@ -3,19 +3,17 @@
 <head>
     <meta charset="UTF-8"/>
     <title>Tasks</title>
-    <th:block th:include="partials/head :: head-links"></th:block>
 </head>
 <body>
-<nav th:replace="partials/topnav :: topnav (topNavTitle = 'Today\'s Tasks')"></nav>
+<nav th:replace="partials/topnav :: topnav (topNavTitle = 'This Week\'s Tasks')"></nav>
 <div th:replace="partials/sidenav :: sidenav"></div>
 <main class="main">
     <div class="container-fluid">
-        <h3 class="text-center m-auto" th:if="${todaysTasks.isEmpty()}">Looks like you don't have any tasks for today.
-            Make sure you establish a start
+        <h3 class="text-center m-auto" th:if="${weeklyTasks.isEmpty()}">Looks like you don't have any tasks for today. Make sure you establish a start
             date for your tasks to properly sort your tasks.</h3>
-        <th:block th:unless="${todaysTasks.isEmpty()}">
+        <th:block th:unless="${weeklyTasks.isEmpty()}">
             <h1>Today's Tasks</h1>
-            <div th:each="task : ${todaysTasks}" class="card mb-5" style="width: 30rem;">
+            <div th:each="task : ${weeklyTasks}" class="card mb-5" style="width: 30rem;">
                 <div th:if="${task.isComplete}" class="card-body completed-task text-muted">
                     <form th:action="@{tasks/{id}/delete(id = ${task.id})}"
                           onsubmit="return confirm('Are you sure you want to delete?');" method="POST">

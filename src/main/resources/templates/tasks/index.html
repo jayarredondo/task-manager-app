@@ -2,16 +2,21 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8"/>
-    <title>BrainDump</title>
+    <title>Tasks</title>
     <th:block th:include="partials/head :: head-links"></th:block>
 </head>
 <body>
-<nav th:replace="partials/topnav :: topnav"></nav>
+<nav th:replace="partials/topnav :: topnav (topNavTitle = 'All Tasks')"></nav>
 <div th:replace="partials/sidenav :: sidenav"></div>
-<main class="main container">
+<main class="main">
+    <div class="d-flex">
+        <button type="button" class="btn btn-primary " data-toggle="modal" data-target="#exampleModal">
+            Add to BrainDump
+        </button>
+    </div>
     <h1>BrainDump</h1>
-    <div class="row justify-content-around">
-        <div class="col w-33">
+    <div class="container-fluid row w-100 justify-content-around">
+        <div class="col w-25 overflow-auto shadow rounded border mx-3">
             <h5 class="text-center">Unscheduled</h5>
             <div th:each="task : ${unscheduledTasks}" class="card mb-5">
                 <div class="card-body">
@@ -19,7 +24,7 @@
                         <button type="submit" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                     </form>
                     <h5 th:text="${task.title}" class="card-title"></h5>
-                    <h6 th:text="${task.createdAt}" class="card-subtitle mb-2 text-muted date"></h6>
+                    <h6 class="card-subtitle mb-2 text-muted">Created At: <span class="date" th:text="${task.createdAt}"></span></h6>
                     <p th:text="${task.description}" class="card-text"></p>
                     <small class="card-text">Category: <span th:text="${task.category.getName()}"></span></small>
                     <div class="d-flex justify-content-between mt-2" role="group">
@@ -31,7 +36,7 @@
                 </div>
             </div>
         </div>
-        <div class="col w-33">
+        <div class="col w-25 oveflow-auto shadow rounded border mx-3">
             <h5 class="text-center">Scheduled</h5>
             <div th:each="task : ${scheduledTasks}" class="card mb-5">
                 <div class="card-body">
@@ -39,9 +44,10 @@
                         <button type="submit" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                     </form>
                     <h5 th:text="${task.title}" class="card-title"></h5>
-                    <h6 th:text="${task.createdAt}" class="card-subtitle mb-2 text-muted date"></h6>
+                    <h6 class="card-subtitle mb-2 text-muted">Created At: <span class="date" th:text="${task.createdAt}"></span></h6>
                     <p th:text="${task.description}" class="card-text"></p>
-                    <small class="card-text">Scheduled for: <span class="date" th:text="${task.startDateTime}"></span></small>
+                    <small class="card-text font-weight-bold">Scheduled for: <span class="date" th:text="${task.startDateTime}"></span></small>
+                    <br>
                     <small class="card-text">Category: <span th:text="${task.category.getName()}"></span></small>
                     <div class="d-flex justify-content-between mt-2" role="group">
                         <a class="btn btn-primary" th:href="@{/tasks/{id}/edit(id = ${task.id})}">Edit</a>
@@ -52,7 +58,7 @@
                 </div>
             </div>
         </div>
-        <div class="col w-33">
+        <div class="col w-25 overflow-auto shadow rounded border mx-3">
             <h5 class="text-center">Completed</h5>
             <div th:each="task : ${completedTasks}" class="card mb-5">
                 <div class="card-body completed-task text-muted">
@@ -60,7 +66,7 @@
                         <button type="submit" class="close" aria-label="Close"><span class="pb-5" aria-hidden="true">&times;</span></button>
                     </form>
                     <h5 th:text="${task.title}" class="card-title"></h5>
-                    <h6 th:text="${task.createdAt}" class="card-subtitle mb-2 date"></h6>
+                    <h6 class="card-subtitle mb-2 text-muted">Created At: <span class="date" th:text="${task.createdAt}"></span></h6>
                     <p th:text="${task.description}" class="card-text"></p>
                     <small class="card-text">Category: <span th:text="${task.category.getName()}"></span></small>
                     <form th:action="@{/tasks/{id}/complete(id = ${task.id})}" class="mt-2" method="POST">
@@ -70,6 +76,7 @@
             </div>
         </div>
     </div>
+    <div th:include="partials/create-note-modal :: createNoteModal"></div>
 </main>
 <th:block th:include="partials/scripts :: scripts"></th:block>
 </body>

@@ -49,7 +49,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                         "/tasks",
                         "/tasks/{id}/edit",
                         "/tasks/{id}",
-                        "/tasks/create")
+                        "/tasks/create",
+                        "/notes",
+                        "/notes/{id}/edit",
+                        "/notes/{id}/delete",
+                        "/notes/create")
                 .authenticated()
                 .and()
                 .authorizeRequests()

@@ -6,22 +6,28 @@
     <th:block th:include="partials/head :: head-links"></th:block>
 </head>
 <body>
-<nav th:replace="partials/topnav :: topnav"></nav>
+<nav th:replace="partials/topnav :: topnav (topNavTitle = 'My Notes')"></nav>
 <div th:replace="partials/sidenav :: sidenav"></div>
-<div class="main container">
-    <div th:each="note : ${notes}" class="card">
-        <h5 class="card-header date" th:text="${note.createdAt}"></h5>
-        <div class="card-body">
-            <h5 class="card-title" th:text="${note.title}"></h5>
-            <p class="card-text" th:text="${note.body}"></p>
-            <small class="card-text">Category: <span th:text="${note.category.getName()}"></span></small>
-            <br>
-            <br>
-            <button class="btn btn-primary" type="button"><a href="#" style="text-decoration: none; color: white">Edit</a></button>
-            <button class="btn btn-primary" type="button"><a href="#" style="text-decoration: none; color: white;">Delete</a></button>
+<main class="main">
+    <div class="container-fluid">
+        <div th:each="note : ${notes}" class="card">
+            <h5 class="card-header date" th:text="${note.createdAt}"></h5>
+            <div class="card-body">
+                <form th:action="@{notes/{id}/delete(id = ${note.id})}"
+                      onsubmit="return confirm('Are you sure you want to delete?');" method="POST">
+                    <button type="submit" class="close" aria-label="Close"><span aria-hidden="true">&times;</span>
+                    </button>
+                </form>
+                <h5 class="card-title" th:text="${note.title}"></h5>
+                <p class="card-text" th:text="${note.body}"></p>
+                <small class="card-text">Category: <span th:text="${note.category.getName()}"></span></small>
+                <br>
+                <br>
+                <a class="btn btn-primary" th:href="@{/notes/{id}/edit(id = ${note.id})}">Edit</a>
+            </div>
         </div>
     </div>
-</div>
+</main>
 <th:block th:include="partials/scripts :: scripts"></th:block>
 </body>
 </html>
