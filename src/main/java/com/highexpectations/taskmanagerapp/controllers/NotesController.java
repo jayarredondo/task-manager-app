@@ -40,10 +40,7 @@ public class NotesController {
     @GetMapping("/notes/create")
     public String showNotesCreate(Model model) {
         User validUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if(validUser == null) {
-            return "redirect:/login";
-        }
-        model.addAttribute("note", new Note());
+        model.addAttribute("newNote", new Note());
         model.addAttribute("isCreate", true);
         return "notes/create";
     }
@@ -51,9 +48,6 @@ public class NotesController {
     @PostMapping("/notes/create")
     public String createNote(@ModelAttribute Note note) {
         User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if(loggedInUser == null) {
-            return "redirect:/login";
-        }
         note.setUser(loggedInUser);
         note.setCreatedAt(LocalDateTime.now());
         notesDao.save(note);
@@ -62,10 +56,6 @@ public class NotesController {
 
     @GetMapping("/notes/{id}/edit")
     public String showEditForm(@PathVariable long id, Model model) {
-        User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if(loggedInUser == null) {
-            return "redirect:/login";
-        }
         model.addAttribute("note", notesDao.getById(id));
         model.addAttribute("isCreate", false);
         return "notes/create";

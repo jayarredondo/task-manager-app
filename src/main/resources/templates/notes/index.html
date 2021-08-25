@@ -10,7 +10,12 @@
 <div th:replace="partials/sidenav :: sidenav"></div>
 <main class="main">
     <div class="container-fluid">
-        <div th:each="note : ${notes}" class="card">
+        <h1 class="text-center">All Notes</h1>
+        <div class="d-flex flex-row-reverse mb-5">
+            <!--BUTTON TO CALL MODAL MISSING DATA-TARGET ATTRIBUTE-->
+            <a th:href="@{notes/create}" class="btn btn-primary">Add to Notes</a>
+        </div>
+        <div th:each="note : ${notes}" class="card mb-3">
             <h5 class="card-header date" th:text="${note.createdAt}"></h5>
             <div class="card-body">
                 <form th:action="@{notes/{id}/delete(id = ${note.id})}"

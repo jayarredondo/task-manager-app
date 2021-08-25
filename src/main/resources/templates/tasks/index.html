@@ -9,13 +9,12 @@
 <nav th:replace="partials/topnav :: topnav (topNavTitle = 'All Tasks')"></nav>
 <div th:replace="partials/sidenav :: sidenav"></div>
 <main class="main">
-    <div class="d-flex">
-        <button type="button" class="btn btn-primary " data-toggle="modal" data-target="#exampleModal">
-            Add to BrainDump
-        </button>
-    </div>
     <h1>BrainDump</h1>
-    <div class="container-fluid row w-100 justify-content-around">
+    <div class="d-flex flex-row-reverse">
+        <!--BUTTON TO CALL MODAL MISSING DATA-TARGET ATTRIBUTE-->
+        <a th:href="@{tasks/create}" class="btn btn-primary">Add to BrainDump</a>
+    </div>
+    <div class="container-fluid row w-100 justify-content-around mt-5">
         <div class="col w-25 overflow-auto shadow rounded border mx-3">
             <h5 class="text-center">Unscheduled</h5>
             <div th:each="task : ${unscheduledTasks}" class="card mb-5">
@@ -23,11 +22,12 @@
                     <form th:action="@{tasks/{id}/delete(id = ${task.id})}" onsubmit="return confirm('Are you sure you want to delete?');" method="POST">
                         <button type="submit" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                     </form>
-                    <h5 th:text="${task.title}" class="card-title"></h5>
+                    <a th:href="@{/tasks/{id} (id = ${task.id})}"><h5 th:text="${task.title}" class="card-title"></h5></a>
                     <h6 class="card-subtitle mb-2 text-muted">Created At: <span class="date" th:text="${task.createdAt}"></span></h6>
                     <p th:text="${task.description}" class="card-text"></p>
                     <small class="card-text">Category: <span th:text="${task.category.getName()}"></span></small>
                     <div class="d-flex justify-content-between mt-2" role="group">
+                        <!--BUTTON TO CALL MODAL MISSING DATA-TARGET ATTRIBUTE-->
                         <a class="btn btn-primary" th:href="@{/tasks/{id}/edit(id = ${task.id})}">Edit</a>
                         <form th:action="@{/tasks/{id}/complete(id = ${task.id})}" class="flex-end" method="POST">
                             <button type="submit" class="btn btn-success">Mark as Complete</button>
@@ -43,7 +43,7 @@
                     <form th:action="@{tasks/{id}/delete(id = ${task.id})}" onsubmit="return confirm('Are you sure you want to delete?');" method="POST">
                         <button type="submit" class="close" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                     </form>
-                    <h5 th:text="${task.title}" class="card-title"></h5>
+                    <a th:href="@{/tasks/{id} (id = ${task.id})}"><h5 th:text="${task.title}" class="card-title"></h5></a>
                     <h6 class="card-subtitle mb-2 text-muted">Created At: <span class="date" th:text="${task.createdAt}"></span></h6>
                     <p th:text="${task.description}" class="card-text"></p>
                     <small class="card-text font-weight-bold">Scheduled for: <span class="date" th:text="${task.startDateTime}"></span></small>
@@ -76,7 +76,8 @@
             </div>
         </div>
     </div>
-    <div th:include="partials/create-note-modal :: createNoteModal"></div>
+<!--    <div th:replace="partials/task-form-modal :: createTaskModal"></div>-->
+<!--    <div th:replace="partials/task-form-modal :: editTaskModal"></div>-->
 </main>
 <th:block th:include="partials/scripts :: scripts"></th:block>
 </body>

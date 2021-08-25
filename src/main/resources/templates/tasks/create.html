@@ -7,92 +7,101 @@
 </head>
 <body>
 <nav th:replace="partials/topnav :: topnav (topNavTitle= 'Create BrainDump')"></nav>
-<div th:replace="partials/sidenav :: sidenav"></div><h1 style="text-align: center">What do you need to do?</h1>
-<main class="main container">
-    <form th:if="${isCreate}" th:action="@{/tasks/create}" method="post" th:object="${task}">
-        <div>
-            <div>
-                <input id="title" name="title" type="text" class="validate" th:field="*{title}" th:value="*{title}" required/>
+<div th:replace="partials/sidenav :: sidenav"></div>
+<h1 style="text-align: center">What do you need to do?</h1>
+<main class="main">
+    <div class="container-fluid">
+        <form th:if="${isCreate}" th:action="@{/tasks/create}" method="post" th:object="${newTask}">
+            <div class="form-group">
                 <label for="title">Title</label>
+                <input id="title" name="title" type="text" class="form-control" th:field="*{title}"
+                       th:value="*{title}" required/>
             </div>
-        </div>
-        <div>
-            <div>
-                <textarea id="body" name="description" th:field="*{description}" th:value="*{description}" required></textarea>
-                <label for="body">Body</label>
+            <div class="form-group">
+                <label for="description">Description</label>
+                <textarea id="description" name="description" class="form-control" th:field="*{description}"
+                          th:value="*{description}" required></textarea>
             </div>
-        </div>
-        <div>
-            <div>
-                <input type="datetime-local" name="startDate" id="startDate" th:field="*{startDateTime}" th:value="*{startDateTime}"/>
+            <div class="form-group">
                 <label for="startDate">Start</label>
+                <input type="datetime-local" name="startDate" id="startDate" class="form-control"
+                       th:field="*{startDateTime}"
+                       th:value="*{startDateTime}"/>
             </div>
-        </div>
-        <div>
             <div>
-                <input type="datetime-local" name="endDate" id="endDate" th:field="*{endDateTime}" th:value="*{endDateTime}"/>
-                <label for="endDate">Finish</label>
+                <div>
+                    <label for="endDate">Finish</label>
+                    <input type="datetime-local" name="endDate" id="endDate" class="form-control"
+                           th:field="*{endDateTime}"
+                           th:value="*{endDateTime}"/>
+                </div>
             </div>
-        </div>
-        <div>
             <div>
-                <label for="category">Category</label>
-                <select name="category" id="category" th:field="*{category}" th:value="*{category}">
-                    <option value="1">Finance</option>
-                    <option value="2">Health</option>
-                    <option value="3">Family</option>
-                    <option value="4">Social</option>
-                    <option value="5">Work</option>
-                    <option value="6">Academic</option>
-                    <option value="7">Hobbies</option>
-                    <option value="8" selected>Misc.</option>
-                </select>
+                <div>
+                    <label for="category">Category</label>
+                    <select name="category" id="category" th:field="*{category}" class="form-control"
+                            th:value="*{category}">
+                        <option value="1">Finance</option>
+                        <option value="2">Health</option>
+                        <option value="3">Family</option>
+                        <option value="4">Social</option>
+                        <option value="5">Work</option>
+                        <option value="6">Academic</option>
+                        <option value="7">Hobbies</option>
+                        <option value="8" selected>Misc.</option>
+                    </select>
+                </div>
             </div>
-        </div>
-        <button type="submit" value="submit">Submit</button>
-    </form>
-    <form th:if="${!isCreate}" th:action="@{/tasks/{id}/edit(id = ${task.id})}" method="post" th:object="${task}">
-        <div>
-            <div>
-                <input id="title" name="title" type="text"  th:field="*{title}" th:value="*{title}" required/>
+            <div class="modal-footer">
+                <button type="submit" value="submit">Submit</button>
+            </div>
+        </form>
+        <form th:if="${!isCreate}" th:action="@{/tasks/{id}/edit(id = ${task.id})}" method="post" th:object="${task}">
+            <div class="form-group">
                 <label for="title">Title</label>
+                <input id="title" name="title" type="text" class="form-control" th:field="*{title}"
+                       th:value="*{title}" required/>
             </div>
-        </div>
-        <div>
-            <div>
-                <textarea id="body" name="description" th:field="*{description}" th:value="*{description}" required></textarea>
-                <label for="body">Body</label>
+            <div class="form-group">
+                <label for="description">Description</label>
+                <textarea id="description" name="description" class="form-control" th:field="*{description}"
+                          th:value="*{description}" required></textarea>
             </div>
-        </div>
-        <div>
-            <div>
-                <input type="datetime-local" name="startDate" id="startDate" th:field="*{startDateTime}" th:value="*{startDateTime}"/>
+            <div class="form-group">
                 <label for="startDate">Start</label>
+                <input type="datetime-local" name="startDate" id="startDate" class="form-control"
+                       th:field="*{startDateTime}"
+                       th:value="*{startDateTime}"/>
             </div>
-        </div>
-        <div>
             <div>
-                <input type="datetime-local" name="endDate" id="endDate" th:field="*{endDateTime}" th:value="*{endDateTime}"/>
-                <label for="endDate">Finish</label>
+                <div>
+                    <label for="endDate">Finish</label>
+                    <input type="datetime-local" name="endDate" id="endDate" class="form-control"
+                           th:field="*{endDateTime}"
+                           th:value="*{endDateTime}"/>
+                </div>
             </div>
-        </div>
-        <div>
             <div>
-                <label for="category">Category</label>
-                <select name="category" id="category" th:value="*{category}" th:field="*{category}">
-                    <option th:selected="*{category.getId() == 1}" value="1">Finance</option>
-                    <option th:selected="*{category.getId() == 2}" value="2">Health</option>
-                    <option th:selected="*{category.getId() == 3}" value="3">Family</option>
-                    <option th:selected="*{category.getId() == 4}" value="4">Social</option>
-                    <option th:selected="*{category.getId() == 5}" value="5">Work</option>
-                    <option th:selected="*{category.getId() == 6}" value="6">Academic</option>
-                    <option th:selected="*{category.getId() == 7}" value="7">Hobbies</option>
-                    <option th:selected="*{category.getId() == 8}" value="8" selected>Misc.</option>
-                </select>
+                <div>
+                    <label for="category">Category</label>
+                    <select name="category" id="category" th:field="*{category}" class="form-control"
+                            th:value="*{category}">
+                        <option value="1">Finance</option>
+                        <option value="2">Health</option>
+                        <option value="3">Family</option>
+                        <option value="4">Social</option>
+                        <option value="5">Work</option>
+                        <option value="6">Academic</option>
+                        <option value="7">Hobbies</option>
+                        <option value="8" selected>Misc.</option>
+                    </select>
+                </div>
             </div>
-        </div>
-        <button type="submit" value="submit">Submit</button>
-    </form>
+            <div class="modal-footer">
+                <button type="submit" value="submit">Submit</button>
+            </div>
+        </form>
+    </div>
 </main>
 <th:block th:include="partials/scripts :: scripts"></th:block>
 </body>

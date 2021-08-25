@@ -1,11 +1,10 @@
 package com.highexpectations.taskmanagerapp.controllers;
 
+import com.highexpectations.taskmanagerapp.models.SubTask;
 import com.highexpectations.taskmanagerapp.models.Task;
 import com.highexpectations.taskmanagerapp.models.User;
-import com.highexpectations.taskmanagerapp.repositories.CategoryRepository;
+import com.highexpectations.taskmanagerapp.repositories.SubTaskRepository;
 import com.highexpectations.taskmanagerapp.repositories.TaskRepository;
-import com.highexpectations.taskmanagerapp.repositories.UserRepository;
-import org.apache.tomcat.jni.Local;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,23 +17,11 @@ import java.util.*;
 public class TaskController {
 
     private final TaskRepository tasksDao;
-    private final UserRepository usersDao;
-    private final CategoryRepository catDao;
+    private final SubTaskRepository subTasksDao;
 
-//    public List<Task> sortByMostRecent(List<Task> unsortedTasks) {
-//        List<Task> sortedTasks = new ArrayList<>();
-//        for(Task task : unsortedTasks) {
-//            int day = task.getCreatedAt().getDayOfYear();
-//            int year = task.getCreatedAt().getYear();
-//            if()
-//        }
-//        return sortedTasks;
-//    }
-
-    public TaskController(TaskRepository tasksDao, UserRepository usersDao, CategoryRepository catDao) {
+    public TaskController(TaskRepository tasksDao, SubTaskRepository subTasksDao) {
         this.tasksDao = tasksDao;
-        this.usersDao = usersDao;
-        this.catDao = catDao;
+        this.subTasksDao = subTasksDao;
     }
 
     @GetMapping("/tasks")
@@ -68,7 +55,6 @@ public class TaskController {
                     unscheduledTasks.add(task);
                 }
             }
-            model.addAttribute("task", new Task());
             model.addAttribute("unscheduledTasks", unscheduledTasks);
             model.addAttribute("scheduledTasks", scheduledTasks);
             model.addAttribute("completedTasks", completedTasks);
@@ -76,9 +62,18 @@ public class TaskController {
         return "tasks/index";
     }
 
+    @GetMapping("/tasks/{id}")
+    public String showTaskDetails(@PathVariable long id, Model model) {
+        List<SubTask> subTasks = subTasksDao.findAllByTaskId(id);
+        model.addAttribute("subTasks", subTasks);
+        model.addAttribute("newSubTask", new SubTask());
+        model.addAttribute("task", tasksDao.getById(id));
+        return "tasks/show";
+    }
+
     @GetMapping("/tasks/create")
     public String showCreateTasks(Model model) {
-        model.addAttribute("task", new Task());
+        model.addAttribute("newTask", new Task());
         model.addAttribute("isCreate", true);
         return "tasks/create";
     }
@@ -177,36 +172,24 @@ public class TaskController {
             int thisWeek = currentDate.get(weekFields.weekOfWeekBasedYear());
             List<Task> weeklyTasks = new ArrayList<>();
             for (Task task : allTasks) {
+                System.out.println(task.getId());
                 if(task.getStartDateTime() != null) {
-                    if (task.getStartDateTime().getDayOfYear() == currentDate.getDayOfYear() && task.getStartDateTime().get(weekFields.weekOfWeekBasedYear()) == thisWeek)
+                    if (task.getStartDateTime().getYear() == currentDate.getYear() && task.getStartDateTime().get(weekFields.weekOfWeekBasedYear()) == thisWeek)
                     {
                         weeklyTasks.add(task);
                     }
                 }
             }
-
             // sorting tasks to show most recent
-            Collections.sort(allTasks, new Comparator<Task>() {
-                public int compare(Task o1, Task o2) {
-                    if (o1.getCreatedAt() == null || o2.getCreatedAt() == null)
-                        return 0;
-                    return o1.getCreatedAt().compareTo(o2.getCreatedAt());
-                }
-            });
-            // sorting tasks to show most recent
-            Collections.sort(weeklyTasks, new Comparator<Task>() {
-                public int compare(Task o1, Task o2) {
-                    if (o1.getCreatedAt() == null || o2.getCreatedAt() == null)
-                        return 0;
-                    return o1.getCreatedAt().compareTo(o2.getCreatedAt());
-                }
-            });
+//            Collections.sort(weeklyTasks, new Comparator<Task>() {
+//                public int compare(Task o1, Task o2) {
+//                    if (o1.getCreatedAt() == null || o2.getCreatedAt() == null)
+//                        return 0;
+//                    return o1.getCreatedAt().compareTo(o2.getCreatedAt());
+//                }
+//            });
             model.addAttribute("weeklyTasks", weeklyTasks);
         }
-
-
-        System.out.println();
-
         return "tasks/weekly";
     }
 }

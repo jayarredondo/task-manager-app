@@ -5,8 +5,7 @@
     <title></title>
 </head>
 <body>
-<!-- Modal -->
-<div th:fragment="createNoteModal" class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div th:fragment="createNoteModal" class="modal fade" id="createNoteModal" tabindex="-1" aria-labelledby="createModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -16,7 +15,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form th:if="${isCreate}" th:action="@{/tasks/create}" method="post" th:object="${task}">
+                <form th:action="@{/notes/create}" method="post" th:object="${newNote}">
                     <div class="form-group">
                         <label for="title">Title</label>
                         <input id="title" name="title" type="text" class="form-control" th:field="*{title}"
@@ -24,22 +23,8 @@
                     </div>
                     <div class="form-group">
                         <label for="body">Body</label>
-                        <textarea id="body" name="description" class="form-control" th:field="*{description}"
-                                  th:value="*{description}" required></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label for="startDate">Start</label>
-                        <input type="datetime-local" name="startDate" id="startDate" class="form-control"
-                               th:field="*{startDateTime}"
-                               th:value="*{startDateTime}"/>
-                    </div>
-                    <div>
-                        <div>
-                            <label for="endDate">Finish</label>
-                            <input type="datetime-local" name="endDate" id="endDate" class="form-control"
-                                   th:field="*{endDateTime}"
-                                   th:value="*{endDateTime}"/>
-                        </div>
+                        <textarea id="body" name="body" class="form-control" th:field="*{body}"
+                                  th:value="*{body}" required></textarea>
                     </div>
                     <div>
                         <div>
@@ -61,32 +46,33 @@
                         <button type="submit" value="submit">Submit</button>
                     </div>
                 </form>
-                <form th:if="${!isCreate}" th:action="@{/tasks/{id}/edit(id = ${task.id})}" method="post"
-                      th:object="${task}">
+            </div>
+        </div>
+    </div>
+</div>
+<div th:fragment="editNoteModal" class="modal fade" id="editNoteModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editModalLabel">Send To BrainDump</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form th:action="@{/notes/{id}/edit(id = ${note.id})}" method="post"
+                      th:object="${note}">
                     <div class="form-group">
                         <input id="title" name="title" type="text" class="form-control" th:field="*{title}"
                                th:value="*{title}"
                                required/>
-
                     </div>
                     <div class="form-group">
 
-                            <textarea id="body" name="description" class="form-control" th:field="*{description}"
-                                      th:value="*{description}"
+                            <textarea id="body" name="body" class="form-control" th:field="*{body}"
+                                      th:value="*{body}"
                                       required></textarea>
                         <label for="body">Body</label>
-                    </div>
-                    <div class="form-group">
-                        <input type="datetime-local" name="startDate" class="form-control" id="startDate"
-                               th:field="*{startDateTime}"
-                               th:value="*{startDateTime}"/>
-                        <label for="startDate">Start</label>
-                    </div>
-                    <div class="form-group">
-                        <input type="datetime-local" name="endDate" class="form-control" id="endDate"
-                               th:field="*{endDateTime}"
-                               th:value="*{endDateTime}"/>
-                        <label for="endDate">Finish</label>
                     </div>
                     <div class="form-group">
                         <label for="category">Category</label>
