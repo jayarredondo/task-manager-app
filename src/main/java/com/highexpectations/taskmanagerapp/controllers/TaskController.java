@@ -149,14 +149,7 @@ public class TaskController {
                     }
                 }
             }
-            // sorting tasks to show most recent
-            Collections.sort(todaysTasks, new Comparator<Task>() {
-                public int compare(Task o1, Task o2) {
-                    if (o1.getCreatedAt() == null || o2.getCreatedAt() == null)
-                        return 0;
-                    return o1.getCreatedAt().compareTo(o2.getCreatedAt());
-                }
-            });
+
             model.addAttribute("todaysTasks", todaysTasks);
         }
         return "tasks/today";

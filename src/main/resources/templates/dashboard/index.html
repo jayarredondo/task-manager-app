@@ -10,59 +10,68 @@
 <div th:replace="partials/sidenav :: sidenav"></div>
 <main class="main">
     <div class="container-fluid">
-        <form th:action="@{/logout}" method="POST">
-            <input type="submit" value="Logout">
-        </form>
-        <div class="w-50">
-            <h4>Quote of the Day</h4>
-            <span id="quote"></span>
-            <br>
-            <span id="author"></span>
+        <h1 class="text-center p-3">My Dashboard</h1>
+        <div class="row">
+            <div class="col-md-8">
+                <div class="card mb-3">
+                    <div class="row no-gutters">
+                        <div class="col">
+                            <div class="card-body">
+                                <h5 class="card-title">Progress on Today's Tasks</h5>
+                                <p class="card-text">Tasks Remaining:</p>
+                                <input type="hidden" id="todaysIncompleteTasks" th:value="${iTaskSize}">
+                                <input type="hidden" id="todaysCompleteTasks" th:value="${cTaskSize}">
+                                <ul>
+                                    <a th:each="task : ${todaysIncompleteTasks}"
+                                       th:href="@{/tasks/{id} (id = ${task.id})}">
+                                        <li th:text="${task.title}"></li>
+                                    </a>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div id="radialBarChart"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card mb-3 text-center h-auto">
+                    <h3 class="p-3">Today's Forecast</h3>
+                    <div id="weather-info" class="row"></div>
+                </div>
+            </div>
         </div>
-        <h1>Progress Report: </h1>
-        <div id="radialBarChart"></div>
-        <div id="donutChart"></div>
+        <div class="row">
+            <div class="col">
+                <div class="card mb-3" style="max-width: 25rem">
+                    <div class="card-body">
+                        <h4 class="card-title">Tasks By Category</h4>
+                    </div>
+                    <div id="donutChart"></div>
+                </div>
+            </div>
+        </div>
     </div>
+    <input type="hidden" id="workTasks" th:value="${workTasks}">
+    <input type="hidden" id="healthTasks" th:value="${healthTasks}">
+    <input type="hidden" id="financialTasks" th:value="${financialTasks}">
+    <input type="hidden" id="miscTasks" th:value="${miscTasks}">
+    <input type="hidden" id="socialTasks" th:value="${socialTasks}">
+    <input type="hidden" id="familyTasks" th:value="${familyTasks}">
+    <input type="hidden" id="academicTasks" th:value="${academicTasks}">
+    <input type="hidden" id="hobbyTasks" th:value="${hobbyTasks}">
 </main>
-<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
-<script>
-    var options = {
-        chart: {
-            height: 350,
-            type: 'radialBar',
-        },
-        series: [70],
-        labels: ['Progress'],
-    }
-
-    var chart = new ApexCharts(document.querySelector("#radialBarChart"), options);
-
-    chart.render();
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    const file = /*[[${OWAPI_KEY}]]*/ 'default';
+    /*]]>*/
 </script>
-<script>
-    var options = {
-        chart: {
-            height: 350,
-            type: 'donut'
-        },
-        series: [25, 25, 25, 25],
-        labels: ['Apple', 'Mango', 'Orange', 'Watermelon'],
-    }
 
-    var chart = new ApexCharts(document.querySelector("#donutChart"), options);
-    chart.render();
-</script>
-<!--<script>-->
-<!--    var requestOptions = {-->
-<!--        method: 'GET',-->
-<!--        redirect: 'follow'-->
-<!--    };-->
-
-<!--    fetch("https://quotes.rest/qod", requestOptions)-->
-<!--        .then(response => response.json())-->
-<!--        .then(result => console.log(result.contents.quotes[0].quote))-->
-<!--        .catch(error => console.log('error', error));-->
-<!--</script>-->
 <th:block th:include="partials/scripts :: scripts"></th:block>
+<script th:src="@{/js/weather.js}"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+<script th:src="@{/js/chart.js}"></script>
 </body>
 </html>
