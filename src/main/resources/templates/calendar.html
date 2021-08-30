@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>My Calendar</title>
+    <meta charset="utf-8" />
+    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.9.0/main.min.js"></script>
+    <link href='https://cdn.jsdelivr.net/npm/fullcalendar@5.9.0/main.min.css' rel='stylesheet' />
+    <th:block th:include="partials/head :: head-links"></th:block>
+</head>
+<body>
+<nav th:replace="partials/topnav :: topnav (topNavTitle = 'This Week\'s Tasks')"></nav>
+<div th:replace="partials/sidenav :: sidenav"></div>
+<main class="main">
+    <div class="container-fluid">
+        <div id="calendar" class="mt-3 mx-3"></div>
+    </div>
+    <div class="task" th:each="task : ${scheduledTasks}">
+        <p hidden class="taskID" th:text="${task.id}">
+        <p hidden class="taskTitle" th:text="${task.title}">
+        <p hidden class="taskStart" th:text="${task.startDateTime}">
+        <p hidden class="taskEnd" th:text="${task.endDateTime}">
+    </div>
+</main>
+<th:block th:include="partials/scripts :: scripts"></th:block>
+<script>
+
+    var events = [];
+    $('.task').each(function (i){
+        var id, title, start, end;
+
+
+        id = $(this).children().first().text();
+        title = $(this).children('.taskTitle').first().text();
+        start = $(this).children('.taskStart').first().text().toLocaleString('en-US');
+        end = $(this).children('.taskEnd').first().text().toLocaleString('en-US');
+        events.push({id, title, start, end});
+    });
+    console.log(events);
+
+    document.addEventListener('DOMContentLoaded', function() {
+        var calendarEl = document.getElementById('calendar');
+
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+            initialView: 'dayGridMonth',
+            headerToolbar: {
+                left: 'prev,next today',
+                center: 'title',
+                right: 'dayGridMonth,timeGridWeek,timeGridDay'
+            },
+            eventSources: [
+                {
+                    events
+                }
+            ]
+        });
+
+        calendar.render();
+    });
+
+</script>
+</body>
+</html>

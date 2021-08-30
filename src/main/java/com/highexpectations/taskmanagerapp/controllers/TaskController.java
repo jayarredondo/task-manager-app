@@ -65,6 +65,19 @@ public class TaskController {
     @GetMapping("/tasks/{id}")
     public String showTaskDetails(@PathVariable long id, Model model) {
         List<SubTask> subTasks = subTasksDao.findAllByTaskId(id);
+        int completedTasks = 0;
+        for(SubTask subTask : subTasks) {
+            if(subTask.isComplete()) {
+                completedTasks++;
+            }
+        }
+        if(completedTasks == subTasks.size()) {
+            model.addAttribute("canMarkComplete", true);
+            model.addAttribute("cannotMarkComplete", false);
+        } else {
+            model.addAttribute("cannotMarkComplete", true);
+            model.addAttribute("canMarkComplete", false);
+        }
         model.addAttribute("subTasks", subTasks);
         model.addAttribute("newSubTask", new SubTask());
         model.addAttribute("task", tasksDao.getById(id));

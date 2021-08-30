@@ -10,6 +10,10 @@
 <div th:replace="partials/sidenav :: sidenav"></div>
 <main class="main">
     <div class="container-fluid">
+        <div class="d-flex flex-row-reverse">
+            <!--BUTTON TO CALL MODAL MISSING DATA-TARGET ATTRIBUTE-->
+            <a th:href="@{tasks/create}" class="btn btn-primary">Add to BrainDump</a>
+        </div>
         <div class="card">
             <div class="card-body shadow">
                 <form th:action="@{tasks/{id}/delete(id = ${task.id})}"
@@ -29,11 +33,12 @@
                     <!--BUTTON TO CALL MODAL MISSING DATA-TARGET ATTRIBUTE-->
                     <a class="btn btn-primary mr-5" th:href="@{/tasks/{id}/edit(id = ${task.id})}">Edit</a>
                     <form th:action="@{/tasks/{id}/complete(id = ${task.id})}" class="flex-end" method="POST">
-                        <button type="submit" class="btn btn-success">Mark as Complete</button>
+                        <button th:if="${cannotMarkComplete}" type="submit" class="btn btn-success" disabled>Mark as Complete</button>
+                        <button th:if="${canMarkComplete}" type="submit" class="btn btn-success">Mark as Complete</button>
                     </form>
                 </div>
                 <ul th:if="${subTasks}" class="list-group list-group-flush">
-                    <li th:each="subTask : ${subTasks}" class="list-group-item">
+                    <li th:if="${!subTask.isComplete()}" th:each="subTask : ${subTasks}" class="list-group-item">
                         <h5 class="card-header" th:text="${subTask.title}"></h5>
                         <div class="card-body">
                             <form th:action="@{subTasks/{id}/delete(id = ${subTask.id})}"

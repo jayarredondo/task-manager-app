@@ -1,5 +1,7 @@
 package com.highexpectations.taskmanagerapp.models;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
@@ -14,10 +16,13 @@ public class SubTask {
     @Column(columnDefinition = "text", nullable = false)
     private String description;
     @Column(columnDefinition = "timestamp", nullable = false)
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     private LocalDateTime createdAt;
     @Column(columnDefinition = "timestamp")
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     private LocalDateTime startDateTime;
     @Column(columnDefinition = "timestamp")
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm")
     private LocalDateTime endDateTime;
     @Column(nullable = false)
     private boolean isComplete = false;

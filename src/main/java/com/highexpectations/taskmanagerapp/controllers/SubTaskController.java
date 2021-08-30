@@ -1,8 +1,11 @@
 package com.highexpectations.taskmanagerapp.controllers;
 
 import com.highexpectations.taskmanagerapp.models.SubTask;
+import com.highexpectations.taskmanagerapp.models.Task;
+import com.highexpectations.taskmanagerapp.models.User;
 import com.highexpectations.taskmanagerapp.repositories.SubTaskRepository;
 import com.highexpectations.taskmanagerapp.repositories.TaskRepository;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -47,5 +50,18 @@ public class SubTaskController {
     public String deleteSubTask(@PathVariable long id, @RequestParam(name = "taskID") long taskId) {
         subTasksdao.delete(subTasksdao.getById(id));
         return "redirect:/tasks/" + taskId;
+    }
+
+    @PostMapping("/subTasks/{id}/complete")
+    public String markSubTaskComplete(@PathVariable long id) {
+        User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        SubTask subTaskToUpdate = subTasksdao.getById(id);
+        if(loggedInUser.getId() == subTaskToUpdate.getTask().getUser().getId()) {
+            subTaskToUpdate.setCreatedAt(LocalDateTime.now());
+            subTaskToUpdate.setComplete(true);
+            subTasksdao.save(subTaskToUpdate);
+        }
+
+        return "redirect:/tasks/" + subTaskToUpdate.getTask().getId();
     }
 }

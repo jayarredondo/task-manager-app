@@ -12,8 +12,16 @@
     <div class="container-fluid">
         <h3 class="text-center m-auto" th:if="${weeklyTasks.isEmpty()}">Looks like you don't have any tasks for today. Make sure you establish a start
             date for your tasks to properly sort your tasks.</h3>
+        <div class="d-flex flex-row-reverse">
+            <!--BUTTON TO CALL MODAL MISSING DATA-TARGET ATTRIBUTE-->
+            <a th:href="@{tasks/create}" class="btn btn-primary">Add to BrainDump</a>
+        </div>
         <th:block th:unless="${weeklyTasks.isEmpty()}">
             <h1>Today's Tasks</h1>
+            <div class="d-flex flex-row-reverse">
+                <!--BUTTON TO CALL MODAL MISSING DATA-TARGET ATTRIBUTE-->
+                <a th:href="@{tasks/create}" class="btn btn-primary">Add to BrainDump</a>
+            </div>
             <div th:each="task : ${weeklyTasks}" class="card mb-5" style="width: 30rem;">
                 <div th:if="${task.isComplete}" class="card-body completed-task text-muted">
                     <form th:action="@{tasks/{id}/delete(id = ${task.id})}"

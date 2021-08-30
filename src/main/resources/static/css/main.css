@@ -17,3 +17,7 @@
 body {
     background-color: #EEEEEE;
 }
+
+#calendar {
+    max-height: 90vh;
+}

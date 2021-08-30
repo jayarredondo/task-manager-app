@@ -10,11 +10,19 @@
 <div th:replace="partials/sidenav :: sidenav"></div>
 <main class="main">
     <div class="container-fluid">
+        <div class="d-flex flex-row-reverse">
+            <!--BUTTON TO CALL MODAL MISSING DATA-TARGET ATTRIBUTE-->
+            <a th:href="@{tasks/create}" class="btn btn-primary">Add to BrainDump</a>
+        </div>
         <h3 class="text-center m-auto" th:if="${todaysTasks.isEmpty()}">Looks like you don't have any tasks for today.
             Make sure you establish a start
             date for your tasks to properly sort your tasks.</h3>
         <th:block th:unless="${todaysTasks.isEmpty()}">
-            <h1>Today's Tasks</h1>
+            <h1>This Week's Tasks</h1>
+            <div class="d-flex flex-row-reverse">
+                <!--BUTTON TO CALL MODAL MISSING DATA-TARGET ATTRIBUTE-->
+                <a th:href="@{tasks/create}" class="btn btn-primary">Add to BrainDump</a>
+            </div>
             <div th:each="task : ${todaysTasks}" class="card mb-5" style="width: 30rem;">
                 <div th:if="${task.isComplete}" class="card-body completed-task text-muted">
                     <form th:action="@{tasks/{id}/delete(id = ${task.id})}"
