@@ -60,9 +60,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers(
                         "/",
                         "/sign-up",
-                        "/js/**", // had to add this to not restrict scripts
-                        "/css/**", // had to add this to not restrict stylesheets
-                        "/img/**") // had to add this to not restrict images
+                        "/js/**",
+                        "/css/**",
+                        "/img/**",
+                        "/sounds/**")
                 .permitAll()
                 .anyRequest().authenticated();
     }

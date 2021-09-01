@@ -50,21 +50,31 @@ window.addEventListener("load", function () {
                 'Misc.'
             ],
             datasets: [{
-                label: 'My First Dataset',
+                label: 'Tasks',
                 data: [financialTasks, healthTasks, familyTasks, socialTasks, workTasks, academicTasks, hobbyTasks, miscTasks],
                 backgroundColor: [
-                    'Orange',
-                    'Green',
-                    'Purple',
-                    'Yellow',
-                    'Red',
-                    'hotpink',
-                    'Blue',
-                    'Brown'
+                    '#F6511D',
+                    '#FFB400',
+                    '#00A6ED',
+                    '#7FB800',
+                    '#0D2C54',
+                    '#9368b7',
+                    '#F2BAC9',
+                    '#006400'
 
                 ],
                 hoverOffset: 4
             }]
         },
+        options: {
+            plugins: {
+                legend: {
+                    position: 'left',
+                    labels: {
+                        usePointStyle: true
+                    }
+                }
+            }
+        }
     });
 });
