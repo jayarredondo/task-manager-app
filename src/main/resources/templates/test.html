@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Test</title>
+</head>
+<body>
+<canvas id="myChart" width="400" height="400"></canvas>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@3.5.1/dist/chart.min.js"></script>
+<script>
+    var ctx = document.getElementById('myChart');
+    var myChart = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            labels: [
+                'Red',
+                'Blue',
+                'Yellow',
+                'Green',
+                'Purple',
+                'Orange',
+                'Brown'
+            ],
+            datasets: [{
+                label: 'My First Dataset',
+                data: [4, 1, 2, 0, 0, 3, 2, 0],
+                backgroundColor: [
+                    'Red',
+                    'Blue',
+                    'Yellow',
+                    'Green',
+                    'Purple',
+                    'Orange',
+                    'Brown'
+                ],
+                hoverOffset: 4
+            }]
+        },
+    });
+</script>
+</body>
+</html>

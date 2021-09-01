@@ -33,66 +33,38 @@ window.addEventListener("load", function () {
     let miscTasks = document.getElementById("miscTasks").value;
     let hobbyTasks = document.getElementById("hobbyTasks").value;
 
+    console.log(workTasks);
 
-    let tasks = [
-        {
-            name: 'Finance',
-            size: financialTasks
-        },
-        {
-            name: 'Health',
-            size: healthTasks
-        },
-        {
-            name: 'Work',
-            size: workTasks
-        },
-        {
-            name: 'Social',
-            size: socialTasks
-        },
-        {
-            name: 'Family',
-            size: familyTasks
-        },
-        {
-            name: 'Misc.',
-            size: miscTasks
-        },
-        {
-            name: 'Academic',
-            size: academicTasks
-        },
-        {
-            name: 'Hobbies',
-            size: hobbyTasks
-        }
-        ];
+    var ctx = document.getElementById('donutChart');
+    var myChart = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+            labels: [
+                'Finance',
+                'Health',
+                'Family',
+                'Social',
+                'Work',
+                'Academic',
+                'Hobbies',
+                'Misc.'
+            ],
+            datasets: [{
+                label: 'My First Dataset',
+                data: [financialTasks, healthTasks, familyTasks, socialTasks, workTasks, academicTasks, hobbyTasks, miscTasks],
+                backgroundColor: [
+                    'Orange',
+                    'Green',
+                    'Purple',
+                    'Yellow',
+                    'Red',
+                    'hotpink',
+                    'Blue',
+                    'Brown'
 
-    const findApplicable =  (tasks) => {
-        let applicableNameTasks = [];
-        let applicableSizeTasks = [];
-        tasks.forEach(function(task) {
-            if(task.size != 0) {
-                applicableNameTasks.push(task.name);
-                applicableSizeTasks.push(parseInt(task.size));
-            }
-        })
-        return [applicableNameTasks, applicableSizeTasks];
-    }
-
-    var applicableTasks = findApplicable(tasks);
-    console.log(applicableTasks)
-
-    let options2 = {
-        chart: {
-            height: 250,
-            type: 'donut'
+                ],
+                hoverOffset: 4
+            }]
         },
-        series: applicableTasks[1],
-        labels: applicableTasks[0],
-    }
-
-    var chart2 = new ApexCharts(document.querySelector("#donutChart"), options2);
-    chart2.render();
+    });
 });

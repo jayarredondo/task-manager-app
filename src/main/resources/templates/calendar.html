@@ -26,14 +26,15 @@
 
     var events = [];
     $('.task').each(function (i){
-        var id, title, start, end;
+        let id, title, start, end;
 
 
         id = $(this).children().first().text();
+        let url = "/tasks/" + id;
         title = $(this).children('.taskTitle').first().text();
         start = $(this).children('.taskStart').first().text().toLocaleString('en-US');
         end = $(this).children('.taskEnd').first().text().toLocaleString('en-US');
-        events.push({id, title, start, end});
+        events.push({title, start, end, url});
     });
     console.log(events);
 
@@ -51,7 +52,16 @@
                 {
                     events
                 }
-            ]
+            ],
+            eventClick: function (info) {
+                // alert('Event Address: ' + info.event.title + "\n" + ' Event Start: ' + info.event.start.toLocaleString('en-US') + "\n" + ' Event End: ' + info.event.end.toLocaleString('en-US'));
+                var id = info.event.id
+                // window.location.href = "/events/{info.event.id}";
+                window.location.href = info.event.url;
+
+                // change the border color just for fun
+                info.el.style.borderColor = 'red';
+            }
         });
 
         calendar.render();
