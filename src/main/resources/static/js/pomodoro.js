@@ -1,4 +1,3 @@
-
   //store audio
   var audio = $("#audio")[0];
 

@@ -65,6 +65,13 @@
             <optional>true</optional>
         </dependency>
         <!--DEV TOOLS-->
+        <!--TWILIO-->
+        <dependency>
+            <groupId>com.twilio.sdk</groupId>
+            <artifactId>twilio</artifactId>
+            <version>8.19.0</version>
+        </dependency>
+        <!--TWILIO-->
     </dependencies>
 
     <build>

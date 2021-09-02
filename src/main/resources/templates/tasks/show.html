@@ -10,9 +10,10 @@
 <div th:replace="partials/sidenav :: sidenav"></div>
 <main class="main">
     <div class="container-fluid">
-        <div class="d-flex flex-row-reverse">
+        <h1 class="mt-3 text-center">Task Details</h1>
+        <div class="d-flex flex-row-reverse mb-3">
             <!--BUTTON TO CALL MODAL MISSING DATA-TARGET ATTRIBUTE-->
-            <a th:href="@{tasks/create}" class="btn btn-primary">Add to BrainDump</a>
+            <a th:href="@{/tasks/create}" class="btn btn-primary">Add to BrainDump</a>
         </div>
         <div class="card">
             <div class="card-body shadow">

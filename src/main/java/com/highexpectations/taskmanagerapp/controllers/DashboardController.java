@@ -80,4 +80,9 @@ public class DashboardController {
         model.addAttribute("currentUser", loggedInUser);
         return "dashboard/index";
     }
+
+    @GetMapping("/pomodoro")
+    public String showPomodoro() {
+        return "pomodoro-solo";
+    }
 }
