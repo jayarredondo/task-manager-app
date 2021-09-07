@@ -3,10 +3,98 @@
 <head>
     <meta charset="UTF-8">
     <title>Test</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">  <link rel="stylesheet" th:href="@{/css/sidenav.css}">
     <script src="https://kit.fontawesome.com/a20fb32f37.js" crossorigin="anonymous"></script>
 </head>
 <body>
-<i class="fas fa-history"></i>
-</body>
+<ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+    <li class="nav-item" role="presentation">
+        <a class="nav-link active" id="pills-unscheduled-tab" data-toggle="pill" href="#pills-unscheduled" role="tab" aria-controls="pills-unscheduled" aria-selected="true">Unscheduled</a>
+    </li>
+    <li class="nav-item" role="presentation">
+        <a class="nav-link" id="pills-scheduled-tab" data-toggle="pill" href="#pills-scheduled" role="tab" aria-controls="pills-scheduled" aria-selected="false">Scheduled</a>
+    </li>
+    <li class="nav-item" role="presentation">
+        <a class="nav-link" id="pills-completed-tab" data-toggle="pill" href="#pills-completed" role="tab" aria-controls="pills-completed" aria-selected="false">Completed</a>
+    </li>
+</ul>
+<div class="tab-content" id="pills-tabContent">
+    <div class="tab-pane fade show active" id="pills-unscheduled" role="tabpanel" aria-labelledby="pills-unscheduled-tab">
+        <div th:each="task : ${unscheduledTasks}" class="card mb-5">
+            <div class="card-body">
+                <form th:action="@{tasks/{id}/delete(id = ${task.id})}"
+                      onsubmit="return confirm('Are you sure you want to delete?');" method="POST">
+                    <button type="submit" class="close" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                </form>
+                <a th:href="@{/tasks/{id} (id = ${task.id})}"><h5 th:text="${task.title}"
+                                                                  class="card-title"></h5></a>
+                <h6 class="card-subtitle mb-2 text-muted">Created At: <span class="date"
+                                                                            th:text="${task.createdAt}"></span>
+                </h6>
+                <p th:text="${task.description}" class="card-text"></p>
+                <small class="card-text">Category: <span th:text="${task.category.getName()}"></span></small>
+                <div class="d-flex justify-content-between mt-2" role="group">
+                    <!--BUTTON TO CALL MODAL MISSING DATA-TARGET ATTRIBUTE-->
+                    <a class="btn btn-primary" th:href="@{/tasks/{id}/edit(id = ${task.id})}">Edit</a>
+                    <form th:action="@{/tasks/{id}/complete(id = ${task.id})}" class="flex-end" method="POST">
+                        <button type="submit" class="btn btn-success">Mark as Complete</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="tab-pane fade" id="pills-scheduled" role="tabpanel" aria-labelledby="pills-scheduled-tab">
+        <div th:each="task : ${scheduledTasks}" class="card mb-5">
+            <div class="card-body">
+                <form th:action="@{tasks/{id}/delete(id = ${task.id})}"
+                      onsubmit="return confirm('Are you sure you want to delete?');" method="POST">
+                    <button type="submit" class="close" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                </form>
+                <a th:href="@{/tasks/{id} (id = ${task.id})}"><h5 th:text="${task.title}"
+                                                                  class="card-title"></h5></a>
+                <h6 class="card-subtitle mb-2 text-muted">Created At: <span class="date"
+                                                                            th:text="${task.createdAt}"></span>
+                </h6>
+                <p th:text="${task.description}" class="card-text"></p>
+                <small class="card-text font-weight-bold">Scheduled for: <span class="date"
+                                                                               th:text="${task.startDateTime}"></span></small>
+                <br>
+                <small class="card-text">Category: <span th:text="${task.category.getName()}"></span></small>
+                <div class="d-flex justify-content-between mt-2" role="group">
+                    <a class="btn btn-primary" th:href="@{/tasks/{id}/edit(id = ${task.id})}">Edit</a>
+                    <form th:action="@{/tasks/{id}/complete(id = ${task.id})}" class="flex-end" method="POST">
+                        <button type="submit" class="btn btn-success">Mark as Complete</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="tab-pane fade" id="pills-completed" role="tabpanel" aria-labelledby="pills-completed-tab">
+        <div th:each="task : ${completedTasks}" class="card mb-5">
+            <div class="card-body completed-task text-muted">
+                <form th:action="@{tasks/{id}/delete(id = ${task.id})}"
+                      onsubmit="return confirm('Are you sure you want to delete?');" method="POST">
+                    <button type="submit" class="close" aria-label="Close"><span class="pb-5"
+                                                                                 aria-hidden="true">&times;</span>
+                    </button>
+                </form>
+                <h5 th:text="${task.title}" class="card-title"></h5>
+                <h6 class="card-subtitle mb-2 text-muted">Created At: <span class="date"
+                                                                            th:text="${task.createdAt}"></span>
+                </h6>
+                <p th:text="${task.description}" class="card-text"></p>
+                <small class="card-text">Category: <span th:text="${task.category.getName()}"></span></small>
+                <form th:action="@{/tasks/{id}/complete(id = ${task.id})}" class="mt-2" method="POST">
+                    <button type="submit" class="btn btn-success" disabled>Completed!</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" integrity="sha384-w1Q4orYjBQndcko6MimVbzY0tgp4pWB4lZ7lr30WKz0vr/aWKhXdBNmNb5D92v7s" crossorigin="anonymous"></script></body>
 </html>

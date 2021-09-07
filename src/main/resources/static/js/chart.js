@@ -28,7 +28,7 @@ window.addEventListener("load", function () {
     let healthTasks = document.getElementById("healthTasks").value;
     let financialTasks = document.getElementById("financialTasks").value;
     let socialTasks = document.getElementById("socialTasks").value;
-    let familyTasks = document.getElementById("familyTasks").value;
+    let choreTasks = document.getElementById("choreTasks").value;
     let academicTasks = document.getElementById("academicTasks").value;
     let miscTasks = document.getElementById("miscTasks").value;
     let hobbyTasks = document.getElementById("hobbyTasks").value;
@@ -51,7 +51,7 @@ window.addEventListener("load", function () {
             ],
             datasets: [{
                 label: 'Tasks',
-                data: [financialTasks, healthTasks, familyTasks, socialTasks, workTasks, academicTasks, hobbyTasks, miscTasks],
+                data: [financialTasks, healthTasks, choreTasks, socialTasks, workTasks, academicTasks, hobbyTasks, miscTasks],
                 backgroundColor: [
                     '#F6511D',
                     '#FFB400',
