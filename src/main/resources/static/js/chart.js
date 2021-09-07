@@ -42,7 +42,7 @@ window.addEventListener("load", function () {
             labels: [
                 'Finance',
                 'Health',
-                'Family',
+                'Chores',
                 'Social',
                 'Work',
                 'Academic',

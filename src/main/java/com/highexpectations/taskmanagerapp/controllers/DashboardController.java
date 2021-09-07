@@ -4,6 +4,8 @@ import com.highexpectations.taskmanagerapp.models.Task;
 import com.highexpectations.taskmanagerapp.models.User;
 import com.highexpectations.taskmanagerapp.repositories.CategoryRepository;
 import com.highexpectations.taskmanagerapp.repositories.TaskRepository;
+//import com.twilio.Twilio;
+//import com.twilio.rest.api.v2010.account.Message;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -21,6 +23,10 @@ public class DashboardController {
     private final CategoryRepository catDao;
     @Value("${OWAPI_KEY}")
     private String OWAPI_KEY;
+//    @Value("${TWILIO_SID}")
+//    private String TWILIO_SID;
+//    @Value("${TWILIO_TOKEN}")
+//    private String TWILIO_TOKEN;
 
     public DashboardController(TaskRepository tasksDao, CategoryRepository catDao) {
         this.tasksDao = tasksDao;
@@ -56,7 +62,7 @@ public class DashboardController {
             List<Task> financialTasks = tasksDao.findAllByUserIdAndCategoryAndIsComplete(loggedInUser.getId(), catDao.getById(1L), false);
             List<Task> socialTasks = tasksDao.findAllByUserIdAndCategoryAndIsComplete(loggedInUser.getId(), catDao.getById(4L), false);
             List<Task> miscTasks = tasksDao.findAllByUserIdAndCategoryAndIsComplete(loggedInUser.getId(), catDao.getById(8L), false);
-            List<Task> familyTasks = tasksDao.findAllByUserIdAndCategoryAndIsComplete(loggedInUser.getId(), catDao.getById(3L), false);
+            List<Task> choreTasks = tasksDao.findAllByUserIdAndCategoryAndIsComplete(loggedInUser.getId(), catDao.getById(3L), false);
             List<Task> academicTasks = tasksDao.findAllByUserIdAndCategoryAndIsComplete(loggedInUser.getId(), catDao.getById(6L), false);
             List<Task> hobbyTasks = tasksDao.findAllByUserIdAndCategoryAndIsComplete(loggedInUser.getId(), catDao.getById(7L), false);
 
@@ -66,7 +72,7 @@ public class DashboardController {
             model.addAttribute("financialTasks", financialTasks.size());
             model.addAttribute("socialTasks", socialTasks.size());
             model.addAttribute("miscTasks", miscTasks.size());
-            model.addAttribute("familyTasks", familyTasks.size());
+            model.addAttribute("familyTasks", choreTasks.size());
             model.addAttribute("academicTasks", academicTasks.size());
             model.addAttribute("hobbyTasks", hobbyTasks.size());
             model.addAttribute("todaysTasks", todaysTotalTasks);
@@ -85,4 +91,15 @@ public class DashboardController {
     public String showPomodoro() {
         return "pomodoro-solo";
     }
+
+//    @GetMapping("/twilio")
+//    public String sendSMS() {
+//        Twilio.init(TWILIO_SID, TWILIO_TOKEN);
+//        Message message = Message.creator(
+//                new com.twilio.type.PhoneNumber("+12102485536"),
+//                new com.twilio.type.PhoneNumber("+13176612879"),
+//                "Hey cheeks, it's Jay. Just testing out the texting service.")
+//                .create();
+//        return "test";
+//    }
 }
