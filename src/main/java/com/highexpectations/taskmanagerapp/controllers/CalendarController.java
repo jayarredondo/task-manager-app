@@ -35,16 +35,6 @@ public class CalendarController {
             }
         }
 
-//        try{
-//        String encodedEmail = URLEncoder.encode(loggedInUser.getEmail(), StandardCharsets.UTF_8.toString());
-//            model.addAttribute("user", encodedEmail);
-//            System.out.println(encodedEmail);
-//
-//        } catch (UnsupportedEncodingException e) {
-//            e.printStackTrace();
-//        }
-        model.addAttribute("userEmail", loggedInUser.getEmail());
-
         model.addAttribute("scheduledTasks", scheduledTasks);
 
         return "calendar";

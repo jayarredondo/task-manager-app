@@ -59,7 +59,7 @@ public class TaskController {
             model.addAttribute("scheduledTasks", scheduledTasks);
             model.addAttribute("completedTasks", completedTasks);
         }
-        return "tasks/index";
+        return "tasks/indexTabView";
     }
 
     @GetMapping("/tasks/{id}")

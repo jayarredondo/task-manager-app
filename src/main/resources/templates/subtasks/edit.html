@@ -7,41 +7,38 @@
 </head>
 <body>
 <nav th:replace="partials/topnav :: topnav (topNavTitle = 'This Week\'s Tasks')"></nav>
-<div th:replace="partials/sidenav :: sidenav"></div>
-<main class="main">
-    <div class="container-fluid">
-        <!--EDIT MODAL FORM-->
-        <form th:action="@{/subTasks/{id}/edit (id = ${subTask.id})}" method="post" th:object="${subTask}">
-            <div class="form-group">
-                <label for="title">Title</label>
-                <input id="title" name="title" type="text" class="form-control" th:field="*{title}"
-                       th:value="*{title}" required/>
-            </div>
-            <div class="form-group">
-                <label for="body">Body</label>
-                <textarea id="body" name="description" class="form-control" th:field="*{description}"
-                          th:value="*{description}" required></textarea>
-            </div>
-            <div class="form-group">
-                <label for="startDate">Start</label>
-                <input type="datetime-local" name="startDate" id="startDate" class="form-control"
-                       th:field="*{startDateTime}"
-                       th:value="*{startDateTime}"/>
-            </div>
+<div class="container-fluid">
+    <!--EDIT MODAL FORM-->
+    <form th:action="@{/subTasks/{id}/edit (id = ${subTask.id})}" method="post" th:object="${subTask}">
+        <div class="form-group">
+            <label for="title">Title</label>
+            <input id="title" name="title" type="text" class="form-control" th:field="*{title}"
+                   th:value="*{title}" required/>
+        </div>
+        <div class="form-group">
+            <label for="body">Body</label>
+            <textarea id="body" name="description" class="form-control" th:field="*{description}"
+                      th:value="*{description}" required></textarea>
+        </div>
+        <div class="form-group">
+            <label for="startDate">Start</label>
+            <input type="datetime-local" name="startDate" id="startDate" class="form-control"
+                   th:field="*{startDateTime}"
+                   th:value="*{startDateTime}"/>
+        </div>
+        <div>
             <div>
-                <div>
-                    <label for="endDate">Finish</label>
-                    <input type="datetime-local" name="endDate" id="endDate" class="form-control"
-                           th:field="*{endDateTime}"
-                           th:value="*{endDateTime}"/>
-                </div>
+                <label for="endDate">Finish</label>
+                <input type="datetime-local" name="endDate" id="endDate" class="form-control"
+                       th:field="*{endDateTime}"
+                       th:value="*{endDateTime}"/>
             </div>
-            <div class="modal-footer">
-                <button type="submit" value="submit">Submit</button>
-            </div>
-        </form>
-    </div>
-</main>
+        </div>
+        <div class="modal-footer">
+            <button type="submit" value="submit">Submit</button>
+        </div>
+    </form>
+</div>
 <th:block th:include="partials/scripts :: scripts"></th:block>
 </body>
 </html>

@@ -7,108 +7,98 @@
 </head>
 <body>
 <nav th:replace="partials/topnav :: topnav (topNavTitle= 'Create BrainDump')"></nav>
-<div th:replace="partials/sidenav :: sidenav"></div>
-<main class="main">
-    <div class="container-fluid">
-        <h1 class="mt-3 text-center">What do you need to do?</h1>
-        <form class="w-50 m-auto" th:if="${isCreate}" th:action="@{/tasks/create}" method="post" th:object="${newTask}">
-            <div class="form-group">
-                <label for="title">Title</label>
-                <input id="title" name="title" type="text" class="form-control" th:field="*{title}"
-                       th:value="*{title}" required/>
-            </div>
-            <div class="form-group">
-                <label for="description">Description</label>
-                <textarea id="description" name="description" class="form-control" th:field="*{description}"
-                          th:value="*{description}" required></textarea>
-            </div>
-            <div class="form-group">
-                <label for="startDate">Start</label>
-                <input type="datetime-local" name="startDate" id="startDate" class="form-control"
-                       th:field="*{startDateTime}"
-                       th:value="*{startDateTime}"/>
-            </div>
+<div class="container-fluid">
+    <h1 class="mt-3 text-center">What do you need to do?</h1>
+    <form class="w-100 m-auto" th:if="${isCreate}" th:action="@{/tasks/create}" method="post" th:object="${newTask}">
+        <div class="form-group">
+            <label for="title">Title</label>
+            <input id="title" name="title" type="text" class="form-control" th:field="*{title}"
+                   th:value="*{title}" required/>
+        </div>
+        <div class="form-group">
+            <label for="description">Description</label>
+            <textarea id="description" name="description" class="form-control" th:field="*{description}"
+                      th:value="*{description}" required></textarea>
+        </div>
+        <div class="form-group">
+            <label for="startDate">Start</label>
+            <input type="datetime-local" name="startDate" id="startDate" class="form-control"
+                   th:field="*{startDateTime}"
+                   th:value="*{startDateTime}"/>
+        </div>
+        <div>
             <div>
-                <div>
-                    <label for="endDate">Finish</label>
-                    <input type="datetime-local" name="endDate" id="endDate" class="form-control"
-                           th:field="*{endDateTime}"
-                           th:value="*{endDateTime}"/>
-                </div>
+                <label for="endDate">Finish</label>
+                <input type="datetime-local" name="endDate" id="endDate" class="form-control"
+                       th:field="*{endDateTime}"
+                       th:value="*{endDateTime}"/>
             </div>
+        </div>
+        <div>
             <div>
-                <div>
-                    <label for="category">Category</label>
-                    <select name="category" id="category" th:field="*{category}" class="form-control"
-                            th:value="*{category}">
-                        <option value="1">Finance</option>
-                        <option value="2">Health</option>
-                        <option value="3">Chores</option>
-                        <option value="4">Social</option>
-                        <option value="5">Work</option>
-                        <option value="6">Academic</option>
-                        <option value="7">Hobbies</option>
-                        <option value="8" selected>Misc.</option>
-                    </select>
-                </div>
-                <input id="email" type="hidden" th:value="${userEmail}">
+                <label for="category">Category</label>
+                <select name="category" id="category" th:field="*{category}" class="form-control"
+                        th:value="*{category}">
+                    <option value="1">Finance</option>
+                    <option value="2">Health</option>
+                    <option value="3">Chores</option>
+                    <option value="4">Social</option>
+                    <option value="5">Work</option>
+                    <option value="6">Academic</option>
+                    <option value="7">Hobbies</option>
+                    <option value="8" selected>Misc.</option>
+                </select>
             </div>
-            <br>
-            <button class="btn btn-primary w-100" type="submit" value="submit" onclick="execute()">Submit</button>
-            <button class="text-center" onclick="authenticate().then(loadClient)">authorize and load</button>
-        </form>
-            <button class="text-center" onclick="execute()">execute</button>
-        <form th:if="${!isCreate}" th:action="@{/tasks/{id}/edit(id = ${task.id})}" method="post" th:object="${task}">
-            <div class="form-group">
-                <label for="title">Title</label>
-                <input id="title" name="title" type="text" class="form-control" th:field="*{title}"
-                       th:value="*{title}" required/>
-            </div>
-            <div class="form-group">
-                <label for="description">Description</label>
-                <textarea id="description" name="description" class="form-control" th:field="*{description}"
-                          th:value="*{description}" required></textarea>
-            </div>
-            <div class="form-group">
-                <label for="startDate">Start</label>
-                <input type="datetime-local" name="startDate" id="startDate" class="form-control"
-                       th:field="*{startDateTime}"
-                       th:value="*{startDateTime}"/>
-            </div>
+            <input id="email" type="hidden" th:value="${userEmail}">
+        </div>
+        <br>
+        <button class="btn btn-primary w-100" type="submit" value="submit" onclick="execute()">Submit</button>
+    </form>
+    <form th:if="${!isCreate}" th:action="@{/tasks/{id}/edit(id = ${task.id})}" method="post" th:object="${task}">
+        <div class="form-group">
+            <label for="title">Title</label>
+            <input id="title" name="title" type="text" class="form-control" th:field="*{title}"
+                   th:value="*{title}" required/>
+        </div>
+        <div class="form-group">
+            <label for="description">Description</label>
+            <textarea id="description" name="description" class="form-control" th:field="*{description}"
+                      th:value="*{description}" required></textarea>
+        </div>
+        <div class="form-group">
+            <label for="startDate">Start</label>
+            <input type="datetime-local" name="startDate" id="startDate" class="form-control"
+                   th:field="*{startDateTime}"
+                   th:value="*{startDateTime}"/>
+        </div>
+        <div>
             <div>
-                <div>
-                    <label for="endDate">Finish</label>
-                    <input type="datetime-local" name="endDate" id="endDate" class="form-control"
-                           th:field="*{endDateTime}"
-                           th:value="*{endDateTime}"/>
-                </div>
+                <label for="endDate">Finish</label>
+                <input type="datetime-local" name="endDate" id="endDate" class="form-control"
+                       th:field="*{endDateTime}"
+                       th:value="*{endDateTime}"/>
             </div>
+        </div>
+        <div>
             <div>
-                <div>
-                    <label for="category">Category</label>
-                    <select name="category" id="category" th:field="*{category}" class="form-control"
-                            th:value="*{category}">
-                        <option value="1">Finance</option>
-                        <option value="2">Health</option>
-                        <option value="3">Chores</option>
-                        <option value="4">Social</option>
-                        <option value="5">Work</option>
-                        <option value="6">Academic</option>
-                        <option value="7">Hobbies</option>
-                        <option value="8" selected>Misc.</option>
-                    </select>
-                </div>
+                <label for="category">Category</label>
+                <select name="category" id="category" th:field="*{category}" class="form-control"
+                        th:value="*{category}">
+                    <option value="1">Finance</option>
+                    <option value="2">Health</option>
+                    <option value="3">Chores</option>
+                    <option value="4">Social</option>
+                    <option value="5">Work</option>
+                    <option value="6">Academic</option>
+                    <option value="7">Hobbies</option>
+                    <option value="8" selected>Misc.</option>
+                </select>
             </div>
-            <br>
-            <button class="btn btn-primary w-100" type="submit" value="submit">Submit</button>
-        </form>
-            <button class="text-center" onclick="authenticate().then(loadClient)">authorize and load</button>
-    </div>
-</main>
+        </div>
+        <br>
+        <button class="btn btn-primary w-100" type="submit" value="submit">Submit</button>
+    </form>
+</div>
 <th:block th:include="partials/scripts :: scripts"></th:block>
-<script src="https://apis.google.com/js/api.js"></script>
-<script>
-
-</script>
 </body>
 </html>
