@@ -8,6 +8,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,6 +34,16 @@ public class CalendarController {
                 scheduledTasks.add(task);
             }
         }
+
+//        try{
+//        String encodedEmail = URLEncoder.encode(loggedInUser.getEmail(), StandardCharsets.UTF_8.toString());
+//            model.addAttribute("user", encodedEmail);
+//            System.out.println(encodedEmail);
+//
+//        } catch (UnsupportedEncodingException e) {
+//            e.printStackTrace();
+//        }
+        model.addAttribute("userEmail", loggedInUser.getEmail());
 
         model.addAttribute("scheduledTasks", scheduledTasks);
 

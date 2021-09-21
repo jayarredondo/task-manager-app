@@ -51,10 +51,13 @@
                         <option value="8" selected>Misc.</option>
                     </select>
                 </div>
+                <input id="email" type="hidden" th:value="${userEmail}">
             </div>
             <br>
-            <button class="btn btn-primary w-100" type="submit" value="submit">Submit</button>
+            <button class="btn btn-primary w-100" type="submit" value="submit" onclick="execute()">Submit</button>
+            <button class="text-center" onclick="authenticate().then(loadClient)">authorize and load</button>
         </form>
+            <button class="text-center" onclick="execute()">execute</button>
         <form th:if="${!isCreate}" th:action="@{/tasks/{id}/edit(id = ${task.id})}" method="post" th:object="${task}">
             <div class="form-group">
                 <label for="title">Title</label>
@@ -99,8 +102,13 @@
             <br>
             <button class="btn btn-primary w-100" type="submit" value="submit">Submit</button>
         </form>
+            <button class="text-center" onclick="authenticate().then(loadClient)">authorize and load</button>
     </div>
 </main>
 <th:block th:include="partials/scripts :: scripts"></th:block>
+<script src="https://apis.google.com/js/api.js"></script>
+<script>
+
+</script>
 </body>
 </html>

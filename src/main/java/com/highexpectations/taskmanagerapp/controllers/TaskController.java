@@ -86,6 +86,8 @@ public class TaskController {
 
     @GetMapping("/tasks/create")
     public String showCreateTasks(Model model) {
+        User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        model.addAttribute("userEmail", loggedInUser.getEmail());
         model.addAttribute("newTask", new Task());
         model.addAttribute("isCreate", true);
         return "tasks/create";
@@ -103,6 +105,8 @@ public class TaskController {
 
     @GetMapping("/tasks/{id}/edit")
     public String showEditForm(@PathVariable long id, Model model) {
+        User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        model.addAttribute("userEmail", loggedInUser.getEmail());
         model.addAttribute("task", tasksDao.getById(id));
         model.addAttribute("isCreate", false);
         return "tasks/create";

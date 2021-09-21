@@ -1,100 +1,143 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>Test</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous">  <link rel="stylesheet" th:href="@{/css/sidenav.css}">
-    <script src="https://kit.fontawesome.com/a20fb32f37.js" crossorigin="anonymous"></script>
+    <title>Google Calendar API Quickstart</title>
+    <meta charset="utf-8" />
 </head>
 <body>
-<ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
-    <li class="nav-item" role="presentation">
-        <a class="nav-link active" id="pills-unscheduled-tab" data-toggle="pill" href="#pills-unscheduled" role="tab" aria-controls="pills-unscheduled" aria-selected="true">Unscheduled</a>
-    </li>
-    <li class="nav-item" role="presentation">
-        <a class="nav-link" id="pills-scheduled-tab" data-toggle="pill" href="#pills-scheduled" role="tab" aria-controls="pills-scheduled" aria-selected="false">Scheduled</a>
-    </li>
-    <li class="nav-item" role="presentation">
-        <a class="nav-link" id="pills-completed-tab" data-toggle="pill" href="#pills-completed" role="tab" aria-controls="pills-completed" aria-selected="false">Completed</a>
-    </li>
-</ul>
-<div class="tab-content" id="pills-tabContent">
-    <div class="tab-pane fade show active" id="pills-unscheduled" role="tabpanel" aria-labelledby="pills-unscheduled-tab">
-        <div th:each="task : ${unscheduledTasks}" class="card mb-5">
-            <div class="card-body">
-                <form th:action="@{tasks/{id}/delete(id = ${task.id})}"
-                      onsubmit="return confirm('Are you sure you want to delete?');" method="POST">
-                    <button type="submit" class="close" aria-label="Close"><span
-                            aria-hidden="true">&times;</span></button>
-                </form>
-                <a th:href="@{/tasks/{id} (id = ${task.id})}"><h5 th:text="${task.title}"
-                                                                  class="card-title"></h5></a>
-                <h6 class="card-subtitle mb-2 text-muted">Created At: <span class="date"
-                                                                            th:text="${task.createdAt}"></span>
-                </h6>
-                <p th:text="${task.description}" class="card-text"></p>
-                <small class="card-text">Category: <span th:text="${task.category.getName()}"></span></small>
-                <div class="d-flex justify-content-between mt-2" role="group">
-                    <!--BUTTON TO CALL MODAL MISSING DATA-TARGET ATTRIBUTE-->
-                    <a class="btn btn-primary" th:href="@{/tasks/{id}/edit(id = ${task.id})}">Edit</a>
-                    <form th:action="@{/tasks/{id}/complete(id = ${task.id})}" class="flex-end" method="POST">
-                        <button type="submit" class="btn btn-success">Mark as Complete</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="tab-pane fade" id="pills-scheduled" role="tabpanel" aria-labelledby="pills-scheduled-tab">
-        <div th:each="task : ${scheduledTasks}" class="card mb-5">
-            <div class="card-body">
-                <form th:action="@{tasks/{id}/delete(id = ${task.id})}"
-                      onsubmit="return confirm('Are you sure you want to delete?');" method="POST">
-                    <button type="submit" class="close" aria-label="Close"><span
-                            aria-hidden="true">&times;</span></button>
-                </form>
-                <a th:href="@{/tasks/{id} (id = ${task.id})}"><h5 th:text="${task.title}"
-                                                                  class="card-title"></h5></a>
-                <h6 class="card-subtitle mb-2 text-muted">Created At: <span class="date"
-                                                                            th:text="${task.createdAt}"></span>
-                </h6>
-                <p th:text="${task.description}" class="card-text"></p>
-                <small class="card-text font-weight-bold">Scheduled for: <span class="date"
-                                                                               th:text="${task.startDateTime}"></span></small>
-                <br>
-                <small class="card-text">Category: <span th:text="${task.category.getName()}"></span></small>
-                <div class="d-flex justify-content-between mt-2" role="group">
-                    <a class="btn btn-primary" th:href="@{/tasks/{id}/edit(id = ${task.id})}">Edit</a>
-                    <form th:action="@{/tasks/{id}/complete(id = ${task.id})}" class="flex-end" method="POST">
-                        <button type="submit" class="btn btn-success">Mark as Complete</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="tab-pane fade" id="pills-completed" role="tabpanel" aria-labelledby="pills-completed-tab">
-        <div th:each="task : ${completedTasks}" class="card mb-5">
-            <div class="card-body completed-task text-muted">
-                <form th:action="@{tasks/{id}/delete(id = ${task.id})}"
-                      onsubmit="return confirm('Are you sure you want to delete?');" method="POST">
-                    <button type="submit" class="close" aria-label="Close"><span class="pb-5"
-                                                                                 aria-hidden="true">&times;</span>
-                    </button>
-                </form>
-                <h5 th:text="${task.title}" class="card-title"></h5>
-                <h6 class="card-subtitle mb-2 text-muted">Created At: <span class="date"
-                                                                            th:text="${task.createdAt}"></span>
-                </h6>
-                <p th:text="${task.description}" class="card-text"></p>
-                <small class="card-text">Category: <span th:text="${task.category.getName()}"></span></small>
-                <form th:action="@{/tasks/{id}/complete(id = ${task.id})}" class="mt-2" method="POST">
-                    <button type="submit" class="btn btn-success" disabled>Completed!</button>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js" integrity="sha384-w1Q4orYjBQndcko6MimVbzY0tgp4pWB4lZ7lr30WKz0vr/aWKhXdBNmNb5D92v7s" crossorigin="anonymous"></script></body>
+<p>Google Calendar API Quickstart</p>
+
+<!--Add buttons to initiate auth sequence and sign out-->
+<button id="authorize_button" style="display: none;">Authorize</button>
+<button id="signout_button" style="display: none;">Sign Out</button>
+
+<pre id="content" style="white-space: pre-wrap;"></pre>
+
+<iframe src="https://calendar.google.com/calendar/embed?src=jay%40codeup.com&ctz=America%2FChicago" style="border: 0" width="800" height="600" frameborder="0" scrolling="no"></iframe>
+
+<script type="text/javascript">
+    // Client ID and API key from the Developer Console
+    var CLIENT_ID = '217962825967-cmnaijpnjcq3hme18q9q869c24tpff9r.apps.googleusercontent.com';
+    var API_KEY = 'AIzaSyB7pG3F8BQVdOpr4BS0ZZBkMAmcgBJjFL0';
+
+    // Array of API discovery doc URLs for APIs used by the quickstart
+    var DISCOVERY_DOCS = ["https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest"];
+
+    // Authorization scopes required by the API; multiple scopes can be
+    // included, separated by spaces.
+    var SCOPES = "https://www.googleapis.com/auth/calendar.readonly";
+
+    var authorizeButton = document.getElementById('authorize_button');
+    var signoutButton = document.getElementById('signout_button');
+
+    /**
+     *  On load, called to load the auth2 library and API client library.
+     */
+    function handleClientLoad() {
+        gapi.load('client:auth2', initClient);
+    }
+
+    /**
+     *  Initializes the API client library and sets up sign-in state
+     *  listeners.
+     */
+    function initClient() {
+        gapi.client.init({
+            apiKey: API_KEY,
+            clientId: CLIENT_ID,
+            discoveryDocs: DISCOVERY_DOCS,
+            scope: SCOPES
+        }).then(function () {
+            // Listen for sign-in state changes.
+            gapi.auth2.getAuthInstance().isSignedIn.listen(updateSigninStatus);
+
+            // Handle the initial sign-in state.
+            updateSigninStatus(gapi.auth2.getAuthInstance().isSignedIn.get());
+            authorizeButton.onclick = handleAuthClick;
+            signoutButton.onclick = handleSignoutClick;
+        }, function(error) {
+            appendPre(JSON.stringify(error, null, 2));
+        });
+    }
+
+    /**
+     *  Called when the signed in status changes, to update the UI
+     *  appropriately. After a sign-in, the API is called.
+     */
+    function updateSigninStatus(isSignedIn) {
+        if (isSignedIn) {
+            authorizeButton.style.display = 'none';
+            signoutButton.style.display = 'block';
+            listUpcomingEvents();
+        } else {
+            authorizeButton.style.display = 'block';
+            signoutButton.style.display = 'none';
+        }
+    }
+
+    /**
+     *  Sign in the user upon button click.
+     */
+    function handleAuthClick(event) {
+        gapi.auth2.getAuthInstance().signIn();
+    }
+
+    /**
+     *  Sign out the user upon button click.
+     */
+    function handleSignoutClick(event) {
+        gapi.auth2.getAuthInstance().signOut();
+    }
+
+    /**
+     * Append a pre element to the body containing the given message
+     * as its text node. Used to display the results of the API call.
+     *
+     * @param {string} message Text to be placed in pre element.
+     */
+    function appendPre(message) {
+        var pre = document.getElementById('content');
+        var textContent = document.createTextNode(message + '\n');
+        pre.appendChild(textContent);
+    }
+
+    /**
+     * Print the summary and start datetime/date of the next ten events in
+     * the authorized user's calendar. If no events are found an
+     * appropriate message is printed.
+     */
+    function listUpcomingEvents() {
+        gapi.client.calendar.events.list({
+            'calendarId': 'primary',
+            'timeMin': (new Date()).toISOString(),
+            'showDeleted': false,
+            'singleEvents': true,
+            'maxResults': 20,
+            'orderBy': 'startTime'
+        }).then(function(response) {
+            var events = response.result.items;
+            appendPre('Upcoming events:');
+            console.log(events)
+            if (events.length > 0) {
+                for (i = 0; i < events.length; i++) {
+                    var event = events[i];
+                    var when = event.start.dateTime;
+                    if (!when) {
+                        when = event.start.date;
+                    }
+                    appendPre(event.summary + ' (' + when + ')')
+                }
+            } else {
+                appendPre('No upcoming events found.');
+            }
+        });
+    }
+
+</script>
+
+<script async defer src="https://apis.google.com/js/api.js"
+        onload="this.onload=function(){};handleClientLoad()"
+        onreadystatechange="if (this.readyState === 'complete') this.onload()">
+</script>
+</body>
 </html>
