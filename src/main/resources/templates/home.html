@@ -6,12 +6,34 @@
     <th:block th:include="partials/head :: head-links"></th:block>
 </head>
 <body>
-<h1>Welcome to Account-A-Buggy!</h1>
-<h3>A personal organizing tool for your every day tasks. Create tasks, reminders, and organize them however you desire.</h3>
-<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Architecto aspernatur eaque illum iure nam perspiciatis, sapiente ut? Atque cumque distinctio eaque eos expedita magni, odio officiis, provident reprehenderit sunt vel?</p>
-<div id="chart"></div>
-<br>
-<a th:href="@{/sign-up}" class="btn btn-success">Create Account</a>
-<a th:href="@{/login}" class="btn btn-primary">Log In</a>
+<nav th:replace="partials/homenav :: homenav"></nav>
+<div class="container">
+    <div class="jumbotron jumbotron-fluid">
+        <div class="container">
+            <h1 class="display-4">BackUp Brain</h1>
+            <p class="lead">A place where you schedule and track tasks that you need to do. Whether it's going grocery shopping, work tasks, events, or even giving your loved ones a call, BackUp Brain give you a space to store the things you need to remember and keep you on track.</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <p class="lead">Track Your Progress on your tasks for the day. Focus on today's task, so that you don't feel overwhelmed with the other tasks ahead of you.</p>
+        </div>
+        <div class="col-md-8">
+            <img class="w-100" th:src="@{/img/progress.png}" alt="Visual donut graph of % completion.">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3">
+            <img class="w-100" th:src="@{/img/donut-graph.png}" alt="Visual donut graph displaying the categorical make up of your tasks.">
+        </div>
+        <div class="col-md-9 d-flex">
+            <div class="align-items-center">
+                <p class="lead">Display the categorical composition of what all of your tasks consist of and determine how well you are balancing your work, social, and academic experiences.</p>
+
+            </div>
+        </div>
+    </div>
+</div>
+
 </body>
 </html>

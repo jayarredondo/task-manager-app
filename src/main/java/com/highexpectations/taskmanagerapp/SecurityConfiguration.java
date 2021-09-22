@@ -53,7 +53,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                         "/notes",
                         "/notes/{id}/edit",
                         "/notes/{id}/delete",
-                        "/notes/create")
+                        "/notes/create",
+                        "/settings")
                 .authenticated()
                 .and()
                 .authorizeRequests()

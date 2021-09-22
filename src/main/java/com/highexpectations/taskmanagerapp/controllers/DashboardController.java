@@ -72,7 +72,7 @@ public class DashboardController {
             model.addAttribute("financialTasks", financialTasks.size());
             model.addAttribute("socialTasks", socialTasks.size());
             model.addAttribute("miscTasks", miscTasks.size());
-            model.addAttribute("familyTasks", choreTasks.size());
+            model.addAttribute("choreTasks", choreTasks.size());
             model.addAttribute("academicTasks", academicTasks.size());
             model.addAttribute("hobbyTasks", hobbyTasks.size());
             model.addAttribute("todaysTasks", todaysTotalTasks);
