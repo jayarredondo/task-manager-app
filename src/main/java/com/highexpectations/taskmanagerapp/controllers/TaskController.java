@@ -98,7 +98,6 @@ public class TaskController {
         User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         task.setUser(loggedInUser);
         task.setCreatedAt(LocalDateTime.now());
-
         tasksDao.save(task);
         return "redirect:/tasks";
     }
