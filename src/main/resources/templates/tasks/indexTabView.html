@@ -7,7 +7,6 @@
 </head>
 <body>
 <nav th:replace="partials/topnav :: topnav (topNavTitle = 'All Tasks')"></nav>
-
 <div class="container-fluid">
     <ul class="nav nav-pills mt-3 ml-5" id="pills-tab" role="tablist">
         <li class="nav-item" role="presentation">
@@ -33,19 +32,22 @@
                         <button type="submit" class="close" aria-label="Close"><span
                                 aria-hidden="true">&times;</span></button>
                     </form>
-                    <a th:href="@{/tasks/{id} (id = ${task.id})}"><h5 th:text="${task.title}"
-                                                                      class="card-title"></h5></a>
-                    <h6 class="card-subtitle mb-2 text-muted">Created At: <span class="date"
-                                                                                th:text="${task.createdAt}"></span>
-                    </h6>
-                    <p th:text="${task.description}" class="card-text"></p>
-                    <small class="card-text">Category: <span th:text="${task.category.getName()}"></span></small>
-                    <div class="d-flex justify-content-between mt-2" role="group">
-                        <!--BUTTON TO CALL MODAL MISSING DATA-TARGET ATTRIBUTE-->
-                        <a class="btn btn-primary" th:href="@{/tasks/{id}/edit(id = ${task.id})}">Edit</a>
-                        <form th:action="@{/tasks/{id}/complete(id = ${task.id})}" class="flex-end" method="POST">
-                            <button type="submit" class="btn btn-success">Mark as Complete</button>
-                        </form>
+                    <a role="button" class="collapsible" data-toggle="collapse">
+                        <h5 th:text="${task.title}" class="card-title"></h5>
+                    </a>
+                    <div class="collapse">
+                        <h6 class="card-subtitle mb-2 text-muted">Created At: <span class="date"
+                                                                                    th:text="${task.createdAt}"></span>
+                        </h6>
+                        <p th:text="${task.description}" class="card-text"></p>
+                        <small class="card-text">Category: <span th:text="${task.category.getName()}"></span></small>
+                        <div class="d-flex justify-content-between mt-2" role="group">
+                            <!--BUTTON TO CALL MODAL MISSING DATA-TARGET ATTRIBUTE-->
+                            <a class="btn btn-primary" th:href="@{/tasks/{id}(id = ${task.id})}">Manage</a>
+                            <form th:action="@{/tasks/{id}/complete(id = ${task.id})}" class="flex-end" method="POST">
+                                <button type="submit" class="btn btn-success">Mark as Complete</button>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -58,21 +60,24 @@
                         <button type="submit" class="close" aria-label="Close"><span
                                 aria-hidden="true">&times;</span></button>
                     </form>
-                    <a th:href="@{/tasks/{id} (id = ${task.id})}"><h5 th:text="${task.title}"
-                                                                      class="card-title"></h5></a>
-                    <h6 class="card-subtitle mb-2 text-muted">Created At: <span class="date"
-                                                                                th:text="${task.createdAt}"></span>
-                    </h6>
-                    <p th:text="${task.description}" class="card-text"></p>
-                    <small class="card-text font-weight-bold">Scheduled for: <span class="date"
-                                                                                   th:text="${task.startDateTime}"></span></small>
-                    <br>
-                    <small class="card-text">Category: <span th:text="${task.category.getName()}"></span></small>
-                    <div class="d-flex justify-content-between mt-2" role="group">
-                        <a class="btn btn-primary" th:href="@{/tasks/{id}/edit(id = ${task.id})}">Edit</a>
-                        <form th:action="@{/tasks/{id}/complete(id = ${task.id})}" class="flex-end" method="POST">
-                            <button type="submit" class="btn btn-success">Mark as Complete</button>
-                        </form>
+                    <a role="button" class="collapsible" data-toggle="collapse">
+                        <h5 th:text="${task.title}" class="card-title"></h5>
+                    </a>
+                    <div class="collapse">
+                        <h6 class="card-subtitle mb-2 text-muted">Created At: <span class="date"
+                                                                                    th:text="${task.createdAt}"></span>
+                        </h6>
+                        <p th:text="${task.description}" class="card-text"></p>
+                        <small class="card-text font-weight-bold">Scheduled for: <span class="date"
+                                                                                       th:text="${task.startDateTime}"></span></small>
+                        <br>
+                        <small class="card-text">Category: <span th:text="${task.category.getName()}"></span></small>
+                        <div class="d-flex justify-content-between mt-2" role="group">
+                            <a class="btn btn-primary" th:href="@{/tasks/{id}(id = ${task.id})}">Manage</a>
+                            <form th:action="@{/tasks/{id}/complete(id = ${task.id})}" class="flex-end" method="POST">
+                                <button type="submit" class="btn btn-success">Mark as Complete</button>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -86,15 +91,20 @@
                                                                                      aria-hidden="true">&times;</span>
                         </button>
                     </form>
-                    <h5 th:text="${task.title}" class="card-title"></h5>
-                    <h6 class="card-subtitle mb-2 text-muted">Created At: <span class="date"
-                                                                                th:text="${task.createdAt}"></span>
-                    </h6>
-                    <p th:text="${task.description}" class="card-text"></p>
-                    <small class="card-text">Category: <span th:text="${task.category.getName()}"></span></small>
-                    <form th:action="@{/tasks/{id}/complete(id = ${task.id})}" class="mt-2" method="POST">
-                        <button type="submit" class="btn btn-success" disabled>Completed!</button>
-                    </form>
+                    <a role="button" class="collapsible" data-toggle="collapse">
+                        <h5 th:text="${task.title}" class="card-title"></h5>
+                    </a>
+                    <div class="collapse">
+                        <h6 class="card-subtitle mb-2 text-muted">Created At: <span class="date" th:text="${task.createdAt}"></span></h6>
+                        <p th:text="${task.description}" class="card-text"></p>
+                        <small class="card-text">Category: <span th:text="${task.category.getName()}"></span></small>
+                        <div class="d-flex justify-content-between mt-2" role="group">
+                            <a class="btn btn-primary" th:href="@{/tasks/{id}(id = ${task.id})}">Manage</a>
+                            <form th:action="@{/tasks/{id}/complete(id = ${task.id})}" class="flex-end" method="POST">
+                                <button type="submit" class="btn btn-success" disabled>Completed!</button>
+                            </form>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -103,5 +113,19 @@
 <!--    <div th:replace="partials/task-form-modal :: createTaskModal"></div>-->
 <!--    <div th:replace="partials/task-form-modal :: editTaskModal"></div>-->
 <th:block th:include="partials/scripts :: scripts"></th:block>
+<script>
+    var coll = document.getElementsByClassName("collapsible");
+    for (let i = 0; i < coll.length; i++) {
+        coll[i].addEventListener("click", function () {
+            this.classList.toggle("active");
+            var content = this.nextElementSibling;
+            if (content.style.display === "block") {
+                content.style.display = "none";
+            } else {
+                content.style.display = "block";
+            }
+        });
+    }
+</script>
 </body>
 </html>

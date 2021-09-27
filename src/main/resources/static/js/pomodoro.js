@@ -1,8 +1,6 @@
   //store audio
   var audio = $("#audio")[0];
 
-console.log(audio)
-
   //initialize display
   $("#break-num").hide();
   $("#break-display").hide();

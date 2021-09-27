@@ -4,7 +4,6 @@
     width: 100%;
     z-index: 1;
     color: rgba(130, 130, 130, 0.5);
-    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.3)
 }
 
 .asText {
@@ -27,4 +26,33 @@ body {
     flex-wrap: wrap;
     margin-bottom: 0;
     list-style: none;
+}
+
+.task-details {
+    padding: 0 18px;
+    display: none;
+    overflow: hidden;
+}
+
+.collapsible {
+    cursor: pointer;
+    border: none;
+    outline: none;
+}
+
+.green-indicator {
+    box-shadow: 0 3px 5px rgba(0, 255, 0, 0.5)
+}
+
+.yellow-indicator {
+    box-shadow: 0 3px 5px rgba(255, 213, 0, 0.5)
+
+}
+
+.orange-indicator {
+    box-shadow: 0 3px 5px rgba(255, 140, 0, 0.5)
+}
+
+.red-indicator {
+    box-shadow: 0 3px 5px rgba(255, 0, 0, 0.5)
 }

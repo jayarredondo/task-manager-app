@@ -33,8 +33,6 @@ window.addEventListener("load", function () {
     let miscTasks = document.getElementById("miscTasks").value;
     let hobbyTasks = document.getElementById("hobbyTasks").value;
 
-    console.log(choreTasks);
-
     var ctx = document.getElementById('donutChart');
     var myChart = new Chart(ctx, {
         type: 'doughnut',

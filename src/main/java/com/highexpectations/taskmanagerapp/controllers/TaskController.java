@@ -140,6 +140,20 @@ public class TaskController {
         return "redirect:/tasks";
     }
 
+    @PostMapping("/tasks/{id}/reactivate")
+    public String reactivateTask(@PathVariable long id) {
+        User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        Task taskToUpdate = tasksDao.getById(id);
+        if(loggedInUser.getId() == taskToUpdate.getUser().getId()) {
+            taskToUpdate.setCreatedAt(LocalDateTime.now());
+            taskToUpdate.setUser(loggedInUser);
+            taskToUpdate.setComplete(false);
+            tasksDao.save(taskToUpdate);
+        }
+
+        return "redirect:/tasks/" + taskToUpdate.getId() + "/edit";
+    }
+
     @PostMapping("/tasks/{id}/delete")
     public String deleteTask(@PathVariable long id) {
         User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
