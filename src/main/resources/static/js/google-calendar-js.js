@@ -1,9 +1,3 @@
-/**
- * Sample JavaScript code for calendar.events.insert
- * See instructions for running APIs Explorer code samples locally:
- * https://developers.google.com/explorer-help/guides/code_samples#javascript
- */
-
 function authenticate() {
     return gapi.auth2.getAuthInstance()
         .signIn({scope: "https://www.googleapis.com/auth/calendar https://www.googleapis.com/auth/calendar.events"})
