@@ -68,7 +68,7 @@
                                                                                     th:text="${task.createdAt}"></span>
                         </h6>
                         <p th:text="${task.description}" class="card-text"></p>
-                        <small class="card-text font-weight-bold">Scheduled for: <span class="date"
+                        <small class="card-text font-weight-bold">Scheduled for: <span class="date startDateTime"
                                                                                        th:text="${task.startDateTime}"></span></small>
                         <br>
                         <small class="card-text">Category: <span th:text="${task.category.getName()}"></span></small>
