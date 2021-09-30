@@ -69,7 +69,10 @@ window.addEventListener("load", function () {
                 legend: {
                     position: 'left',
                     labels: {
-                        usePointStyle: true
+                        usePointStyle: true,
+                        font: {
+                            family: "Helvetica Neue"
+                        }
                     }
                 }
             }

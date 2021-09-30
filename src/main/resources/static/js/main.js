@@ -1,3 +1,13 @@
+/* Open when someone clicks on the span element */
+function openNav() {
+    document.getElementById("myNav").style.width = "100%";
+}
+
+/* Close when someone clicks on the "x" symbol inside the overlay */
+function closeNav() {
+    document.getElementById("myNav").style.width = "0%";
+}
+
 // Restricting Date inputs to current datetime and onward, and end date to be from start datetime onward.
 var todaysDate = new Date().toISOString();
 let minDate = todaysDate.replace(todaysDate.substring(16, 24), "");
@@ -11,7 +21,6 @@ if (document.getElementById("startDate")) {
 }
 // Changing box shadows to display urgency of task due date
 let dueDate = document.getElementsByClassName("startDateTime");
-console.log(dueDate)
 const defineTaskUrgency = (startDateArray) => {
     let currentDate = new Date().getTime();
     Array.from(startDateArray).forEach(date => {
@@ -19,9 +28,9 @@ const defineTaskUrgency = (startDateArray) => {
         let dueDate = new Date(date.innerText).getTime();
         let differenceInTime = dueDate - currentDate;
         let differenceInDays = Math.trunc(differenceInTime / (1000 * 3600 * 24));
-        let cardToStyle = date.parentNode.parentNode.parentNode.parentNode;
-        console.log("Today: " + Date.now(), "Start Date: " + startDate, "difference: " + differenceInDays)
-        if (differenceInDays === 0) {
+        let cardToStyle = date.parentNode.parentNode.previousSibling.previousSibling.lastChild
+        console.log(cardToStyle)
+        if (differenceInDays <= 0) {
             cardToStyle.classList.add('red-indicator');
         } else if (differenceInDays > 0 && differenceInDays < 3) {
             cardToStyle.classList.add('orange-indicator');

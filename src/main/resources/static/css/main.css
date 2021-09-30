@@ -1,3 +1,7 @@
+body {
+    font-family: 'Dosis', sans-serif !important;
+}
+
 .completed-task {
     left: 0;
     top: 0;
@@ -11,10 +15,6 @@
     border:none;
     margin:0;
     padding:0;
-}
-
-body {
-    background-color: #EEEEEE;
 }
 
 #calendar {
@@ -40,19 +40,83 @@ body {
     outline: none;
 }
 
+.collapse {
+    color: #122638;
+}
+
 .green-indicator {
-    box-shadow: 0 3px 5px rgba(0, 255, 0, 0.5)
+    height: 1em;
+    width: 1em;
+    background-color: green;
+    border-radius: 50%;
+    display: inline-block;
+    vertical-align: middle;
 }
 
 .yellow-indicator {
-    box-shadow: 0 3px 5px rgba(255, 213, 0, 0.5)
-
+    height: 1em;
+    width: 1em;
+    background-color: #c6c600;
+    border-radius: 50%;
+    display: inline-block;
+    vertical-align: middle;
 }
 
 .orange-indicator {
-    box-shadow: 0 3px 5px rgba(255, 140, 0, 0.5)
+    height: 1em;
+    width: 1em;
+    background-color: #d48b00;
+    border-radius: 50%;
+    display: inline-block;
+    vertical-align: middle;
 }
 
 .red-indicator {
-    box-shadow: 0 3px 5px rgba(255, 0, 0, 0.5)
+    height: 1em;
+    width: 1em;
+    background-color: #c90000;
+    border-radius: 50%;
+    display: inline-block;
+    vertical-align: middle;
 }
+
+/* Prussian Blue = #122638 */
+/* Pewter Blue = #97ABB1 */
+/* Buff (yellow) = #F5DD90 */
+/* Old Rose = #C78283 */
+/* Melon = #FFA69E */
+
+/*.btn {*/
+/*    display: inline-block;*/
+/*    vertical-align: middle;*/
+/*    text-align: center;*/
+/*    border-radius: .25rem;*/
+/*}*/
+
+/*.btn-primary:hover {*/
+/*    background-color: #fff;*/
+/*    color: #C78283;*/
+/*    border-color: #C78283;*/
+/*}*/
+
+/*.btn-primary {*/
+/*    background-color: #C78283;*/
+/*    color: #fff;*/
+/*    border-color: #C78283;*/
+/*}*/
+
+/*.btn-success:hover {*/
+/*    background-color: #122638;*/
+/*    color: #F5DD90;*/
+/*    border-color: #F5DD90;*/
+/*}*/
+
+/*.btn-success {*/
+/*    background-color: #F5DD90;*/
+/*    color: #122638;*/
+/*    border-color: #F5DD90;*/
+/*}*/
+
+/*.card-title {*/
+/*    color: #FFA69E;*/
+/*}*/

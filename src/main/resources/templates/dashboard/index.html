@@ -8,64 +8,76 @@
 </head>
 <body>
 <nav th:replace="partials/topnav :: topnav (topNavTitle = 'Welcome, ' + ${currentUser.getFirstName()} + ' ' + ${currentUser.getLastName()} + '!')"></nav>
-<main class="main">
-    <div class="container-fluid">
-        <div class="row mt-3">
-            <div class="col-md-9">
-                <div class="card shadow">
-                    <div class="row no-gutters">
-                        <div class="col">
-                            <div class="card-body">
-                                <h4 class="card-title">Progress on Today's Tasks</h4>
-                                <p class="card-text">Tasks Remaining:</p>
-                                <input type="hidden" id="todaysIncompleteTasks" th:value="${iTaskSize}">
-                                <input type="hidden" id="todaysCompleteTasks" th:value="${cTaskSize}">
-                                <ul>
-                                    <a th:each="task : ${todaysIncompleteTasks}"
-                                       th:href="@{/tasks/{id} (id = ${task.id})}">
-                                        <li th:text="${task.title}"></li>
-                                    </a>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="col">
-                            <div id="radialBarChart"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="card text-center h-100 shadow">
-                    <h4 class="p-3">Today's Forecast</h4>
-                    <div id="weather-info" class="row"></div>
+<div class="container-fluid">
+    <div class="row mt-3">
+        <div class="col-md-2 mb-3">
+            <div class="card shadow h-100">
+                <div class="card-body">
+                    <h4 class="card-title">Daily Checklist</h4>
+                    <li class="list-unstyled" th:each="dailyItem : ${dailyItems}">
+                        <form th:action="@{/dailyItems/{id}/complete(id = ${dailyItem.id})}" method="POST">
+                            <input class="dailyItems mr-3" type="checkbox" th:id="${dailyItem.id}"
+                                   th:value="${!dailyItem.isComplete}" name="dailyItem" onchange="this.form.submit()">
+                            <label th:for="${dailyItem.id}" th:text="${dailyItem.title}"></label>
+                        </form>
+                    </li>
                 </div>
             </div>
         </div>
-        <div class="row mt-3">
-            <div class="col-md-3">
-                <div class="card shadow">
-                    <div class="card-body">
-                        <h4 class="card-title">Tasks By Category</h4>
-                        <div class="m-auto" style="max-height: 300px; max-width: 300px;">
-                            <canvas id="donutChart"></canvas>
+        <div class="col-md-8 mb-3">
+            <div class="card shadow">
+                <div class="row no-gutters">
+                    <div class="col">
+                        <div class="card-body">
+                            <h4 class="card-title">Progress on Today's Tasks</h4>
+                            <p class="card-text">Tasks Remaining:</p>
+                            <input type="hidden" id="todaysIncompleteTasks" th:value="${iTaskSize}">
+                            <input type="hidden" id="todaysCompleteTasks" th:value="${cTaskSize}">
+                            <ul>
+                                <a th:each="task : ${todaysIncompleteTasks}"
+                                   th:href="@{/tasks/{id} (id = ${task.id})}">
+                                    <li th:text="${task.title}"></li>
+                                </a>
+                            </ul>
                         </div>
+                    </div>
+                    <div class="col">
+                        <div id="radialBarChart"></div>
                     </div>
                 </div>
             </div>
-            <div class="col-md-9">
-                <th:block th:include="partials/pomodoro :: pomodoro-clock"></th:block>
+        </div>
+        <div class="col-md-2 mb-3">
+            <div class="card text-center h-100 shadow">
+                <h4 class="p-3">Today's Forecast</h4>
+                <div id="weather-info" class="row"></div>
             </div>
         </div>
     </div>
-    <input type="hidden" id="workTasks" th:value="${workTasks}">
-    <input type="hidden" id="healthTasks" th:value="${healthTasks}">
-    <input type="hidden" id="financialTasks" th:value="${financialTasks}">
-    <input type="hidden" id="miscTasks" th:value="${miscTasks}">
-    <input type="hidden" id="socialTasks" th:value="${socialTasks}">
-    <input type="hidden" id="choreTasks" th:value="${choreTasks}">
-    <input type="hidden" id="academicTasks" th:value="${academicTasks}">
-    <input type="hidden" id="hobbyTasks" th:value="${hobbyTasks}">
-</main>
+    <div class="row">
+        <div class="col-md-3 mb-3">
+            <div class="card shadow">
+                <div class="card-body">
+                    <h4 class="card-title">Tasks By Category</h4>
+                    <div class="m-auto" style="max-height: 300px; max-width: 300px;">
+                        <canvas id="donutChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-9 mb-3">
+            <th:block th:include="partials/pomodoro :: pomodoro-clock"></th:block>
+        </div>
+    </div>
+</div>
+<input type="hidden" id="workTasks" th:value="${workTasks}">
+<input type="hidden" id="healthTasks" th:value="${healthTasks}">
+<input type="hidden" id="financialTasks" th:value="${financialTasks}">
+<input type="hidden" id="miscTasks" th:value="${miscTasks}">
+<input type="hidden" id="socialTasks" th:value="${socialTasks}">
+<input type="hidden" id="choreTasks" th:value="${choreTasks}">
+<input type="hidden" id="academicTasks" th:value="${academicTasks}">
+<input type="hidden" id="hobbyTasks" th:value="${hobbyTasks}">
 <script th:inline="javascript">
     /*<![CDATA[*/
     const file = /*[[${OWAPI_KEY}]]*/ 'default';

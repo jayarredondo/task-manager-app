@@ -1,7 +1,5 @@
 package com.highexpectations.taskmanagerapp.models;
 
-import org.springframework.security.core.context.SecurityContextHolder;
-
 import javax.persistence.*;
 import java.util.List;
 
@@ -24,7 +22,7 @@ public class User {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     private List<Task> taskList;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
-    private List<Reminder> reminders;
+    private List<DailyItem> dailyItems;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     private List<Note> notes;
 
@@ -99,12 +97,12 @@ public class User {
         this.taskList = taskList;
     }
 
-    public List<Reminder> getReminders() {
-        return reminders;
+    public List<DailyItem> getReminders() {
+        return dailyItems;
     }
 
-    public void setReminders(List<Reminder> reminders) {
-        this.reminders = reminders;
+    public void setReminders(List<DailyItem> dailyItems) {
+        this.dailyItems = dailyItems;
     }
 
     public String getUsername() {

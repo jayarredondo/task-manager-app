@@ -4,29 +4,26 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Entity
-@Table(name = "reminders")
-public class Reminder {
+@Table(name = "daily_items")
+public class DailyItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     @Column(nullable = false)
     private String title;
     @Column(nullable = false)
-    private Date createdAt;
-    @Column(nullable = false)
-    private Date remindMeAt;
+    private boolean isComplete = false;
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
 
-    public Reminder() {
+    public DailyItem() {
     }
 
-    public Reminder(long id, String title, Date createdAt, Date remindMeAt) {
-        this.id = id;
+    public DailyItem(long id, String title, Date createdAt, boolean isComplete, User user) {
         this.title = title;
-        this.createdAt = createdAt;
-        this.remindMeAt = remindMeAt;
+        this.isComplete = isComplete;
+        this.user = user;
     }
 
     public long getId() {
@@ -45,20 +42,12 @@ public class Reminder {
         this.title = title;
     }
 
-    public Date getCreatedAt() {
-        return createdAt;
+    public boolean isComplete() {
+        return isComplete;
     }
 
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public Date getRemindMeAt() {
-        return remindMeAt;
-    }
-
-    public void setRemindMeAt(Date remindMeAt) {
-        this.remindMeAt = remindMeAt;
+    public void setComplete(boolean complete) {
+        isComplete = complete;
     }
 
     public User getUser() {

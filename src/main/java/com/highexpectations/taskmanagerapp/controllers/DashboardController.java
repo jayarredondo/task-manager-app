@@ -1,8 +1,10 @@
 package com.highexpectations.taskmanagerapp.controllers;
 
+import com.highexpectations.taskmanagerapp.models.DailyItem;
 import com.highexpectations.taskmanagerapp.models.Task;
 import com.highexpectations.taskmanagerapp.models.User;
 import com.highexpectations.taskmanagerapp.repositories.CategoryRepository;
+import com.highexpectations.taskmanagerapp.repositories.DailyItemRepository;
 import com.highexpectations.taskmanagerapp.repositories.TaskRepository;
 //import com.twilio.Twilio;
 //import com.twilio.rest.api.v2010.account.Message;
@@ -21,6 +23,7 @@ public class DashboardController {
 
     private final TaskRepository tasksDao;
     private final CategoryRepository catDao;
+    private final DailyItemRepository dailyItemsDao;
     @Value("${OWAPI_KEY}")
     private String OWAPI_KEY;
 //    @Value("${TWILIO_SID}")
@@ -28,14 +31,17 @@ public class DashboardController {
 //    @Value("${TWILIO_TOKEN}")
 //    private String TWILIO_TOKEN;
 
-    public DashboardController(TaskRepository tasksDao, CategoryRepository catDao) {
+    public DashboardController(TaskRepository tasksDao, CategoryRepository catDao, DailyItemRepository dailyItemsDao) {
         this.tasksDao = tasksDao;
         this.catDao = catDao;
+        this.dailyItemsDao = dailyItemsDao;
     }
 
     @GetMapping("/dashboard")
     private String showDashboard(Model model) {
         User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        List<DailyItem> dailyItems = dailyItemsDao.findAllByUserId(loggedInUser.getId());
 
         List<Task> allTasks = tasksDao.findAllByUserId(loggedInUser.getId());
 
@@ -81,6 +87,7 @@ public class DashboardController {
             model.addAttribute("iTaskSize", todaysIncompleteTasks.size());
             model.addAttribute("cTaskSize", todaysCompleteTasks.size());
         }
+        model.addAttribute("dailyItems", dailyItems);
         model.addAttribute("OWAPI_KEY", OWAPI_KEY);
         model.addAttribute("currentDate", LocalDateTime.now());
         model.addAttribute("currentUser", loggedInUser);

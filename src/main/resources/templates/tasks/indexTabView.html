@@ -26,7 +26,7 @@
         <div class="tab-pane fade show active" id="pills-unscheduled" role="tabpanel"
              aria-labelledby="pills-unscheduled-tab">
             <div th:each="task : ${unscheduledTasks}" class="card col mb-4">
-                <div class="card-body">
+                <div class="card-body unscheduledTasks">
                     <form th:action="@{tasks/{id}/delete(id = ${task.id})}"
                           onsubmit="return confirm('Are you sure you want to delete?');" method="POST">
                         <button type="submit" class="close" aria-label="Close"><span
@@ -63,6 +63,7 @@
                     <a role="button" class="collapsible" data-toggle="collapse">
                         <h5 th:text="${task.title}" class="card-title"></h5>
                     </a>
+                    <p>Urgency: <span class=""></span></p>
                     <div class="collapse">
                         <h6 class="card-subtitle mb-2 text-muted">Created At: <span class="date"
                                                                                     th:text="${task.createdAt}"></span>
@@ -95,7 +96,9 @@
                         <h5 th:text="${task.title}" class="card-title"></h5>
                     </a>
                     <div class="collapse">
-                        <h6 class="card-subtitle mb-2 text-muted">Created At: <span class="date" th:text="${task.createdAt}"></span></h6>
+                        <h6 class="card-subtitle mb-2 text-muted">Created At: <span class="date"
+                                                                                    th:text="${task.createdAt}"></span>
+                        </h6>
                         <p th:text="${task.description}" class="card-text"></p>
                         <small class="card-text">Category: <span th:text="${task.category.getName()}"></span></small>
                         <div class="d-flex justify-content-between mt-2" role="group">
@@ -114,11 +117,14 @@
 <!--    <div th:replace="partials/task-form-modal :: editTaskModal"></div>-->
 <th:block th:include="partials/scripts :: scripts"></th:block>
 <script>
+    if (document.getElementById("pills-unscheduled").innerText !== "") {
+        alert("Reminder!\nYou still have tasks that are unscheduled! Please make sure to schedule your tasks.")
+    }
     var coll = document.getElementsByClassName("collapsible");
     for (let i = 0; i < coll.length; i++) {
         coll[i].addEventListener("click", function () {
             this.classList.toggle("active");
-            var content = this.nextElementSibling;
+            var content = this.nextElementSibling.nextElementSibling;
             if (content.style.display === "block") {
                 content.style.display = "none";
             } else {
