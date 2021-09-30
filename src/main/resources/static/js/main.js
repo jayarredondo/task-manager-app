@@ -43,11 +43,8 @@ const defineTaskUrgency = (startDateArray) => {
         }
     })
 }
+// Call function to add styling
 defineTaskUrgency(dueDate);
-// 7+ days = green
-// 3-6 days = yellow
-// 1-2 days = orange
-// day of = red
 
 
 // DATE FORMAT

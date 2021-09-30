@@ -11,22 +11,27 @@
 <div class="container-fluid">
     <div class="row mt-3">
         <div class="col-md-2 mb-3">
-            <div class="card shadow h-100">
+            <div class="card shadow">
                 <div class="card-body">
-                    <h4 class="card-title">Daily Checklist</h4>
-                    <li class="list-unstyled" th:each="dailyItem : ${dailyItems}">
-                        <form th:action="@{/dailyItems/{id}/complete(id = ${dailyItem.id})}" method="POST">
-                            <input class="dailyItems mr-3" type="checkbox" th:id="${dailyItem.id}"
-                                   th:value="${!dailyItem.isComplete}" name="dailyItem" onchange="this.form.submit()">
-                            <label th:for="${dailyItem.id}" th:text="${dailyItem.title}"></label>
-                        </form>
-                    </li>
+                    <h4 class="card-title">Daily Checklist </h4>
+                    <div class="my-3">
+                        <li class="list-unstyled my-2" th:each="dailyItem : ${dailyItems}">
+                            <form th:action="@{/dailyItems/{id}/complete(id = ${dailyItem.id})}" method="POST">
+                                <input class="dailyItems mr-3" type="checkbox" th:id="${dailyItem.id}"
+                                       th:value="${dailyItem.isComplete}" name="dailyItem" onchange="this.form.submit()">
+                                <label th:for="${dailyItem.id}" th:text="${dailyItem.title}"></label>
+                            </form>
+                        </li>
+                    </div>
+                    <form th:action="@{/reset/dailyItems}" method="POST" class="d-flex justify-content-between align-items-center">
+                        <button type="submit" class="btn btn-secondary">Reset</button><span><a th:href="@{/settings}">Edit My Daily Tasks</a></span>
+                    </form>
                 </div>
             </div>
         </div>
         <div class="col-md-8 mb-3">
-            <div class="card shadow">
-                <div class="row no-gutters">
+            <div class="card shadow h-100">
+                <div class="row row-cols-1 row-cols-md-2 no-gutters">
                     <div class="col">
                         <div class="card-body">
                             <h4 class="card-title">Progress on Today's Tasks</h4>
@@ -90,5 +95,17 @@
 <script th:src="@{/js/weather.js}"></script>
 <script th:src="@{/js/chart.js}"></script>
 <script th:src="@{/js/pomodoro.js}"></script>
+<script>
+    let dailyItems = document.getElementsByClassName("dailyItems");
+    Array.from(dailyItems).forEach(item => {
+        if (item.value === "true") {
+            console.log(item.value);
+            console.log("This item is complete and should be checked.");
+            item.setAttribute("checked", "checked");
+            item.nextElementSibling.style.textDecoration = "line-through";
+            item.nextElementSibling.classList.add("text-muted");
+        }
+    })
+</script>
 </body>
 </html>

@@ -8,7 +8,34 @@
 <body>
 <nav th:replace="partials/topnav :: topnav (topNavTitle = 'All Tasks')"></nav>
 <div class="container-fluid">
-    <ul class="nav nav-pills mt-3 ml-5" id="pills-tab" role="tablist">
+    <div class="container ">
+            <form class="form-inline d-flex justify-content-center justify-content-md-around">
+                <div class="form-group mb-2">
+                    <label for="sortCategory">Sort By Category:</label>
+                    <select id="sortCategory">
+                        <option value="all" selected>all</option>
+                        <option value="1">Finance</option>
+                        <option value="2">Health</option>
+                        <option value="3">Chores</option>
+                        <option value="4">Social</option>
+                        <option value="5">Work</option>
+                        <option value="6">Academic</option>
+                        <option value="7">Hobbies</option>
+                        <option value="8">Misc.</option>
+                    </select>
+                </div>
+                <div class="form-group mb-2">
+                    <label for="sortUrgency">Sort By Urgency:</label>
+                    <select id="sortUrgency">
+                        <option value="red">Red</option>
+                        <option value="orange">Orange</option>
+                        <option value="yellow">Yellow</option>
+                        <option value="green">Green</option>
+                    </select>
+                </div>
+            </form>
+    </div>
+    <ul class="nav nav-pills justify-content-center justify-content-md-around" id="pills-tab" role="tablist">
         <li class="nav-item" role="presentation">
             <a class="nav-link active" id="pills-unscheduled-tab" data-toggle="pill" href="#pills-unscheduled"
                role="tab" aria-controls="pills-unscheduled" aria-selected="true">Unscheduled</a>
@@ -25,59 +52,67 @@
     <div class="tab-content mt-2" id="pills-tabContent">
         <div class="tab-pane fade show active" id="pills-unscheduled" role="tabpanel"
              aria-labelledby="pills-unscheduled-tab">
-            <div th:each="task : ${unscheduledTasks}" class="card col mb-4">
-                <div class="card-body unscheduledTasks">
-                    <form th:action="@{tasks/{id}/delete(id = ${task.id})}"
-                          onsubmit="return confirm('Are you sure you want to delete?');" method="POST">
-                        <button type="submit" class="close" aria-label="Close"><span
-                                aria-hidden="true">&times;</span></button>
-                    </form>
-                    <a role="button" class="collapsible" data-toggle="collapse">
-                        <h5 th:text="${task.title}" class="card-title"></h5>
-                    </a>
-                    <div class="collapse">
-                        <h6 class="card-subtitle mb-2 text-muted">Created At: <span class="date"
-                                                                                    th:text="${task.createdAt}"></span>
-                        </h6>
-                        <p th:text="${task.description}" class="card-text"></p>
-                        <small class="card-text">Category: <span th:text="${task.category.getName()}"></span></small>
-                        <div class="d-flex justify-content-between mt-2" role="group">
-                            <!--BUTTON TO CALL MODAL MISSING DATA-TARGET ATTRIBUTE-->
-                            <a class="btn btn-primary" th:href="@{/tasks/{id}(id = ${task.id})}">Manage</a>
-                            <form th:action="@{/tasks/{id}/complete(id = ${task.id})}" class="flex-end" method="POST">
-                                <button type="submit" class="btn btn-success">Mark as Complete</button>
-                            </form>
+            <div class="row row-cols-1 row-cols-md-4">
+                <div th:each="task : ${unscheduledTasks}" class="card col mb-3 mx-1">
+                    <div class="card-body unscheduledTasks">
+                        <form th:action="@{tasks/{id}/delete(id = ${task.id})}"
+                              onsubmit="return confirm('Are you sure you want to delete?');" method="POST">
+                            <button type="submit" class="close" aria-label="Close"><span
+                                    aria-hidden="true">&times;</span></button>
+                        </form>
+                        <a role="button" class="collapsible" data-toggle="collapse">
+                            <h5 th:text="${task.title}" class="card-title"></h5>
+                        </a>
+                        <div class="collapse">
+                            <h6 class="card-subtitle mb-2 text-muted">Created At: <span class="date"
+                                                                                        th:text="${task.createdAt}"></span>
+                            </h6>
+                            <p th:text="${task.description}" class="card-text"></p>
+                            <small class="card-text">Category: <span
+                                    th:text="${task.category.getName()}"></span></small>
+                            <div class="d-flex justify-content-between mt-2" role="group">
+                                <!--BUTTON TO CALL MODAL MISSING DATA-TARGET ATTRIBUTE-->
+                                <a class="btn btn-primary" th:href="@{/tasks/{id}(id = ${task.id})}">Manage</a>
+                                <form th:action="@{/tasks/{id}/complete(id = ${task.id})}" class="flex-end"
+                                      method="POST">
+                                    <button type="submit" class="btn btn-success">Mark as Complete</button>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
         <div class="tab-pane fade" id="pills-scheduled" role="tabpanel" aria-labelledby="pills-scheduled-tab">
-            <div th:each="task : ${scheduledTasks}" class="card mb-4">
-                <div class="card-body">
-                    <form th:action="@{tasks/{id}/delete(id = ${task.id})}"
-                          onsubmit="return confirm('Are you sure you want to delete?');" method="POST">
-                        <button type="submit" class="close" aria-label="Close"><span
-                                aria-hidden="true">&times;</span></button>
-                    </form>
-                    <a role="button" class="collapsible" data-toggle="collapse">
-                        <h5 th:text="${task.title}" class="card-title"></h5>
-                    </a>
-                    <p>Urgency: <span class=""></span></p>
-                    <div class="collapse">
-                        <h6 class="card-subtitle mb-2 text-muted">Created At: <span class="date"
-                                                                                    th:text="${task.createdAt}"></span>
-                        </h6>
-                        <p th:text="${task.description}" class="card-text"></p>
-                        <small class="card-text font-weight-bold">Scheduled for: <span class="date startDateTime"
-                                                                                       th:text="${task.startDateTime}"></span></small>
-                        <br>
-                        <small class="card-text">Category: <span th:text="${task.category.getName()}"></span></small>
-                        <div class="d-flex justify-content-between mt-2" role="group">
-                            <a class="btn btn-primary" th:href="@{/tasks/{id}(id = ${task.id})}">Manage</a>
-                            <form th:action="@{/tasks/{id}/complete(id = ${task.id})}" class="flex-end" method="POST">
-                                <button type="submit" class="btn btn-success">Mark as Complete</button>
-                            </form>
+            <div class="row row-cols-1 row-cols-md-4">
+                <div th:each="task : ${scheduledTasks}" class="card mb-3 mx-1">
+                    <div class="card-body">
+                        <form th:action="@{tasks/{id}/delete(id = ${task.id})}"
+                              onsubmit="return confirm('Are you sure you want to delete?');" method="POST">
+                            <button type="submit" class="close" aria-label="Close"><span
+                                    aria-hidden="true">&times;</span></button>
+                        </form>
+                        <a role="button" class="collapsible" data-toggle="collapse">
+                            <h5 th:text="${task.title}" class="card-title"></h5>
+                        </a>
+                        <p>Urgency: <span class=""></span></p>
+                        <div class="collapse">
+                            <h6 class="card-subtitle mb-2 text-muted">Created At: <span class="date"
+                                                                                        th:text="${task.createdAt}"></span>
+                            </h6>
+                            <p th:text="${task.description}" class="card-text"></p>
+                            <small class="card-text font-weight-bold">Scheduled for: <span class="date startDateTime"
+                                                                                           th:text="${task.startDateTime}"></span></small>
+                            <br>
+                            <small class="card-text">Category: <span
+                                    th:text="${task.category.getName()}"></span></small>
+                            <div class="d-flex justify-content-between mt-2" role="group">
+                                <a class="btn btn-primary" th:href="@{/tasks/{id}(id = ${task.id})}">Manage</a>
+                                <form th:action="@{/tasks/{id}/complete(id = ${task.id})}" class="flex-end"
+                                      method="POST">
+                                    <button type="submit" class="btn btn-success">Mark as Complete</button>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -125,6 +160,7 @@
         coll[i].addEventListener("click", function () {
             this.classList.toggle("active");
             var content = this.nextElementSibling.nextElementSibling;
+            console.log(content)
             if (content.style.display === "block") {
                 content.style.display = "none";
             } else {

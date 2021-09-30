@@ -8,10 +8,13 @@ window.addEventListener("load", function () {
     let totalCompleteTasks = parseInt(document.getElementById("todaysCompleteTasks").value);
     let todaysTotalTasks = totalIncompleteTasks + totalCompleteTasks;
     let progress = ((totalCompleteTasks / todaysTotalTasks) * 100)
+     if (isNaN(progress)) {
+         progress = 100;
+     }
 
     let options1 = {
         chart: {
-            height: 350,
+            height: 'auto',
             type: 'radialBar',
         },
         series: [progress],
