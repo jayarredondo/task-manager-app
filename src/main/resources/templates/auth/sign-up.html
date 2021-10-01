@@ -3,20 +3,34 @@
 <head>
     <meta charset="UTF-8"/>
     <title>Sign-Up</title>
+    <th:block th:include="partials/head :: head-links"></th:block>
 </head>
 <body>
-<form action="/sign-up" th:action="@{/sign-up}" method="post" th:object="${user}">
-    <label for="firstName">First Name: </label>
-    <input type="text" id="firstName" name="firstName" th:field="*{firstName}" required>
-    <label for="lastName">Last Name: </label>
-    <input type="text" id="lastName" name="lastName" th:field="*{lastName}" required>
-    <label for="email">Email: </label>
-    <input type="email" id="email" name="email" th:field="*{email}" required>
-    <label for="password">Password: </label>
-    <small>(Must be between 6-20 characters)</small>
-    <input type="password" id="password" name="password" th:field="*{password}" required>
-    <button type="submit">Create Account</button>
-</form>
+<nav th:replace="partials/homenav :: homenav"></nav>
+<div class="container">
+    <div class="d-flex justify-content-center">
+        <div class="card p-3 mt-5">
+            <h3 class="text-center mb-4">
+                BackUp Brain Registration
+            </h3>
+            <form th:action="@{/sign-up}" method="post" th:object="${user}">
+                <label for="firstName">First Name: </label>
+                <input class="form-control" type="text" id="firstName" name="firstName" th:field="*{firstName}"
+                       required>
+                <label for="lastName">Last Name: </label>
+                <input class="form-control" type="text" id="lastName" name="lastName" th:field="*{lastName}" required>
+                <label for="email">Email: </label>
+                <input class="form-control" type="email" id="email" name="email" th:field="*{email}" required>
+                <label for="password">Password: </label>
+                <small>(Must be between 6-20 characters)</small>
+                <input class="form-control" type="password" id="password" name="password" th:field="*{password}"
+                       required>
+                <button class="btn btn-primary form-control my-3" type="submit">Create Account</button>
+                <a class="text-center" th:href="@{/login}"><p>Already have an account? Sign-In!</p></a>
+            </form>
+        </div>
+    </div>
+</div>
 <th:block th:include="partials/scripts :: scripts"></th:block>
 </body>
 </html>

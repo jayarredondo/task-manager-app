@@ -10,26 +10,30 @@
 <nav th:replace="partials/topnav :: topnav (topNavTitle = 'Welcome, ' + ${currentUser.getFirstName()} + ' ' + ${currentUser.getLastName()} + '!')"></nav>
 <div class="container-fluid">
     <div class="row mt-3">
-        <div class="col-md-2 mb-3">
+        <div class="col-md-3 mb-3 overflow-auto" style="max-height: 100%">
             <div class="card shadow">
                 <div class="card-body">
-                    <h4 class="card-title">Daily Checklist </h4>
+                    <h4 class="card-title">Daily Checklist</h4>
                     <div class="my-3">
                         <li class="list-unstyled my-2" th:each="dailyItem : ${dailyItems}">
                             <form th:action="@{/dailyItems/{id}/complete(id = ${dailyItem.id})}" method="POST">
                                 <input class="dailyItems mr-3" type="checkbox" th:id="${dailyItem.id}"
-                                       th:value="${dailyItem.isComplete}" name="dailyItem" onchange="this.form.submit()">
+                                       th:value="${dailyItem.isComplete}" name="dailyItem"
+                                       onchange="this.form.submit()">
                                 <label th:for="${dailyItem.id}" th:text="${dailyItem.title}"></label>
                             </form>
                         </li>
                     </div>
-                    <form th:action="@{/reset/dailyItems}" method="POST" class="d-flex justify-content-between align-items-center">
-                        <button type="submit" class="btn btn-secondary">Reset</button><span><a th:href="@{/settings}">Edit My Daily Tasks</a></span>
-                    </form>
+                    <div class="d-flex">
+                        <a class="btn btn-primary mr-3" th:href="@{/settings}">Manage</a>
+                        <form th:action="@{/reset/dailyItems}" method="POST">
+                            <button type="submit" class="btn btn-secondary">Reset</button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="col-md-8 mb-3">
+        <div class="col-md-9 mb-3">
             <div class="card shadow h-100">
                 <div class="row row-cols-1 row-cols-md-2 no-gutters">
                     <div class="col">
@@ -52,12 +56,12 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-2 mb-3">
-            <div class="card text-center h-100 shadow">
-                <h4 class="p-3">Today's Forecast</h4>
-                <div id="weather-info" class="row"></div>
-            </div>
-        </div>
+        <!--        <div class="col-md-2 mb-3">-->
+        <!--            <div class="card text-center h-100 shadow">-->
+        <!--                <h4 class="p-3">Today's Forecast</h4>-->
+        <!--                <div id="weather-info" class="row"></div>-->
+        <!--            </div>-->
+        <!--        </div>-->
     </div>
     <div class="row">
         <div class="col-md-3 mb-3">
@@ -92,7 +96,7 @@
 <th:block th:include="partials/scripts :: scripts"></th:block>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@3.5.1/dist/chart.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
-<script th:src="@{/js/weather.js}"></script>
+<!--<script th:src="@{/js/weather.js}"></script>-->
 <script th:src="@{/js/chart.js}"></script>
 <script th:src="@{/js/pomodoro.js}"></script>
 <script>

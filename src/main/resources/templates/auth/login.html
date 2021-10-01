@@ -6,6 +6,7 @@
     <th:block th:include="partials/head :: head-links"></th:block>
 </head>
 <body>
+<nav th:replace="partials/homenav :: homenav"></nav>
 <div class="container">
     <div class="card px-5 pb-5 pt-4 mt-5">
         <h1 class="mb-3">Log In</h1>
@@ -24,7 +25,8 @@
                 <label for="password">Password: </label>
                 <input id="password" name="password" type="password" class="form-control" autofocus required/>
             </div>
-            <button type="submit" class="btn btn-block btn-problem btn-primary">Log In</button>
+            <button type="submit" class="btn btn-block btn-problem btn-primary mb-3">Log In</button>
+            <a th:href="@{/sign-up}"><p>Don't have an account? Sign up here!</p></a>
         </form>
     </div>
 </div>
