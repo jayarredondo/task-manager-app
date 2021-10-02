@@ -8,6 +8,7 @@ import com.highexpectations.taskmanagerapp.repositories.DailyItemRepository;
 import com.highexpectations.taskmanagerapp.repositories.TaskRepository;
 //import com.twilio.Twilio;
 //import com.twilio.rest.api.v2010.account.Message;
+import com.highexpectations.taskmanagerapp.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -24,6 +25,7 @@ public class DashboardController {
     private final TaskRepository tasksDao;
     private final CategoryRepository catDao;
     private final DailyItemRepository dailyItemsDao;
+    private final UserRepository usersDao;
     @Value("${OWAPI_KEY}")
     private String OWAPI_KEY;
 //    @Value("${TWILIO_SID}")
@@ -31,10 +33,11 @@ public class DashboardController {
 //    @Value("${TWILIO_TOKEN}")
 //    private String TWILIO_TOKEN;
 
-    public DashboardController(TaskRepository tasksDao, CategoryRepository catDao, DailyItemRepository dailyItemsDao) {
+    public DashboardController(TaskRepository tasksDao, CategoryRepository catDao, DailyItemRepository dailyItemsDao, UserRepository usersDao) {
         this.tasksDao = tasksDao;
         this.catDao = catDao;
         this.dailyItemsDao = dailyItemsDao;
+        this.usersDao = usersDao;
     }
 
     @GetMapping("/dashboard")
@@ -90,10 +93,9 @@ public class DashboardController {
         model.addAttribute("dailyItems", dailyItems);
         model.addAttribute("OWAPI_KEY", OWAPI_KEY);
         model.addAttribute("currentDate", LocalDateTime.now());
-        model.addAttribute("currentUser", loggedInUser);
+        model.addAttribute("currentUser", usersDao.getById(loggedInUser.getId()));
         return "dashboard/index";
     }
-
     @GetMapping("/pomodoro")
     public String showPomodoro() {
         return "pomodoro-solo";

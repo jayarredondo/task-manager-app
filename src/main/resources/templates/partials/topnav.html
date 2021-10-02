@@ -17,7 +17,7 @@
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
                    aria-haspopup="true" aria-expanded="false">
-                    BrainDump
+                    <i class="fas fa-brain"></i> BrainDump
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                     <a class="dropdown-item" th:href="@{/tasks/create}">Create Task</a>
@@ -27,11 +27,11 @@
                 </div>
             </li>
             <li class="nav-item">
-                <a class="nav-link" th:href="@{/notes}">Notes</a>
+                <a class="nav-link" th:href="@{/notes}"><i class="fas fa-sticky-note"></i> Notes</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" th:href="@{/pomodoro}" target="_blank"><i
-                        class="fas fa-history text-white"></i> Start
+                        class="fas fa-history"></i> Start
                 </a>
             </li>
         </ul>
@@ -39,7 +39,7 @@
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Account
+                    <i class="fas fa-user-cog fa-lg"></i>
                 </a>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                     <a class="dropdown-item" th:href="@{/settings}">Settings</a>

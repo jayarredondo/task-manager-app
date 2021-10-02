@@ -7,23 +7,74 @@
 </head>
 <body>
 <nav th:replace="partials/topnav :: topnav (topNavTitle = 'Settings')"></nav>
-<div class="container-fluid">
-    <form method="POST" th:action="@{/settings}">
-        <div class="form-group">
-            <label for="firstName">First Name</label>
-            <input type="text" class="form-control" id="firstName" name="firstName" th:value="${user.firstName}">
-        </div>
-        <div class="form-group">
-            <label for="lastName">Last Name</label>
-            <input type="text" class="form-control" id="lastName" name="lastName" th:value="${user.lastName}">
-        </div>
-        <div class="form-group">
-            <label for="email">Email address</label>
-            <input type="email" class="form-control" id="email" name="email" th:value="${user.email}">
-        </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
-    </form>
+<div class="container">
+    <div class="row mt-5">
+        <div class="col-md-4">
+            <h3 class="mb-4">Daily Checklist Items:</h3>
+            <!-- Button trigger modal -->
+            <button type="button" class="btn btn-primary mb-3" data-toggle="modal" data-target="#newDailyItemModal">Add
+                Daily Item
+            </button>
 
+            <!-- Modal -->
+            <div class="modal fade" id="newDailyItemModal" tabindex="-1" aria-labelledby="modal-label"
+                 aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="modal-label">New Daily Item</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                    aria-hidden="true">&times;</span></button>
+                        </div>
+                        <form class="modal-body" th:action="@{/dailyItems/create}" method="post"
+                              th:object="${newDailyItem}">
+                            <div class="modal-body">
+                                <div class="form-group">
+                                    <label for="title">Title</label>
+                                    <input id="title" name="title" type="text" class="form-control" th:field="*{title}"
+                                           th:value="*{title}" required/>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary">Save changes</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div th:each="dailyItem : ${dailyItems}">
+                    <form th:action="@{/dailyItems/{id}/delete(id = ${dailyItem.id})}"
+                          onsubmit="return confirm('Are you sure you want to delete?');" method="POST">
+                        <button type="submit" class="delete-button-left mr-3" aria-label="Close"><span
+                                aria-hidden="true">&times;</span>
+                        </button>
+                    </form>
+                    <p th:text="${dailyItem.title}"></p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8">
+            <h3>Edit Basic Info</h3>
+            <form method="POST" th:action="@{/settings}">
+                <div class="form-group">
+                    <label for="firstName">First Name</label>
+                    <input type="text" class="form-control" id="firstName" name="firstName"
+                           th:value="${user.firstName}">
+                </div>
+                <div class="form-group">
+                    <label for="lastName">Last Name</label>
+                    <input type="text" class="form-control" id="lastName" name="lastName" th:value="${user.lastName}">
+                </div>
+                <div class="form-group">
+                    <label for="email">Email address</label>
+                    <input type="email" class="form-control" id="email" name="email" th:value="${user.email}">
+                </div>
+                <button type="submit" class="btn btn-primary">Save changes</button>
+            </form>
+        </div>
+    </div>
 </div>
 <th:block th:include="partials/scripts :: scripts"></th:block>
 </body>

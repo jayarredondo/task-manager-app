@@ -7,14 +7,14 @@
     <th:block th:include="partials/pomodoro :: pomodoro-clock-styles"></th:block>
 </head>
 <body>
-<nav th:replace="partials/topnav :: topnav (topNavTitle = 'Welcome, ' + ${currentUser.getFirstName()} + ' ' + ${currentUser.getLastName()} + '!')"></nav>
+<nav th:replace="partials/topnav :: topnav (topNavTitle = 'Welcome, ' + ${currentUser.firstName} + ' ' + ${currentUser.lastName} + '!')"></nav>
 <div class="container-fluid">
     <div class="row mt-3">
-        <div class="col-md-3 mb-3 overflow-auto" style="max-height: 100%">
+        <div class="col-md-3 mb-3">
             <div class="card shadow">
                 <div class="card-body">
                     <h4 class="card-title">Daily Checklist</h4>
-                    <div class="my-3">
+                    <div class="my-3" id="dailyItemList">
                         <li class="list-unstyled my-2" th:each="dailyItem : ${dailyItems}">
                             <form th:action="@{/dailyItems/{id}/complete(id = ${dailyItem.id})}" method="POST">
                                 <input class="dailyItems mr-3" type="checkbox" th:id="${dailyItem.id}"
@@ -26,7 +26,7 @@
                     </div>
                     <div class="d-flex">
                         <a class="btn btn-primary mr-3" th:href="@{/settings}">Manage</a>
-                        <form th:action="@{/reset/dailyItems}" method="POST">
+                        <form th:action="@{/reset/dailyItems}" method="POST" id="dailyResetButton">
                             <button type="submit" class="btn btn-secondary">Reset</button>
                         </form>
                     </div>
@@ -74,7 +74,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-md-9 mb-3">
+        <div class="col-md-9 mb-3 d-none d-md-block">
             <th:block th:include="partials/pomodoro :: pomodoro-clock"></th:block>
         </div>
     </div>
@@ -100,16 +100,23 @@
 <script th:src="@{/js/chart.js}"></script>
 <script th:src="@{/js/pomodoro.js}"></script>
 <script>
+    console.log(document.getElementById("test").value)
     let dailyItems = document.getElementsByClassName("dailyItems");
-    Array.from(dailyItems).forEach(item => {
-        if (item.value === "true") {
-            console.log(item.value);
-            console.log("This item is complete and should be checked.");
-            item.setAttribute("checked", "checked");
-            item.nextElementSibling.style.textDecoration = "line-through";
-            item.nextElementSibling.classList.add("text-muted");
-        }
-    })
+    if(dailyItems.length === 0) {
+        document.getElementById("dailyItemList").innerHTML = '<h6>Looks like you dont have any daily items set up just yet, click on the manage button to add!</h6>';
+        document.getElementById("dailyResetButton").style.display = "none";
+    } else {
+        Array.from(dailyItems).forEach(item => {
+            if (item.value === "true") {
+                console.log(item.value);
+                console.log("This item is complete and should be checked.");
+                item.setAttribute("checked", "checked");
+                item.setAttribute("disabled", "disabled");
+                item.nextElementSibling.style.textDecoration = "line-through";
+                item.nextElementSibling.classList.add("text-muted");
+            }
+        });
+    }
 </script>
 </body>
 </html>

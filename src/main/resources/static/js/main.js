@@ -29,7 +29,6 @@ const defineTaskUrgency = (startDateArray) => {
         let differenceInTime = dueDate - currentDate;
         let differenceInDays = Math.trunc(differenceInTime / (1000 * 3600 * 24));
         let cardToStyle = date.parentNode.parentNode.previousSibling.previousSibling.lastChild
-        console.log(cardToStyle)
         if (differenceInDays <= 0) {
             cardToStyle.classList.add('red-indicator');
         } else if (differenceInDays > 0 && differenceInDays < 3) {

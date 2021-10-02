@@ -5,6 +5,7 @@ import com.highexpectations.taskmanagerapp.models.User;
 import com.highexpectations.taskmanagerapp.repositories.DailyItemRepository;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -42,5 +43,19 @@ public class DailyItemController {
             dailyItemDao.save(item);
         }
         return "redirect:/dashboard";
+    }
+
+    @PostMapping("/dailyItems/{id}/delete")
+    public String deleteDailyItem(@PathVariable long id) {
+        dailyItemDao.delete(dailyItemDao.getById(id));
+        return "redirect:/settings";
+    }
+
+    @PostMapping("dailyItems/create")
+    public String createDailyItem(@ModelAttribute DailyItem dailyItem) {
+        User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        dailyItem.setUser(loggedInUser);
+        dailyItemDao.save(dailyItem);
+        return "redirect:/settings";
     }
 }
