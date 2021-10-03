@@ -1,11 +1,12 @@
 /* Open when someone clicks on the span element */
 function openNav() {
-    document.getElementById("myNav").style.width = "100%";
+    document.getElementById("myNav").style.width = "50vw";
 }
 
 /* Close when someone clicks on the "x" symbol inside the overlay */
+
 function closeNav() {
-    document.getElementById("myNav").style.width = "0%";
+    document.getElementById("myNav").style.width = "0";
 }
 
 // Restricting Date inputs to current datetime and onward, and end date to be from start datetime onward.
@@ -44,6 +45,7 @@ const defineTaskUrgency = (startDateArray) => {
 }
 // Call function to add styling
 defineTaskUrgency(dueDate);
+
 
 
 // DATE FORMAT

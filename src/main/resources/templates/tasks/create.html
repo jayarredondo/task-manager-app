@@ -7,6 +7,7 @@
 </head>
 <body>
 <nav th:replace="partials/topnav :: topnav (topNavTitle= 'Create BrainDump')"></nav>
+<div th:replace="partials/mobile-nav :: main-nav"></div>
 <div class="container-fluid">
     <h1 class="mt-3 text-center">What do you need to do?</h1>
     <form class="w-100 m-auto" th:if="${isCreate}" th:action="@{/tasks/create}" method="post" th:object="${newTask}">

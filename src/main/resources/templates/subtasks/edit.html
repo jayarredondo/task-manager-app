@@ -7,6 +7,7 @@
 </head>
 <body>
 <nav th:replace="partials/topnav :: topnav (topNavTitle = 'This Week\'s Tasks')"></nav>
+<div th:replace="partials/mobile-nav :: main-nav"></div>
 <div class="container-fluid">
     <!--EDIT MODAL FORM-->
     <form th:action="@{/subTasks/{id}/edit (id = ${subTask.id})}" method="post" th:object="${subTask}">

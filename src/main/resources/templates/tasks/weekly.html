@@ -7,6 +7,7 @@
 </head>
 <body>
 <nav th:replace="partials/topnav :: topnav (topNavTitle = 'This Week\'s Tasks')"></nav>
+<div th:replace="partials/mobile-nav :: main-nav"></div>
 <div class="container-fluid">
     <h3 class="text-center mt-5" th:if="${weeklyTasks.isEmpty()}">Looks like you don't have any tasks for today. Make
         sure you establish a start

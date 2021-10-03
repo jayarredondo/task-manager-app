@@ -7,6 +7,7 @@
 </head>
 <body>
 <nav th:replace="partials/topnav :: topnav (topNavTitle = 'Task Details')"></nav>
+<div th:replace="partials/mobile-nav :: main-nav"></div>
 <div class="container-fluid">
     <div th:if="${!task.isComplete()}" class="card mt-5">
         <div class="card-body shadow">
