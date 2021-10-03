@@ -184,35 +184,4 @@ public class TaskController {
         }
         return "tasks/today";
     }
-
-    @GetMapping("/tasks/this-week")
-    public String showTasksForWeek(Model model) {
-        User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        List<Task> allTasks = tasksDao.findAllByUserId(loggedInUser.getId());
-        WeekFields weekFields = WeekFields.of(Locale.getDefault());
-        if(allTasks != null) {
-            LocalDateTime currentDate = LocalDateTime.now();
-            int thisWeek = currentDate.get(weekFields.weekOfWeekBasedYear());
-            List<Task> weeklyTasks = new ArrayList<>();
-            for (Task task : allTasks) {
-                System.out.println(task.getId());
-                if(task.getStartDateTime() != null) {
-                    if (task.getStartDateTime().getYear() == currentDate.getYear() && task.getStartDateTime().get(weekFields.weekOfWeekBasedYear()) == thisWeek)
-                    {
-                        weeklyTasks.add(task);
-                    }
-                }
-            }
-            // sorting tasks to show most recent
-//            Collections.sort(weeklyTasks, new Comparator<Task>() {
-//                public int compare(Task o1, Task o2) {
-//                    if (o1.getCreatedAt() == null || o2.getCreatedAt() == null)
-//                        return 0;
-//                    return o1.getCreatedAt().compareTo(o2.getCreatedAt());
-//                }
-//            });
-            model.addAttribute("weeklyTasks", weeklyTasks);
-        }
-        return "tasks/weekly";
-    }
 }

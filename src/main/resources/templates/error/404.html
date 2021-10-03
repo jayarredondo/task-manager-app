@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8"/>
+    <title>BackUp Brain | Error</title>
+    <th:block th:include="partials/head :: head-links"></th:block>
+    <th:block th:include="partials/pomodoro :: pomodoro-clock-styles"></th:block>
+    <style>
+        body {
+            background-color: black;
+        }
+    </style>
+</head>
+<body>
+    <nav sec:authorize="isAuthenticated()" th:replace="partials/topnav :: topnav (topNavTitle = 'BackUp Brain')"></nav>
+    <div sec:authorize="isAuthenticated()" th:replace="partials/mobile-nav :: main-nav"></div>
+    <nav sec:authorize="!isAuthenticated()" th:replace="partials/homenav :: homenav"></nav>
+    <div class="text-center mt-5">
+        <h1 class="text-white">Sorry, an error occurred.</h1>
+        <img th:src="@{img/brain-logo.png}">
+    </div>
+<th:block th:include="partials/scripts :: scripts"></th:block>
+</body>
+</html>

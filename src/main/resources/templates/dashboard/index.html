@@ -101,23 +101,22 @@
 <script th:src="@{/js/chart.js}"></script>
 <script th:src="@{/js/pomodoro.js}"></script>
 <script>
-    console.log(document.getElementById("test").value)
-    let dailyItems = document.getElementsByClassName("dailyItems");
-    if(dailyItems.length === 0) {
-        document.getElementById("dailyItemList").innerHTML = '<h6>Looks like you dont have any daily items set up just yet, click on the manage button to add!</h6>';
-        document.getElementById("dailyResetButton").style.display = "none";
-    } else {
-        Array.from(dailyItems).forEach(item => {
-            if (item.value === "true") {
-                console.log(item.value);
-                console.log("This item is complete and should be checked.");
-                item.setAttribute("checked", "checked");
-                item.setAttribute("disabled", "disabled");
-                item.nextElementSibling.style.textDecoration = "line-through";
-                item.nextElementSibling.classList.add("text-muted");
-            }
-        });
-    }
+    // let dailyItems = document.getElementsByClassName("dailyItems");
+    // if(dailyItems.length === 0) {
+    //     document.getElementById("dailyItemList").innerHTML = '<h6>Looks like you dont have any daily items set up just yet, click on the manage button to add!</h6>';
+    //     document.getElementById("dailyResetButton").style.display = "none";
+    // } else {
+    //     Array.from(dailyItems).forEach(item => {
+    //         if (item.value === "true") {
+    //             console.log(item.value);
+    //             console.log("This item is complete and should be checked.");
+    //             item.setAttribute("checked", "checked");
+    //             item.setAttribute("disabled", "disabled");
+    //             item.nextElementSibling.style.textDecoration = "line-through";
+    //             item.nextElementSibling.classList.add("text-muted");
+    //         }
+    //     });
+    // }
 </script>
 </body>
 </html>

@@ -9,6 +9,25 @@ function closeNav() {
     document.getElementById("myNav").style.width = "0";
 }
 
+let dailyItems = document.getElementsByClassName("dailyItems");
+if(dailyItems.length === 0) {
+    if(document.getElementById("dailyItemList")) {
+        document.getElementById("dailyItemList").innerHTML = '<h6>Looks like you dont have any daily items set up just yet, click on the manage button to add!</h6>';
+        document.getElementById("dailyResetButton").style.display = "none";
+    }
+} else {
+    Array.from(dailyItems).forEach(item => {
+        if (item.value === "true") {
+            console.log(item.value);
+            console.log("This item is complete and should be checked.");
+            item.setAttribute("checked", "checked");
+            item.setAttribute("disabled", "disabled");
+            item.nextElementSibling.style.textDecoration = "line-through";
+            item.nextElementSibling.classList.add("text-muted");
+        }
+    });
+}
+
 // Restricting Date inputs to current datetime and onward, and end date to be from start datetime onward.
 var todaysDate = new Date().toISOString();
 let minDate = todaysDate.replace(todaysDate.substring(16, 24), "");
@@ -58,9 +77,11 @@ const formatDate = (dateString) => {
     return date + ", " + time;
 }
 
-if (dateStrings.length != 0) {
+if (dateStrings.length !== 0) {
     for (let i = 0; i <= dateStrings.length; i++) {
-        dateStrings[i].innerHTML = formatDate(dateStrings[i].innerHTML);
+        if(dateStrings[i]){
+            dateStrings[i].innerHTML = formatDate(dateStrings[i].innerHTML);
+        }
     }
 }
 
