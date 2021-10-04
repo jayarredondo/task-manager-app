@@ -49,6 +49,15 @@ public class Task {
         this.isComplete = false;
     }
 
+    public Task(String title, String description, LocalDateTime createdAt, Category category, User user) {
+        this.title = title;
+        this.description = description;
+        this.createdAt = createdAt;
+        this.category = category;
+        this.isComplete = false;
+        this.user = user;
+    }
+
     public long getId() {
         return id;
     }

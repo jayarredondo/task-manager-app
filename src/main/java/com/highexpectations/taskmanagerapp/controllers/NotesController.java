@@ -35,7 +35,7 @@ public class NotesController {
     @GetMapping("/notes")
     public String showNotes(Model model) {
         User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        Note firstNote = new Note(0,"Welcome to BackUp Brain!", "This message will be deleted after you've created your first note. Click on the Write button above to create a new note! All of your notes will be displayed here, with the latest note appearing at the top. Enjoy your space to write whatever you need!", LocalDateTime.now(), catDao.getById(8L));
+        Note firstNote = new Note(0, "Welcome to BackUp Brain!", "This message will be deleted after you've created your first note. Click on the Write button above to create a new note! All of your notes will be displayed here, with the latest note appearing at the top. Enjoy your space to write whatever you need!", LocalDateTime.now(), catDao.getById(8L));
 
         List<Note> startUpNotes = new ArrayList<>();
         startUpNotes.add(firstNote);

@@ -38,6 +38,14 @@ public class Note {
         this.category = category;
     }
 
+    public Note(String title, String body, LocalDateTime createdAt, Category category, User user) {
+        this.title = title;
+        this.body = body;
+        this.createdAt = createdAt;
+        this.category = category;
+        this.user = user;
+    }
+
     public Note(long id, String title, String body, LocalDateTime createdAt, User user, Category category) {
         this.title = title;
         this.body = body;
