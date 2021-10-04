@@ -37,6 +37,7 @@
                         <a role="button" class="collapsible" data-toggle="collapse">
                             <h5 th:text="${task.title}" class="card-title"></h5>
                         </a>
+                        <p>Urgency: Please Schedule!</p>
                         <div class="collapse">
                             <h6 class="card-subtitle mb-2 text-muted">Created At: <span class="date"
                                                                                         th:text="${task.createdAt}"></span>
@@ -104,6 +105,8 @@
                     <a role="button" class="collapsible" data-toggle="collapse">
                         <h5 th:text="${task.title}" class="card-title"></h5>
                     </a>
+                    <p>Urgency: Complete!</p>
+
                     <div class="collapse">
                         <h6 class="card-subtitle mb-2 text-muted">Created At: <span class="date"
                                                                                     th:text="${task.createdAt}"></span>

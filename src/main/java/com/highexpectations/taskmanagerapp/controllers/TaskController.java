@@ -3,6 +3,7 @@ package com.highexpectations.taskmanagerapp.controllers;
 import com.highexpectations.taskmanagerapp.models.SubTask;
 import com.highexpectations.taskmanagerapp.models.Task;
 import com.highexpectations.taskmanagerapp.models.User;
+import com.highexpectations.taskmanagerapp.repositories.CategoryRepository;
 import com.highexpectations.taskmanagerapp.repositories.SubTaskRepository;
 import com.highexpectations.taskmanagerapp.repositories.TaskRepository;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -18,29 +19,28 @@ public class TaskController {
 
     private final TaskRepository tasksDao;
     private final SubTaskRepository subTasksDao;
+    private final CategoryRepository catDao;
 
-    public TaskController(TaskRepository tasksDao, SubTaskRepository subTasksDao) {
+    public TaskController(TaskRepository tasksDao, SubTaskRepository subTasksDao, CategoryRepository catDao) {
         this.tasksDao = tasksDao;
         this.subTasksDao = subTasksDao;
+        this.catDao = catDao;
     }
 
     @GetMapping("/tasks")
     public String viewTasks(Model model) {
         User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if(loggedInUser == null) {
-            return "redirect:/login";
 
-        }
         List<Task> allTasks = tasksDao.findAllByUserId(loggedInUser.getId());
 
         // sorting classes by to show most recent first
-        Collections.sort(allTasks, new Comparator<Task>() {
-            public int compare(Task o1, Task o2) {
-                if (o1.getCreatedAt() == null || o2.getCreatedAt() == null)
-                    return 0;
-                return o1.getCreatedAt().compareTo(o2.getCreatedAt());
-            }
-        });
+//        Collections.sort(allTasks, new Comparator<Task>() {
+//            public int compare(Task o1, Task o2) {
+//                if (o1.getCreatedAt() == null || o2.getCreatedAt() == null)
+//                    return 0;
+//                return o1.getCreatedAt().compareTo(o2.getCreatedAt());
+//            }
+//        });
 
         if(!allTasks.isEmpty()) {
             List<Task> unscheduledTasks = new ArrayList<>();
@@ -55,6 +55,18 @@ public class TaskController {
                     unscheduledTasks.add(task);
                 }
             }
+            model.addAttribute("unscheduledTasks", unscheduledTasks);
+            model.addAttribute("scheduledTasks", scheduledTasks);
+            model.addAttribute("completedTasks", completedTasks);
+        } else {
+            List<Task> unscheduledTasks = new ArrayList<>();
+            List<Task> scheduledTasks = new ArrayList<>();
+            List<Task> completedTasks = new ArrayList<>();
+
+            Task firstTask = new Task(0, "My First Task", "This task will disappear after you've made your own task. You can edit the task, mark it as complete, or even add subtasks if necessary.", LocalDateTime.now(), catDao.getById(8L));
+
+            unscheduledTasks.add(firstTask);
+
             model.addAttribute("unscheduledTasks", unscheduledTasks);
             model.addAttribute("scheduledTasks", scheduledTasks);
             model.addAttribute("completedTasks", completedTasks);

@@ -3,6 +3,7 @@ package com.highexpectations.taskmanagerapp.controllers;
 import com.highexpectations.taskmanagerapp.models.Note;
 import com.highexpectations.taskmanagerapp.models.Task;
 import com.highexpectations.taskmanagerapp.models.User;
+import com.highexpectations.taskmanagerapp.repositories.CategoryRepository;
 import com.highexpectations.taskmanagerapp.repositories.NoteRepository;
 import com.highexpectations.taskmanagerapp.repositories.UserRepository;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -13,27 +14,41 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 public class NotesController {
 
     private final NoteRepository notesDao;
     private final UserRepository usersDao;
+    private final CategoryRepository catDao;
 
-    public NotesController(NoteRepository notesDao, UserRepository usersDao) {
+    public NotesController(NoteRepository notesDao, UserRepository usersDao, CategoryRepository catDao) {
         this.notesDao = notesDao;
         this.usersDao = usersDao;
+        this.catDao = catDao;
     }
 
     @GetMapping("/notes")
     public String showNotes(Model model) {
         User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        Note note = notesDao.findAllByUserId(loggedInUser.getId()).get(0);
-        LocalDateTime dt = note.getCreatedAt();
-        System.out.println(dt.getDayOfWeek());
+        Note firstNote = new Note(0,"Welcome to BackUp Brain!", "This message will be deleted after you've created your first note. Click on the Write button above to create a new note! All of your notes will be displayed here, with the latest note appearing at the top. Enjoy your space to write whatever you need!", LocalDateTime.now(), catDao.getById(8L));
 
-        model.addAttribute("notes", notesDao.findAllByUserId(loggedInUser.getId()));
+        List<Note> startUpNotes = new ArrayList<>();
+        startUpNotes.add(firstNote);
+
+
+        if (notesDao.findAllByUserId(loggedInUser.getId()).size() > 0) {
+            model.addAttribute("notes", notesDao.findAllByUserId(loggedInUser.getId()));
+        } else {
+            model.addAttribute("notes", startUpNotes);
+        }
+
+
+
         return "notes/index";
     }
 

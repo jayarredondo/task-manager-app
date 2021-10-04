@@ -1,5 +1,6 @@
 package com.highexpectations.taskmanagerapp.models;
 
+import com.highexpectations.taskmanagerapp.repositories.CategoryRepository;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -39,7 +40,14 @@ public class Task {
     public Task() {
     }
 
-
+    public Task(long id, String title, String description, LocalDateTime createdAt, Category category) {
+        this.id = id;
+        this.title = title;
+        this.description = description;
+        this.createdAt = createdAt;
+        this.category = category;
+        this.isComplete = false;
+    }
 
     public long getId() {
         return id;

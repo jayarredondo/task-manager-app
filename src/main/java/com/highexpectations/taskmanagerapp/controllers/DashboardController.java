@@ -25,10 +25,6 @@ public class DashboardController {
     private final CategoryRepository catDao;
     private final DailyItemRepository dailyItemsDao;
     private final UserRepository usersDao;
-//    @Value("${TWILIO_SID}")
-//    private String TWILIO_SID;
-//    @Value("${TWILIO_TOKEN}")
-//    private String TWILIO_TOKEN;
 
     public DashboardController(TaskRepository tasksDao, CategoryRepository catDao, DailyItemRepository dailyItemsDao, UserRepository usersDao) {
         this.tasksDao = tasksDao;
