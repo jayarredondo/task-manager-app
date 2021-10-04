@@ -9,7 +9,6 @@ import com.highexpectations.taskmanagerapp.repositories.TaskRepository;
 //import com.twilio.Twilio;
 //import com.twilio.rest.api.v2010.account.Message;
 import com.highexpectations.taskmanagerapp.repositories.UserRepository;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,8 +25,6 @@ public class DashboardController {
     private final CategoryRepository catDao;
     private final DailyItemRepository dailyItemsDao;
     private final UserRepository usersDao;
-    @Value("${OWAPI_KEY}")
-    private String OWAPI_KEY;
 //    @Value("${TWILIO_SID}")
 //    private String TWILIO_SID;
 //    @Value("${TWILIO_TOKEN}")
@@ -91,7 +88,6 @@ public class DashboardController {
             model.addAttribute("cTaskSize", todaysCompleteTasks.size());
         }
         model.addAttribute("dailyItems", dailyItems);
-        model.addAttribute("OWAPI_KEY", OWAPI_KEY);
         model.addAttribute("currentDate", LocalDateTime.now());
         model.addAttribute("currentUser", usersDao.getById(loggedInUser.getId()));
         return "dashboard/index";
@@ -101,14 +97,4 @@ public class DashboardController {
         return "pomodoro-solo";
     }
 
-//    @GetMapping("/twilio")
-//    public String sendSMS() {
-//        Twilio.init(TWILIO_SID, TWILIO_TOKEN);
-//        Message message = Message.creator(
-//                new com.twilio.type.PhoneNumber("+12102485536"),
-//                new com.twilio.type.PhoneNumber("+13176612879"),
-//                "Hey cheeks, it's Jay. Just testing out the texting service.")
-//                .create();
-//        return "test";
-//    }
 }
