@@ -7,9 +7,10 @@
 </head>
 <body>
 <nav th:replace="partials/topnav :: topnav (topNavTitle = 'Add Entry')"></nav>
+<div th:replace="partials/mobile-nav :: main-nav"></div>
 <div class="container-fluid">
     <h1 class="text-center mt-3">New Note Entry</h1>
-    <form class="w-50 m-auto" th:if="${isCreate}" th:action="@{/notes/create}" method="post" th:object="${newNote}">
+    <form class="w-100 m-auto" th:if="${isCreate}" th:action="@{/notes/create}" method="post" th:object="${newNote}">
         <div class="form-group">
             <label for="title">Title</label>
             <input id="title" name="title" type="text" class="form-control" th:field="*{title}"
@@ -17,7 +18,7 @@
         </div>
         <div class="form-group">
             <label for="body">Body</label>
-            <textarea id="body" name="body" class="form-control" th:field="*{body}"
+            <textarea id="body" name="body" class="form-control" th:field="*{body}" th:rows="8"
                       th:value="*{body}" required></textarea>
         </div>
         <div>
