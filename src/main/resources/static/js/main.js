@@ -1,6 +1,6 @@
 /* Open when someone clicks on the span element */
 function openNav() {
-    document.getElementById("myNav").style.width = "50vw";
+    document.getElementById("myNav").style.width = "100vw";
 }
 
 /* Close when someone clicks on the "x" symbol inside the overlay */
@@ -30,7 +30,8 @@ if(dailyItems.length === 0) {
 
 // Restricting Date inputs to current datetime and onward, and end date to be from start datetime onward.
 var todaysDate = new Date().toISOString();
-let minDate = todaysDate.replace(todaysDate.substring(16, 24), "");
+let minDate = todaysDate.replace(todaysDate.substring(11, 24), "00:00");
+console.log(minDate);
 if (document.getElementById("startDate")) {
     let startInput = document.getElementById("startDate");
     document.getElementById("startDate").setAttribute("min", minDate);
@@ -57,8 +58,6 @@ const defineTaskUrgency = (startDateArray) => {
             cardToStyle.classList.add('yellow-indicator');
         } else if(differenceInDays >= 7) {
             cardToStyle.classList.add('green-indicator');
-        } else {
-            cardToStyle.classList.add('past-due')
         }
     })
 }
