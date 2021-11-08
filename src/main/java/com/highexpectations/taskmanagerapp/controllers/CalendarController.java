@@ -7,10 +7,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,8 +25,8 @@ public class CalendarController {
         List<Task> allTasks = tasksDao.findAllByUserId(loggedInUser.getId());
         List<Task> scheduledTasks = new ArrayList<>();
 
-        for(Task task : allTasks) {
-            if(task.getStartDateTime() != null) {
+        for (Task task : allTasks) {
+            if (task.getStartDateTime() != null) {
                 scheduledTasks.add(task);
             }
         }

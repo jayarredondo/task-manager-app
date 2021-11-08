@@ -1,7 +1,6 @@
 package com.highexpectations.taskmanagerapp.controllers;
 
 import com.highexpectations.taskmanagerapp.models.SubTask;
-import com.highexpectations.taskmanagerapp.models.Task;
 import com.highexpectations.taskmanagerapp.models.User;
 import com.highexpectations.taskmanagerapp.repositories.SubTaskRepository;
 import com.highexpectations.taskmanagerapp.repositories.TaskRepository;
@@ -38,7 +37,7 @@ public class SubTaskController {
     }
 
     @PostMapping("/subTasks/create")
-    public String saveSubTask(@ModelAttribute SubTask subTask, @RequestParam(name= "taskID") long id) {
+    public String saveSubTask(@ModelAttribute SubTask subTask, @RequestParam(name = "taskID") long id) {
         LocalDateTime currentDate = LocalDateTime.now();
         subTask.setTask(tasksDao.getById(id));
         subTask.setCreatedAt(currentDate);
@@ -56,7 +55,7 @@ public class SubTaskController {
     public String markSubTaskComplete(@PathVariable long id) {
         User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         SubTask subTaskToUpdate = subTasksdao.getById(id);
-        if(loggedInUser.getId() == subTaskToUpdate.getTask().getUser().getId()) {
+        if (loggedInUser.getId() == subTaskToUpdate.getTask().getUser().getId()) {
             subTaskToUpdate.setCreatedAt(LocalDateTime.now());
             subTaskToUpdate.setComplete(true);
             subTasksdao.save(subTaskToUpdate);

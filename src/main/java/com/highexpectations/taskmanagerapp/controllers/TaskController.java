@@ -11,7 +11,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import java.time.LocalDateTime;
-import java.time.temporal.WeekFields;
 import java.util.*;
 
 @Controller
@@ -34,24 +33,24 @@ public class TaskController {
         List<Task> allTasks = tasksDao.findAllByUserId(loggedInUser.getId());
 
         // sorting classes by to show most recent first
-//        Collections.sort(allTasks, new Comparator<Task>() {
-//            public int compare(Task o1, Task o2) {
-//                if (o1.getCreatedAt() == null || o2.getCreatedAt() == null)
-//                    return 0;
-//                return o1.getCreatedAt().compareTo(o2.getCreatedAt());
-//            }
-//        });
+        // Collections.sort(allTasks, new Comparator<Task>() {
+        // public int compare(Task o1, Task o2) {
+        // if (o1.getCreatedAt() == null || o2.getCreatedAt() == null)
+        // return 0;
+        // return o1.getCreatedAt().compareTo(o2.getCreatedAt());
+        // }
+        // });
 
-        if(!allTasks.isEmpty()) {
+        if (!allTasks.isEmpty()) {
             List<Task> unscheduledTasks = new ArrayList<>();
             List<Task> scheduledTasks = new ArrayList<>();
             List<Task> completedTasks = new ArrayList<>();
-            for(Task task : allTasks){
-                if(task.isComplete()) {
+            for (Task task : allTasks) {
+                if (task.isComplete()) {
                     completedTasks.add(task);
-                } else if (task.getStartDateTime() != null && !task.isComplete()){
+                } else if (task.getStartDateTime() != null && !task.isComplete()) {
                     scheduledTasks.add(task);
-                } else if (!task.isComplete()){
+                } else if (!task.isComplete()) {
                     unscheduledTasks.add(task);
                 }
             }
@@ -63,7 +62,9 @@ public class TaskController {
             List<Task> scheduledTasks = new ArrayList<>();
             List<Task> completedTasks = new ArrayList<>();
 
-            Task firstTask = new Task(0, "My First Task", "This task will disappear after you've made your own task. You can edit the task, mark it as complete, or even add subtasks if necessary.", LocalDateTime.now(), catDao.getById(8L));
+            Task firstTask = new Task(0, "My First Task",
+                    "This task will disappear after you've made your own task. You can edit the task, mark it as complete, or even add subtasks if necessary.",
+                    LocalDateTime.now(), catDao.getById(8L));
 
             unscheduledTasks.add(firstTask);
 
@@ -78,12 +79,12 @@ public class TaskController {
     public String showTaskDetails(@PathVariable long id, Model model) {
         List<SubTask> subTasks = subTasksDao.findAllByTaskId(id);
         int completedTasks = 0;
-        for(SubTask subTask : subTasks) {
-            if(subTask.isComplete()) {
+        for (SubTask subTask : subTasks) {
+            if (subTask.isComplete()) {
                 completedTasks++;
             }
         }
-        if(completedTasks == subTasks.size()) {
+        if (completedTasks == subTasks.size()) {
             model.addAttribute("canMarkComplete", true);
             model.addAttribute("cannotMarkComplete", false);
         } else {
@@ -127,7 +128,7 @@ public class TaskController {
     public String editTask(@PathVariable long id, @ModelAttribute Task task) {
         User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Task taskFromDB = tasksDao.getById(id);
-        if(loggedInUser.getId() == taskFromDB.getUser().getId()) {
+        if (loggedInUser.getId() == taskFromDB.getUser().getId()) {
             task.setCreatedAt(LocalDateTime.now());
             task.setUser(loggedInUser);
 
@@ -136,12 +137,11 @@ public class TaskController {
         return "redirect:/tasks";
     }
 
-
     @PostMapping("/tasks/{id}/complete")
     public String markTaskComplete(@PathVariable long id) {
         User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Task taskToUpdate = tasksDao.getById(id);
-        if(loggedInUser.getId() == taskToUpdate.getUser().getId()) {
+        if (loggedInUser.getId() == taskToUpdate.getUser().getId()) {
             taskToUpdate.setCreatedAt(LocalDateTime.now());
             taskToUpdate.setUser(loggedInUser);
             taskToUpdate.setComplete(true);
@@ -155,7 +155,7 @@ public class TaskController {
     public String reactivateTask(@PathVariable long id) {
         User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Task taskToUpdate = tasksDao.getById(id);
-        if(loggedInUser.getId() == taskToUpdate.getUser().getId()) {
+        if (loggedInUser.getId() == taskToUpdate.getUser().getId()) {
             taskToUpdate.setCreatedAt(LocalDateTime.now());
             taskToUpdate.setUser(loggedInUser);
             taskToUpdate.setComplete(false);
@@ -168,7 +168,7 @@ public class TaskController {
     @PostMapping("/tasks/{id}/delete")
     public String deleteTask(@PathVariable long id) {
         User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if(loggedInUser.getId() == tasksDao.getById(id).getUser().getId()) {
+        if (loggedInUser.getId() == tasksDao.getById(id).getUser().getId()) {
             tasksDao.delete(tasksDao.getById(id));
         }
         return "redirect:/tasks";
@@ -181,11 +181,11 @@ public class TaskController {
         User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         List<Task> allTasks = tasksDao.findAllByUserId(loggedInUser.getId());
 
-        if(allTasks != null) {
+        if (allTasks != null) {
             LocalDateTime currentDate = LocalDateTime.now();
             List<Task> todaysTasks = new ArrayList<>();
             for (Task task : allTasks) {
-                if(task.getStartDateTime() != null) {
+                if (task.getStartDateTime() != null) {
                     if (task.getStartDateTime().getDayOfYear() == currentDate.getDayOfYear()) {
                         todaysTasks.add(task);
                     }

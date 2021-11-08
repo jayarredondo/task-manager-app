@@ -1,6 +1,5 @@
 package com.highexpectations.taskmanagerapp.models;
 
-import com.highexpectations.taskmanagerapp.repositories.CategoryRepository;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -137,6 +136,5 @@ public class Task {
     public void setSubTaskList(List<SubTask> subTaskList) {
         this.subTaskList = subTaskList;
     }
-
 
 }

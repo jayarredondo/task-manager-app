@@ -1,7 +1,6 @@
 package com.highexpectations.taskmanagerapp.controllers;
 
 import com.highexpectations.taskmanagerapp.models.Note;
-import com.highexpectations.taskmanagerapp.models.Task;
 import com.highexpectations.taskmanagerapp.models.User;
 import com.highexpectations.taskmanagerapp.repositories.CategoryRepository;
 import com.highexpectations.taskmanagerapp.repositories.NoteRepository;
@@ -14,7 +13,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -35,11 +33,12 @@ public class NotesController {
     @GetMapping("/notes")
     public String showNotes(Model model) {
         User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        Note firstNote = new Note(0, "Welcome to BackUp Brain!", "This message will be deleted after you've created your first note. Click on the Write button above to create a new note! All of your notes will be displayed here, with the latest note appearing at the top. Enjoy your space to write whatever you need!", LocalDateTime.now(), catDao.getById(8L));
+        Note firstNote = new Note(0, "Welcome to BackUp Brain!",
+                "This message will be deleted after you've created your first note. Click on the Write button above to create a new note! All of your notes will be displayed here, with the latest note appearing at the top. Enjoy your space to write whatever you need!",
+                LocalDateTime.now(), catDao.getById(8L));
 
         List<Note> startUpNotes = new ArrayList<>();
         startUpNotes.add(firstNote);
-
 
         if (notesDao.findAllByUserId(loggedInUser.getId()).size() > 0) {
             model.addAttribute("notes", notesDao.findAllByUserId(loggedInUser.getId()));
@@ -47,14 +46,11 @@ public class NotesController {
             model.addAttribute("notes", startUpNotes);
         }
 
-
-
         return "notes/index";
     }
 
     @GetMapping("/notes/create")
     public String showNotesCreate(Model model) {
-        User validUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         model.addAttribute("newNote", new Note());
         model.addAttribute("isCreate", true);
         return "notes/create";
@@ -80,7 +76,7 @@ public class NotesController {
     public String editTask(@PathVariable long id, @ModelAttribute Note note) {
         User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Note noteFromDB = notesDao.getById(id);
-        if(loggedInUser.getId() == noteFromDB.getUser().getId()) {
+        if (loggedInUser.getId() == noteFromDB.getUser().getId()) {
             note.setCreatedAt(LocalDateTime.now());
             note.setUser(loggedInUser);
             notesDao.save(note);
@@ -91,7 +87,7 @@ public class NotesController {
     @PostMapping("/notes/{id}/delete")
     public String deleteTask(@PathVariable long id) {
         User loggedInUser = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if(loggedInUser.getId() == notesDao.getById(id).getUser().getId()) {
+        if (loggedInUser.getId() == notesDao.getById(id).getUser().getId()) {
             notesDao.delete(notesDao.getById(id));
         }
         return "redirect:/notes";
