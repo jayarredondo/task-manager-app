@@ -12,7 +12,6 @@ INSERT INTO categories(id, name) VALUES
 (7, 'Hobbies'),
 (8, 'Misc.');
 
-INSERT INTO tasks(id, created_at, title, description, is_complete, user_id, category_id) VALUES (1, '2021-08-16 18:30:00', 'test', 'This is a test description.', 0, 1, 5);
 
 INSERT INTO notes(id, body, created_at, title, category_id, user_id) VALUE(1, 'This is my first note! Welcome to Account-a-Buggy!', '021-08-16 18:30:00', 'Welcome!', 5, 1);
 
